@@ -1,7 +1,8 @@
-****Lines includes six tables.
+****Lines includes seven tables.
   1. Lines_Games
   2. Lines_Teams
   3. Lines_Rosters
+  4. Lines_Player_Bio
   4. Lines_Batting
   5. Lines_Pitching
   6. Lines_Fielding
