@@ -1,0 +1,33 @@
+CREATE TABLE lookup_linear_weights (
+season_id SMALLINT UNSIGNED NOT NULL,
+1b DECIMAL(3,2) UNSIGNED NOT NULL,
+2b DECIMAL(3,2) UNSIGNED NOT NULL,
+3b DECIMAL(3,2) UNSIGNED NOT NULL,
+hr DECIMAL(3,2) UNSIGNED NOT NULL,
+bb DECIMAL(3,2) UNSIGNED NOT NULL,
+ibb DECIMAL(3,2) UNSIGNED NOT NULL,
+hbp DECIMAL(3,2) UNSIGNED NOT NULL,
+sb DECIMAL(3,2) UNSIGNED NOT NULL,
+cs DECIMAL(3,2) NOT NULL,
+PRIMARY KEY (season_id)
+);
+
+CREATE TABLE lookup_age_date (
+season_id SMALLINT,
+age_date INT,
+PRIMARY KEY (season_id)
+);
+
+CREATE TABLE lookup_fielding_positions (
+d_pos TINYINT,
+d_pos_id VARCHAR(2),
+d_pos_name CHAR(15),
+PRIMARY KEY (d_pos)
+);
+
+CREATE TABLE lookup_run_environment (
+season_id SMALLINT,
+team_count SMALLINT,
+team_runs_avg INT,
+PRIMARY KEY (season_id)
+);
