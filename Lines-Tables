@@ -328,13 +328,3 @@ weight_est SMALLINT,
 HOF CHAR(3),
 PRIMARY KEY (player_id)
 );
-
-CREATE TABLE lines_team_history (
-team_id VARCHAR(3),
-league_id VARCHAR(15),
-city VARCHAR(30),
-nickname VARCHAR(30),
-first_season SMALLINT,
-last_season SMALLINT,
-PRIMARY KEY (team_id)
-);
