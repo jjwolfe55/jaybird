@@ -1,5 +1,5 @@
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/biofile0_1901_2024.csv"
-INTO TABLE lines_player_bio
+INTO TABLE lookup_player_bio
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
