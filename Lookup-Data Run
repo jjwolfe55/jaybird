@@ -1,23 +1,23 @@
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Lookup/Jaybird/biofile0_1901_2024.csv"
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/biofile0_1901_2024.csv"
 INTO TABLE lines_player_bio
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Lookup/Jaybird/teams_1901_2024.csv"
-INTO TABLE lines_team_history
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/lookup_team_history_1901_2024.csv"
+INTO TABLE lookup_team_history
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Lookup/Jaybird/lookup_linear_weights_1901_2025.csv"
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/lookup_linear_weights_1901_2025.csv"
 INTO TABLE lookup_linear_weights
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Lookup/Jaybird/lookup_age_date_1901_2025.csv"
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/lookup_age_date_1901_2025.csv"
 INTO TABLE lookup_age_date
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
