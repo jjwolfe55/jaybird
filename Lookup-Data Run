@@ -1,3 +1,19 @@
+INSERT INTO lookup_fielding_positions (
+d_pos,
+d_pos_id,
+d_pos_name)
+VALUES 
+(1,'P','Pitcher'),
+(2,'C','Catcher'),
+(3,'1B','First Base'),
+(4,'2B','Second Base'),
+(5,'3B','Third Base'),
+(6,'SS','Shortstop'),
+(7,'LF','Left Field'),
+(8,'CF','Center Field'),
+(9,'RF','Right Field')
+;
+
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/biofile0_1901_2024.csv"
 INTO TABLE lookup_player_bio
 FIELDS TERMINATED BY ','
