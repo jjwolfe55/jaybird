@@ -1,0 +1,46 @@
+CREATE TABLE rate_batting (
+player_id VARCHAR(9),
+player_name VARCHAR(45),
+team_id VARCHAR(3),
+season_id SMALLINT,
+age SMALLINT,
+bat CHAR(1),
+b_avg DECIMAL(4,3),
+b_obp DECIMAL (4,3),
+b_slg DECIMAL (4,3),
+b_ops DECIMAL (4,3),
+b_iso DECIMAL (4,3),
+b_bb_pct DECIMAL (3,2),
+b_so_pct DECIMAL (3,2),
+PRIMARY KEY (player_id,team_id,season_id)
+);
+
+CREATE TABLE rate_pitching (
+player_id VARCHAR(9),
+player_name VARCHAR(45),
+team_id VARCHAR(3),
+season_id SMALLINT,
+age SMALLINT,
+throw CHAR(1),
+p_avg DECIMAL(4,3),
+p_obp DECIMAL(4,3),
+p_slg DECIMAL (4,3),
+p_ops DECIMAL (4,3),
+p_era DECIMAL (6,2),
+p_bb_pct DECIMAL (3,2),
+p_so_pct DECIMAL (3,2),
+PRIMARY KEY (player_id,team_id,season_id)
+);
+
+CREATE TABLE rate_fielding (
+player_id VARCHAR(9),
+player_name VARCHAR(45),
+team_id VARCHAR(3),
+season_id SMALLINT,
+age SMALLINT,
+throw CHAR(1),
+d_pos VARCHAR(2),
+d_f_pct DECIMAL(4,3),
+d_plays_pct DECIMAL(3,2),            
+PRIMARY KEY (player_id,team_id,season_id,d_pos)
+);
