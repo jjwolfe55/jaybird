@@ -1,2 +1,6 @@
 *There are five standard tables that translate retrosheet data into useable season statistics.
-
+     1. Standard_Standings
+     2. Standard_World_Series
+     3. Standard_Batting
+     4. Standard_Pitching
+     5. Standard_Fielding
