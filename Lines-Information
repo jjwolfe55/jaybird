@@ -1,4 +1,4 @@
-*Lines includes six tables.
+*Lines includes six tables that pull data in from retrosheet.
   1. Lines_Games
   2. Lines_Teams
   3. Lines_Rosters
