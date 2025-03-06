@@ -4,8 +4,13 @@
   4. Lines_Batting
   5. Lines_Pitching
   6. Lines_Fielding
-  7. Lookup_Fielding_Positions
-  8. Lookup_Age_Date
-  9. Lookup_Linear_Weights
-  10. Lookup_Player_Bio
-  11. Lookup_Team_History
+  7. Lookup_Fielding_Positions (Once)
+  8. Lookup_Age_Date (Yearly)
+  9. Lookup_Linear_Weights (Yearly)
+  10. Lookup_Player_Bio (Yearly)
+  11. Lookup_Team_History (Yearly)
+  12. Standard_Standings
+  13. Standard_World_Series
+  14. Standard_Batting
+  15. Standard_Pitching
+  16. Standard_Fielding
