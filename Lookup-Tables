@@ -26,10 +26,12 @@ PRIMARY KEY (d_pos)
 );
 
 CREATE TABLE lookup_run_environment (
+team_id CHAR(3),
 season_id SMALLINT,
-team_count SMALLINT,
-team_runs_avg INT,
-PRIMARY KEY (season_id)
+runs_for INT,
+runs_against INT,
+run_adj DECIMAL (3,2),
+PRIMARY KEY (team_id,season_id)
 );
 
 CREATE TABLE lookup_team_history (
