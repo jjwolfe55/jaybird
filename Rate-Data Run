@@ -1,0 +1,87 @@
+INSERT INTO rate_batting (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+bat,
+b_avg,
+b_obp,
+b_slg,
+b_ops,
+b_iso,
+b_bb_pct,
+b_so_pct
+)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.bat,
+(CASE WHEN a.b_ab = 0 THEN NULL ELSE COALESCE((a.b_h)/(NULLIF(a.b_ab,0)),0) END),
+((a.b_h+a.b_bb+a.b_hbp)/((a.b_ab+a.b_bb+a.b_hbp+a.b_sf))),
+((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab),
+(((a.b_h+a.b_bb+a.b_hbp)/(a.b_ab+a.b_bb+a.b_hbp+a.b_sf)) + ((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab)),
+(((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab) - ((a.b_h)/a.b_ab)),
+((b_bb+b_ibb)/b_pa),
+(b_so/b_pa)
+FROM standard_batting AS a
+WHERE season_id BETWEEN <xx> AND <yy>;
+
+INSERT INTO rate_pitching (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+p_avg,
+p_obp,
+p_slg,
+p_ops,
+p_era,
+p_bb_pct,
+p_so_pct
+)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+(CASE WHEN (a.p_bf-a.p_sf-a.p_sh-a.p_bb-a.p_hbp-a.p_ibb) = 0 THEN NULL ELSE COALESCE((a.p_h)/(NULLIF((a.p_bf-a.p_sf-a.p_sh-a.p_bb-a.p_hbp-a.p_ibb),0)),0) END),
+((a.p_h+a.p_bb+a.p_hbp)/(((a.p_bf-a.p_sf-a.p_sh-a.p_bb-a.p_hbp-a.p_ibb)+a.p_bb+a.p_hbp+a.p_sf))),
+((a.p_s+a.p_d+a.p_d+a.p_t+a.p_t+a.p_t+a.p_hr+a.p_hr+a.p_hr+a.p_hr)/(a.p_bf-a.p_sf-a.p_sh-a.p_bb-a.p_hbp-a.p_ibb)),
+(((a.p_h+a.p_bb+a.p_hbp)/((a.p_bf-a.p_sf-a.p_sh-a.p_bb-a.p_hbp-a.p_ibb)+a.p_bb+a.p_hbp+a.p_sf)) + ((a.p_s+a.p_d+a.p_d+a.p_t+a.p_t+a.p_t+a.p_hr+a.p_hr+a.p_hr+a.p_hr)/(a.p_bf-a.p_sf-a.p_sh-a.p_bb-a.p_hbp-a.p_ibb))),
+((a.p_er*9)/a.p_ip),
+((a.p_bb+a.p_ibb)/a.p_bf),
+(a.p_so/a.p_bf)
+FROM standard_pitching AS a
+WHERE season_id BETWEEN <xx> AND <yy>;
+
+INSERT INTO standard_fielding (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+d_f_pct,
+d_plays_pct
+)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+((a.d_po+a.d_a)/(a.d_po+a.d_a+a.d_e)),
+((a.d_po+a.d_a)/a.d_inn)
+FROM standard_fielding AS a
+WHERE season_id BETWEEN <xx> AND <yy>;
