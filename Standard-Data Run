@@ -527,7 +527,7 @@ WHERE (a.game_type = 'regular' OR a.game_type = 'playoff') AND a.integrity = 'va
 "WSN")
 GROUP BY a.player_id,a.team_id,SUBSTRING(a.game_date,1,4)) AS c
 ON a.player_id = c.player_id  AND a.team_id = c.team_id AND a.game_id = c.game_id
-LEFT JOIN lines_player_bio AS d
+LEFT JOIN lookup_player_bio AS d
 ON a.player_id = d.player_id
 INNER JOIN lookup_age_date AS e
 ON SUBSTRING(a.game_date,1,4) = e.season_id
@@ -780,7 +780,7 @@ WHERE (a.game_type = 'regular' OR a.game_type = 'playoff') AND a.integrity = 'va
 "WSN") 
 GROUP BY a.player_id,a.team_id,SUBSTRING(a.game_date,1,4)) AS c
 ON a.player_id = c.player_id  AND a.team_id = c.team_id AND a.game_id = c.game_id
-LEFT JOIN lines_player_bio AS d
+LEFT JOIN lookup_player_bio AS d
 ON a.player_id = d.player_id
 INNER JOIN lookup_age_date AS e
 ON SUBSTRING(a.game_date,1,4) = e.season_id
@@ -991,7 +991,7 @@ GROUP BY a.player_id,a.team_id,SUBSTRING(a.game_date,1,4),a.d_pos) AS c
 ON a.player_id = c.player_id  AND a.team_id = c.team_id AND a.game_id = c.game_id
 INNER JOIN lookup_fielding_positions AS d
 ON a.d_pos = d.d_pos
-LEFT JOIN lines_player_bio AS f
+LEFT JOIN lookup_player_bio AS f
 ON a.player_id = f.player_id
 INNER JOIN lookup_age_date AS e
 ON SUBSTRING(a.game_date,1,4) = e.season_id
