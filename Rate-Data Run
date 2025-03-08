@@ -62,7 +62,7 @@ a.throw,
 FROM standard_pitching AS a
 WHERE season_id BETWEEN <xx> AND <yy>;
 
-INSERT INTO standard_fielding (
+INSERT INTO rate_fielding (
 player_id,
 player_name,
 team_id,
