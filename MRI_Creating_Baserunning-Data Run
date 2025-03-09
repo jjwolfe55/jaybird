@@ -1,0 +1,258 @@
+INSERT INTO mri_creating_baserunning (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+bat,
+mri_c_baserunning_rc,
+mri_c_baserunning_raa,
+mri_c_baserunning_waa,
+mri_c_baserunning_war
+)
+
+WITH mri_creating_batting_raw AS (
+
+SELECT a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+a.b_g AS b_g,
+a.b_pa AS b_pa,
+((a.b_s*b.1b)*(c.run_adj)) AS b_1b,
+((a.b_d*b.2b)*(c.run_adj)) AS b_2b,
+((a.b_t*b.3b)*(c.run_adj)) AS b_3b,
+((a.b_hr*b.hr)*(c.run_adj)) AS b_hr,
+((a.b_bb*b.bb)*(c.run_adj)) AS b_bb,
+((a.b_ibb*b.ibb)*(c.run_adj)) AS b_ibb,
+((a.b_hbp*b.hbp)*(c.run_adj)) AS b_hbp,
+(((a.b_s*b.1b)*(c.run_adj))+
+((a.b_d*b.2b)*(c.run_adj))+
+((a.b_t*b.3b)*(c.run_adj))+
+((a.b_hr*b.hr)*(c.run_adj))+
+((a.b_bb*b.bb)*(c.run_adj))+
+((a.b_ibb*b.ibb)*(c.run_adj))+
+((a.b_hbp*b.hbp)*(c.run_adj))) AS mri_batting_raw
+FROM standard_batting AS a
+INNER JOIN lookup_linear_weights AS b
+ON a.season_id = b.season_id
+INNER JOIN lookup_run_environment AS c
+ON a.team_id = c.team_id AND a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+, mri_creating_baserunning_raw AS (
+
+SELECT a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+((a.b_sb*b.sb)*(c.run_adj)) AS b_sb,
+((a.b_cs*b.cs)*(c.run_adj)) AS b_cs,
+(((a.b_sb*b.sb)*(c.run_adj))+
+((a.b_cs*b.cs)*(c.run_adj))) AS mri_c_baserunning_raw
+FROM standard_batting AS a
+INNER JOIN lookup_linear_weights AS b
+ON a.season_id = b.season_id
+INNER JOIN lookup_run_environment AS c
+ON a.team_id = c.team_id AND a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+, mri_calc_creating_runs AS (
+
+SELECT a.season_id AS season_id,
+a.total_mri_batting_raw AS total_mri_batting_raw,
+b.total_mri_c_baserunning_raw AS total_mri_c_baserunning_raw,
+a.total_mri_batting_raw + b.total_mri_c_baserunning_raw AS total_mri_creating_raw,
+c.total_earned_runs AS total_earned_runs,
+((c.total_earned_runs)/(a.total_mri_batting_raw + b.total_mri_c_baserunning_raw)) AS mri_creating_runs_adj
+FROM (SELECT season_id, SUM(mri_batting_raw) AS total_mri_batting_raw
+FROM mri_creating_batting_raw GROUP BY season_id) AS a
+INNER JOIN (SELECT season_id, SUM(mri_c_baserunning_raw) AS total_mri_c_baserunning_raw
+FROM mri_creating_baserunning_raw GROUP BY season_id) AS b
+ON a.season_id = b.season_id
+INNER JOIN (SELECT season_id, SUM(p_er) AS total_earned_runs
+FROM standard_pitching GROUP BY season_id) AS c
+ON a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.season_id
+ORDER BY a.season_id DESC
+)
+, mri_creating_batting_runs AS (
+
+SELECT a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+a.mri_batting_raw*b.mri_creating_runs_adj AS mri_batting_rc,
+(a.mri_batting_raw*b.mri_creating_runs_adj)/c.b_pa AS mri_batting_avg
+FROM mri_creating_batting_raw AS a
+INNER JOIN mri_calc_creating_runs AS b
+ON a.season_id = b.season_id
+INNER JOIN standard_batting AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+, mri_creating_baserunning_runs AS (
+
+SELECT a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+a.mri_c_baserunning_raw*b.mri_creating_runs_adj AS mri_c_baserunning_rc,
+(a.mri_c_baserunning_raw*b.mri_creating_runs_adj)/(c.b_sb+c.b_cs) AS mri_c_baserunning_avg
+FROM mri_creating_baserunning_raw AS a
+INNER JOIN mri_calc_creating_runs AS b
+ON a.season_id = b.season_id
+INNER JOIN standard_batting AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+, mri_calc_creating_wins AS (
+
+SELECT a.season_id AS season_id,
+a.total_pa AS total_pa,
+b.total_mri_batting_rc AS total_mri_batting_rc,
+a.total_c_baserunning_chances AS total_c_baserunning_chances,
+c.total_mri_c_baserunning_rc AS total_mri_c_baserunning_rc,
+d.total_runs AS total_runs,
+e.total_wins AS total_wins,
+d.total_runs/e.total_wins AS runs_per_win
+FROM (SELECT season_id, SUM(b_pa) AS total_pa, (SUM(b_sb)+SUM(b_cs)) AS total_c_baserunning_chances FROM standard_batting GROUP BY season_id) AS a
+INNER JOIN (SELECT season_id, SUM(mri_batting_rc) AS total_mri_batting_rc FROM mri_creating_batting_runs GROUP BY season_id) AS b
+ON a.season_id = b.season_id
+INNER JOIN (SELECT season_id, SUM(mri_c_baserunning_rc) AS total_mri_c_baserunning_rc FROM mri_creating_baserunning_runs GROUP BY season_id) AS c
+ON a.season_id = c.season_id
+INNER JOIN (SELECT season_id, SUM(b_r) AS total_runs FROM standard_batting GROUP BY season_id) AS d
+ON a.season_id = d.season_id
+INNER JOIN (SELECT season_id, SUM(w) AS total_wins FROM standard_standings GROUP BY season_id) AS e
+ON a.season_id = e.season_id 
+WHERE a.season_id = 2024
+GROUP BY a.season_id
+ORDER BY a.season_id DESC
+)
+
+, mri_creating_batting_wins AS (
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+((b.mri_batting_rc)-(a.b_pa*(c.total_mri_batting_rc/c.total_pa))) AS mri_batting_raa,
+((b.mri_batting_rc)-(a.b_pa*(c.total_mri_batting_rc/c.total_pa)))/c.runs_per_win AS mri_batting_waa
+FROM standard_batting AS a
+INNER JOIN mri_creating_batting_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+INNER JOIN mri_calc_creating_wins AS c
+ON a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.player_id,
+a.team_id,
+a.season_id
+)
+
+, mri_creating_baserunning_wins AS (
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+((b.mri_c_baserunning_rc)-((a.b_sb+a.b_cs)*(c.total_mri_c_baserunning_rc/c.total_c_baserunning_chances))) AS mri_c_baserunning_raa,
+((b.mri_c_baserunning_rc)-((a.b_sb+a.b_cs)*(c.total_mri_c_baserunning_rc/c.total_c_baserunning_chances)))/c.runs_per_win AS mri_c_baserunning_waa
+FROM standard_batting AS a
+INNER JOIN mri_creating_baserunning_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+INNER JOIN mri_calc_creating_wins AS c
+ON a.season_id = c.season_id
+WHERE a.season_id = 2024
+GROUP BY a.player_id,
+a.team_id,
+a.season_id
+)
+
+, mri_calc_batting_creating_war AS (
+
+SELECT a.season_id AS season_id,
+AVG(a.mri_batting_waa) AS mri_waa_adj
+FROM mri_creating_batting_wins AS a
+WHERE a.mri_batting_waa < 0 AND a.season_id = 2024
+GROUP BY a.season_id 
+ORDER BY a.season_id DESC
+)
+
+, mri_creating_batting_war AS (
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+a.mri_batting_waa - b.mri_waa_adj AS mri_batting_war
+FROM mri_creating_batting_wins AS a
+INNER JOIN mri_calc_batting_creating_war AS b
+ON a.season_id = b.season_id
+)
+
+, mri_calc_baserunning_creating_war AS (
+
+SELECT a.season_id AS season_id,
+AVG(a.mri_c_baserunning_waa) AS mri_waa_adj
+FROM mri_creating_baserunning_wins AS a
+WHERE a.mri_c_baserunning_waa < 0 AND a.season_id = 2024
+GROUP BY a.season_id 
+ORDER BY a.season_id DESC
+)
+
+, mri_creating_baserunning_war AS (
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+a.mri_c_baserunning_waa - b.mri_waa_adj AS mri_c_baserunning_war
+FROM mri_creating_baserunning_wins AS a
+INNER JOIN mri_calc_baserunning_creating_war AS b
+ON a.season_id = b.season_id
+)
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.bat AS bat,
+b.mri_c_baserunning_rc AS mri_c_baserunning_rc,
+c.mri_c_baserunning_raa AS mri_c_baserunning_raa,
+c.mri_c_baserunning_waa AS mri_c_baserunning_waa,
+d.mri_c_baserunning_war AS mri_c_baserunning_war
+FROM standard_batting AS a
+INNER JOIN mri_creating_baserunning_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+INNER JOIN mri_creating_baserunning_wins AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+INNER JOIN mri_creating_baserunning_war AS d
+ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id;
