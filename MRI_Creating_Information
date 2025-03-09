@@ -1,0 +1,1 @@
+*Utilizes CTE tables to run the data. Same CTE tables as MRI_Creating_Baserunning except the insert statement changes.
