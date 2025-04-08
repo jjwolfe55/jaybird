@@ -1,0 +1,65 @@
+DELETE 
+FROM lines_games;
+
+DELETE 
+FROM lines_teams;
+
+DELETE 
+FROM lines_rosters;
+
+DELETE 
+FROM lines_batting;
+
+DELETE 
+FROM lines_pitching;
+
+DELETE 
+FROM lines_fielding;
+
+DELETE
+FROM lookup_fielding_positions;
+
+DELETE
+FROM lookup_age_date;
+
+DELETE
+FROM lookup_linear_weights;
+
+DELETE
+FROM lookup_player_bio;
+
+DELETE
+FROM lookup_team_history;
+
+DELETE
+FROM lookup_run_environment;
+
+DELETE 
+FROM standard_standings;
+
+DELETE 
+FROM standard_world_series;
+
+DELETE
+FROM standard_batting;
+
+DELETE 
+FROM standard_pitching;
+
+DELETE
+FROM standard_fielding;
+
+DELETE 
+FROM rate_batting;
+
+DELETE 
+FROM rate_pitching;
+
+DELETE 
+FROM rate_fielding;
+
+DELETE 
+FROM mri_creating_batting;
+
+DELETE 
+FROM mri_creating_baserunning;
