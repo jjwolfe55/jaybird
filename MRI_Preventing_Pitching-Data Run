@@ -1,0 +1,51 @@
+INSERT INTO mri_preventing_pitching (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+mri_pitching_rc,
+mri_pitching_raa,
+mri_pitching_waa,
+mri_pitching_war
+)
+
+WITH mri_preventing_pitching_raw AS (
+
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.p_g,
+a.p_gs,
+a.p_ip,
+a.p_bf,
+((a.p_s*b.1b)*(c.run_adj)),
+((a.p_d*b.2b)*(c.run_adj)),
+((a.p_t*b.3b)*(c.run_adj)),
+((a.p_hr*b.hr)*(c.run_adj)),
+((a.p_bb*b.bb)*(c.run_adj)),
+((a.p_ibb*b.ibb)*(c.run_adj)),
+((a.p_hbp*b.hbp)*(c.run_adj)),
+(((d.d_sb*b.sb)*(c.run_adj))*1/2),
+(((a.p_s*b.1b)*(c.run_adj))+
+((a.p_d*b.2b)*(c.run_adj))+
+((a.p_t*b.3b)*(c.run_adj))+
+((a.p_hr*b.hr)*(c.run_adj))+
+((a.p_bb*b.bb)*(c.run_adj))+
+((a.p_ibb*b.ibb)*(c.run_adj))+
+((a.p_hbp*b.hbp)*(c.run_adj))+
+(((d.d_sb*b.sb)*(c.run_adj))*1/2))
+FROM standard_pitching AS a
+INNER JOIN lookup_linear_weights AS b
+ON a.season_id = b.season_id
+INNER JOIN lookup_run_environment AS c
+ON a.team_id = c.team_id AND a.season_id = c.season_id
+INNER JOIN standard_fielding AS d
+ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id
+WHERE d.d_pos = 'p' AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,a.team_id,a.season_id
