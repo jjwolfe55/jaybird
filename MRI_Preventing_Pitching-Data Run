@@ -395,6 +395,56 @@ INNER JOIN mri_calc_preventing_pitching_war AS b
 ON a.season_id = b.season_id
 )
 
+, mri_calc_preventing_baserunning_war AS (
+
+SELECT a.season_id AS season_id,
+AVG(a.mri_p_baserunning_waa) AS mri_waa_adj
+FROM mri_preventing_baserunning_wins AS a
+WHERE a.mri_preventing_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.season_id 
+ORDER BY a.season_id DESC
+)
+
+, mri_preventing_baserunning_war AS (
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.throw AS throw,
+a.mri_p_baserunning_waa - b.mri_waa_adj AS mri_p_baserunning_war
+FROM mri_preventing_baserunning_wins AS a
+INNER JOIN mri_calc_preventing_baserunning_war AS b
+ON a.season_id = b.season_id
+)
+
+, mri_calc_preventing_fielding_war AS (
+
+SELECT a.season_id AS season_id,
+AVG(a.mri_fielding_waa) AS mri_waa_adj
+FROM mri_preventing_fielding_wins AS a
+WHERE a.mri_preventing_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.season_id 
+ORDER BY a.season_id DESC
+)
+
+, mri_preventing_fielding_war AS (
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.throw AS throw,
+a.mri_fielding_waa - b.mri_waa_adj AS mri_fielding_war
+FROM mri_preventing_fielding_wins AS a
+INNER JOIN mri_calc_preventing_fielding_war AS b
+ON a.season_id = b.season_id
+)
+
 SELECT 
 a.player_id AS player_id,
 a.player_name AS player_name,
