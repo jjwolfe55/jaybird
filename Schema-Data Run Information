@@ -18,3 +18,8 @@
   18. Rate_Pitching
   19. Rate_Fielding
   20. Lookup_Run_Environment 
+  21. mri_creating_batting
+  22. mri_creating_baserunning
+  23. mri_preventing_pitching
+  24. mri_preventing_baserunning
+  25. mri_preventing_fielding
