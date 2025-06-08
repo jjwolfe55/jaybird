@@ -49,3 +49,317 @@ INNER JOIN standard_fielding AS d
 ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id
 WHERE d.d_pos = 'p' AND a.season_id BETWEEN <xx> AND <yy>
 GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+
+, mri_preventing_baserunning_raw AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+d_sb,
+d_cs,
+mri_p_baserunning_raw)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+(((a.d_sb*b.sb)*(c.run_adj))*1/2),
+((a.d_cs*b.cs)*(c.run_adj)),
+((((a.d_sb*b.sb)*(c.run_adj))*1/2)+
+((a.d_cs*b.cs)*(c.run_adj)))
+FROM standard_fielding AS a
+INNER JOIN lookup_linear_weights AS b
+ON a.season_id = b.season_id
+INNER JOIN lookup_run_environment AS c
+ON a.team_id = c.team_id AND a.season_id = c.season_id
+WHERE a.d_pos = 'c' AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+, mri_calc_preventing_runs AS (
+season_id,
+total_mri_pitching_raw,
+total_mri_p_baserunning_raw,
+total_mri_preventing_raw,
+total_earned_runs,
+mri_preventing_runs_adj,
+total_errors,
+total_unearned_runs,
+error_cost)
+SELECT 
+a.season_id,
+a.total_mri_pitching_raw,
+b.total_mri_p_baserunning_raw,
+a.total_mri_pitching_raw + b.total_mri_p_baserunning_raw,
+c.total_earned_runs,
+((c.total_earned_runs)/(a.total_mri_pitching_raw + b.total_mri_p_baserunning_raw)),
+d.total_errors,
+e.total_unearned_runs,
+((e.total_unearned_runs)/(d.total_errors))
+FROM (SELECT season_id, SUM(mri_pitching_raw) AS total_mri_pitching_raw
+FROM mri_preventing_pitching_raw GROUP BY season_id) AS a
+INNER JOIN (SELECT season_id, SUM(mri_p_baserunning_raw) AS total_mri_p_baserunning_raw
+FROM mri_preventing_baserunning_raw GROUP BY season_id) AS b
+ON a.season_id = b.season_id
+INNER JOIN (SELECT season_id, SUM(p_er) AS total_earned_runs
+FROM standard_pitching GROUP BY season_id) AS c
+ON a.season_id = c.season_id
+INNER JOIN (SELECT season_id, SUM(d_e) AS total_errors
+FROM standard_fielding GROUP BY season_id) AS d
+ON a.season_id = d.season_id
+INNER JOIN (SELECT season_id, (SUM(p_r) - SUM(p_er)) AS total_unearned_runs
+FROM standard_pitching GROUP BY season_id) AS e
+ON a.season_id = e.season_id
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.season_id
+ORDER BY a.season_id DESC
+)
+
+, mri_preventing_pitching_runs AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+mri_pitching_rc,
+mri_pitching_avg)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.mri_pitching_raw*b.mri_preventing_runs_adj,
+(a.mri_pitching_raw*b.mri_preventing_runs_adj)/c.p_bf
+FROM mri_preventing_pitching_raw AS a
+INNER JOIN mri_calc_preventing_runs AS b
+ON a.season_id = b.season_id
+INNER JOIN standard_pitching AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+, mri_preventing_baserunning_runs AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+mri_p_baserunning_rc,
+mri_p_baserunning_avg)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+a.mri_p_baserunning_raw*b.mri_preventing_runs_adj,
+(a.mri_p_baserunning_raw*b.mri_preventing_runs_adj)/(c.d_sb+c.d_cs)
+FROM mri_preventing_baserunning_raw AS a
+INNER JOIN mri_calc_preventing_runs AS b
+ON a.season_id = b.season_id
+INNER JOIN standard_fielding AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id AND a.d_pos = c.d_pos
+WHERE c.d_pos = 'c' AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,a.team_id,a.season_id
+)
+
+, mri_preventing_fielding_runs AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+d_g,
+d_inn,
+mri_fielding_range,
+mri_fielding_rc,
+mri_fielding_avg)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+a.d_g,
+a.d_inn,
+(((a.d_a)+(a.d_po)+(a.d_e))/(a.d_inn)),
+(((a.d_e))*b.error_cost),
+1-(((a.d_e))/((a.d_a)+(a.d_po)+(a.d_e)))
+FROM standard_fielding AS a
+INNER JOIN mri_calc_preventing_runs AS b
+ON a.season_id = b.season_id
+INNER JOIN lookup_linear_weights AS c
+ON a.season_id = c.season_id
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,
+a.team_id,
+a.d_pos,
+a.season_id
+)
+
+, mri_calc_preventing_wins AS (
+season_id,
+total_p_bf,
+total_mri_pitching_rc,
+total_p_baserunning_chances,
+total_mri_p_baserunning_rc,
+total_runs,
+total_wins,
+runs_per_win)
+SELECT 
+a.season_id,
+a.total_p_bf,
+b.total_mri_pitching_rc,
+c.total_p_baserunning_chances,
+d.total_mri_p_baserunning_rc,
+e.total_runs,
+f.total_wins,
+e.total_runs/f.total_wins
+FROM (SELECT season_id, SUM(p_bf) AS total_p_bf FROM standard_pitching GROUP BY season_id) AS a
+INNER JOIN (SELECT season_id, SUM(mri_pitching_rc) AS total_mri_pitching_rc FROM mri_preventing_pitching_runs GROUP BY season_id) AS b
+ON a.season_id = b.season_id
+INNER JOIN (SELECT season_id, (SUM(d_sb)+SUM(d_cs)) AS total_p_baserunning_chances FROM standard_fielding WHERE d_pos = 'c' GROUP BY season_id) AS c
+ON a.season_id = c.season_id
+INNER JOIN (SELECT season_id, SUM(mri_p_baserunning_rc) AS total_mri_p_baserunning_rc FROM mri_preventing_baserunning_runs GROUP BY season_id) AS d
+ON a.season_id = d.season_id
+INNER JOIN (SELECT season_id, SUM(b_r) AS total_runs FROM standard_batting GROUP BY season_id) AS e
+ON a.season_id = e.season_id
+INNER JOIN (SELECT season_id, SUM(w) AS total_wins FROM standard_standings GROUP BY season_id) AS f
+ON a.season_id = f.season_id 
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.season_id
+ORDER BY a.season_id DESC
+)
+
+, mri_preventing_pitching_wins AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+mri_pitching_raa,
+mri_pitching_waa)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+((b.mri_pitching_rc)-(a.p_bf*(c.total_mri_pitching_rc/c.total_p_bf))),
+(((b.mri_pitching_rc)-(a.p_bf*(c.total_mri_pitching_rc/c.total_p_bf)))/c.runs_per_win)*-1
+FROM standard_pitching AS a
+INNER JOIN mri_preventing_pitching_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+INNER JOIN mri_calc_preventing_wins AS c
+ON a.season_id = c.season_id
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,
+a.team_id,
+a.season_id
+)
+
+, mri_preventing_baserunning_wins AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+mri_p_baserunning_raa,
+mri_p_baserunning_waa)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+((b.mri_p_baserunning_rc)-((a.d_sb+a.d_cs)*(c.total_mri_p_baserunning_rc/c.total_p_baserunning_chances))),
+(((b.mri_p_baserunning_rc)-((a.d_sb+a.d_cs)*(c.total_mri_p_baserunning_rc/c.total_p_baserunning_chances)))/c.runs_per_win)*-1
+FROM standard_fielding AS a
+INNER JOIN mri_preventing_baserunning_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
+INNER JOIN mri_calc_preventing_wins AS c
+ON a.season_id = c.season_id
+WHERE a.d_pos = 'C' AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,
+a.team_id,
+a.season_id
+
+, mri_calc_f_preventing_wins AS (
+season_id,
+d_pos,
+total_mri_fielding_rc,
+total_fielding_chances)
+SELECT *
+FROM (
+    SELECT a.season_id, a.d_pos, SUM(b.mri_fielding_rc) AS total_mri_fielding_rc, (SUM(a.d_a)+SUM(a.d_po)+SUM(a.d_e)) AS total_fielding_chances
+FROM standard_fielding AS a
+INNER JOIN mri_preventing_fielding_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.season_id, a.d_pos
+) AS mri_calc_f_preventing_wins
+)
+
+, mri_preventing_fielding_wins  AS (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+d_g,
+d_inn,
+mri_fielding_raa,
+mri_fielding_waa)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+a.d_g,
+a.d_inn,
+((b.mri_fielding_rc)-(((a.d_a)+(a.d_e)+(a.d_po))*(c.total_mri_fielding_rc/c.total_fielding_chances))),
+(((b.mri_fielding_rc)-(((a.d_a)+(a.d_e)+(a.d_po))*(c.total_mri_fielding_rc/c.total_fielding_chances)))/d.runs_per_win)*-1
+FROM standard_fielding AS a
+INNER JOIN mri_preventing_fielding_runs AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
+INNER JOIN mri_calc_f_preventing_wins AS c
+ON a.season_id = c.season_id AND a.d_pos = c.d_pos
+INNER JOIN mri_calc_preventing_wins AS d
+ON a.season_id = d.season_id
+WHERE a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.player_id,a.team_id,a.d_pos,a.season_id
+)
+
+
+
