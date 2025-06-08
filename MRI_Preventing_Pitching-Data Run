@@ -53,6 +53,7 @@ GROUP BY a.player_id,a.team_id,a.season_id
 
 
 , mri_preventing_baserunning_raw AS (
+
 player_id,
 player_name,
 team_id,
@@ -85,6 +86,7 @@ GROUP BY a.player_id,a.team_id,a.season_id
 )
 
 , mri_calc_preventing_runs AS (
+
 season_id,
 total_mri_pitching_raw,
 total_mri_p_baserunning_raw,
@@ -124,6 +126,7 @@ ORDER BY a.season_id DESC
 )
 
 , mri_preventing_pitching_runs AS (
+
 player_id,
 player_name,
 team_id,
@@ -151,6 +154,7 @@ GROUP BY a.player_id,a.team_id,a.season_id
 )
 
 , mri_preventing_baserunning_runs AS (
+
 player_id,
 player_name,
 team_id,
@@ -180,6 +184,7 @@ GROUP BY a.player_id,a.team_id,a.season_id
 )
 
 , mri_preventing_fielding_runs AS (
+
 player_id,
 player_name,
 team_id,
@@ -218,6 +223,7 @@ a.season_id
 )
 
 , mri_calc_preventing_wins AS (
+
 season_id,
 total_p_bf,
 total_mri_pitching_rc,
@@ -252,6 +258,7 @@ ORDER BY a.season_id DESC
 )
 
 , mri_preventing_pitching_wins AS (
+
 player_id,
 player_name,
 team_id,
@@ -281,6 +288,7 @@ a.season_id
 )
 
 , mri_preventing_baserunning_wins AS (
+
 player_id,
 player_name,
 team_id,
@@ -311,6 +319,7 @@ a.team_id,
 a.season_id
 
 , mri_calc_f_preventing_wins AS (
+
 season_id,
 d_pos,
 total_mri_fielding_rc,
@@ -327,6 +336,7 @@ GROUP BY a.season_id, a.d_pos
 )
 
 , mri_preventing_fielding_wins  AS (
+
 player_id,
 player_name,
 team_id,
@@ -360,6 +370,37 @@ ON a.season_id = d.season_id
 WHERE a.season_id BETWEEN <xx> AND <yy>
 GROUP BY a.player_id,a.team_id,a.d_pos,a.season_id
 )
+, mri_calc_preventing_pitching_war AS (
 
+SELECT a.season_id AS season_id,
+AVG(a.mri_pitching_waa) AS mri_waa_adj
+FROM mri_preventing_pitching_wins AS a
+WHERE a.mri_preventing_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+GROUP BY a.season_id 
+ORDER BY a.season_id DESC
+)
+
+, mri_preventing_pitching_war AS (
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.throw AS throw,
+a.mri_pitching_waa - b.mri_waa_adj AS mri_pitching_war
+FROM mri_preventing_pitching_wins AS a
+INNER JOIN mri_calc_preventing_pitching_war AS b
+ON a.season_id = b.season_id
+)
+
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age,
+a.throw,
 
 
