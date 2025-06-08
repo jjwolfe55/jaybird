@@ -1,1 +1,1 @@
-
+*Utilizes CTE tables to run the data. Same CTE tables for all Oreventing Tables "Data Run" except the insert/Select statement changes.
