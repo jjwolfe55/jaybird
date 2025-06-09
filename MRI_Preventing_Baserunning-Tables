@@ -1,1 +1,13 @@
-
+CREATE TABLE mri_preventing_baserunning (
+player_id VARCHAR(9),
+player_name VARCHAR(45),
+team_id VARCHAR(3),
+season_id SMALLINT,
+age SMALLINT,
+throw CHAR(1),
+mri_p_baserunning_rc DECIMAL(5,2) SIGNED,
+mri_p_baserunning_raa DECIMAL (4,2) SIGNED,
+mri_p_baserunning_waa DECIMAL (4,2) SIGNED,
+mri_p_baserunning_war DECIMAL (4,2) SIGNED,
+PRIMARY KEY (player_id,team_id,season_id)
+);
