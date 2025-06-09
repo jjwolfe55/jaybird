@@ -63,3 +63,12 @@ FROM mri_creating_batting;
 
 DELETE 
 FROM mri_creating_baserunning;
+
+DELETE 
+FROM mri_preventing_pitching;
+
+DELETE 
+FROM mri_preventing_baserunning;
+
+DELETE 
+FROM mri_preventing_fielding;
