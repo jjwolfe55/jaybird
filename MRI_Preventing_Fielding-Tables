@@ -9,6 +9,6 @@ d_pos VARCHAR(2),
 mri_fielding_rc DECIMAL(10,2) SIGNED,
 mri_fielding_raa DECIMAL(4,2) SIGNED,
 mri_fielding_waa DECIMAL(4,2) SIGNED,
-mri_fielding_war DECIMAL(4,2) SIGNED
+mri_fielding_war DECIMAL(4,2) SIGNED,
 PRIMARY KEY (player_id,team_id,season_id,d_pos)
 );
