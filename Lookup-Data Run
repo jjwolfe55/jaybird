@@ -54,7 +54,6 @@ INNER JOIN (SELECT season_id, SUM(b_r) AS runs_for FROM standard_batting GROUP B
 ON a.season_id = b.season_id
 INNER JOIN (SELECT season_id, SUM(p_r) AS runs_against FROM standard_pitching GROUP BY season_id) AS c
 ON a.season_id = c.season_id
-WHERE a.season_id  = 2024
 GROUP BY a.season_id
 ORDER BY a.season_id DESC
 )
@@ -71,7 +70,6 @@ INNER JOIN (SELECT season_id, team_id, SUM(p_r) AS runs_against FROM standard_pi
 ON a.team_id = c.team_id AND a.season_id = c.season_id
 INNER JOIN calc AS d
 ON a.season_id = d.season_id
-WHERE a.season_id = 2024
 GROUP BY a.team_id,a.season_id
 ORDER BY a.season_id DESC
 )
