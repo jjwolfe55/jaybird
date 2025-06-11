@@ -27,8 +27,7 @@ a.bat,
 (((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab) - ((a.b_h)/a.b_ab)),
 ((b_bb+b_ibb)/b_pa),
 (b_so/b_pa)
-FROM standard_batting AS a
-WHERE season_id BETWEEN <xx> AND <yy>;
+FROM standard_batting AS a;
 
 INSERT INTO rate_pitching (
 player_id,
@@ -59,8 +58,7 @@ a.throw,
 ((a.p_er*9)/a.p_ip),
 ((a.p_bb+a.p_ibb)/a.p_bf),
 (a.p_so/a.p_bf)
-FROM standard_pitching AS a
-WHERE season_id BETWEEN <xx> AND <yy>;
+FROM standard_pitching AS a;
 
 INSERT INTO rate_fielding (
 player_id,
@@ -83,5 +81,4 @@ a.throw,
 a.d_pos,
 ((a.d_po+a.d_a)/(a.d_po+a.d_a+a.d_e)),
 ((a.d_po+a.d_a)/a.d_inn)
-FROM standard_fielding AS a
-WHERE season_id BETWEEN <xx> AND <yy>;
+FROM standard_fielding AS a;
