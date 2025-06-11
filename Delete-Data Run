@@ -31,9 +31,6 @@ FROM lookup_player_bio;
 DELETE
 FROM lookup_team_history;
 
-DELETE
-FROM lookup_run_environment;
-
 DELETE 
 FROM standard_standings;
 
@@ -48,6 +45,9 @@ FROM standard_pitching;
 
 DELETE
 FROM standard_fielding;
+
+DELETE
+FROM lookup_run_environment;
 
 DELETE 
 FROM rate_batting;
