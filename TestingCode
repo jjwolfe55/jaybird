@@ -55,15 +55,15 @@ GROUP BY a.player_id,a.team_id,a.season_id
 , mri_preventing_baserunning_raw AS (
 
 SELECT 
-a.player_id,
-a.player_name,
-a.team_id,
-a.season_id,
-a.age,
-a.throw,
-a.d_pos,
-(((a.d_sb*b.sb)*(c.run_adj))*1/2),
-((a.d_cs*b.cs)*(c.run_adj)),
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.throw AS throw,
+a.d_pos AS d_pos,
+(((a.d_sb*b.sb)*(c.run_adj))*1/2) AS d_sb,
+((a.d_cs*b.cs)*(c.run_adj)) AS d_cs,
 ((((a.d_sb*b.sb)*(c.run_adj))*1/2)+
 ((a.d_cs*b.cs)*(c.run_adj))) AS mri_p_baserunning_raw
 FROM standard_fielding AS a
@@ -78,15 +78,15 @@ GROUP BY a.player_id,a.team_id,a.season_id
 , mri_calc_preventing_runs AS (
 
 SELECT 
-a.season_id,
-a.total_mri_pitching_raw,
-b.total_mri_p_baserunning_raw,
-a.total_mri_pitching_raw + b.total_mri_p_baserunning_raw,
-c.total_earned_runs,
+a.season_id AS season_id,
+a.total_mri_pitching_raw AS total_mri_pitching_raw,
+b.total_mri_p_baserunning_raw AS total_mri_p_baserunning_raw,
+a.total_mri_pitching_raw + b.total_mri_p_baserunning_raw AS total_mri_preventing_raw,
+c.total_earned_runs AS total_earned_runs,
 ((c.total_earned_runs)/(a.total_mri_pitching_raw + b.total_mri_p_baserunning_raw)) AS mri_preventing_runs_adj,
-d.total_errors,
-e.total_unearned_runs,
-((e.total_unearned_runs)/(d.total_errors))
+d.total_errors AS total_errors,
+e.total_unearned_runs AS total_unearned_runs,
+((e.total_unearned_runs)/(d.total_errors)) AS error_cost
 FROM (SELECT season_id, SUM(mri_pitching_raw) AS total_mri_pitching_raw
 FROM mri_preventing_pitching_raw GROUP BY season_id) AS a
 INNER JOIN (SELECT season_id, SUM(mri_p_baserunning_raw) AS total_mri_p_baserunning_raw
@@ -109,14 +109,14 @@ ORDER BY a.season_id DESC
 , mri_preventing_pitching_runs AS (
 
 SELECT 
-a.player_id,
-a.player_name,
-a.team_id,
-a.season_id,
-a.age,
-a.throw,
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id, 
+a.age AS age,
+a.throw AS throw,
 a.mri_pitching_raw*b.mri_preventing_runs_adj AS mri_pitching_rc,
-(a.mri_pitching_raw*b.mri_preventing_runs_adj)/c.p_bf
+(a.mri_pitching_raw*b.mri_preventing_runs_adj)/c.p_bf AS mri_pitching_avg
 FROM mri_preventing_pitching_raw AS a
 INNER JOIN mri_calc_preventing_runs AS b
 ON a.season_id = b.season_id
@@ -129,15 +129,15 @@ GROUP BY a.player_id,a.team_id,a.season_id
 , mri_preventing_baserunning_runs AS (
 
 SELECT 
-a.player_id,
-a.player_name,
-a.team_id,
-a.season_id,
-a.age,
-a.throw,
-a.d_pos,
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.throw AS throw,
+a.d_pos AS d_pos,
 a.mri_p_baserunning_raw*b.mri_preventing_runs_adj AS mri_p_baserunning_rc,
-(a.mri_p_baserunning_raw*b.mri_preventing_runs_adj)/(c.d_sb+c.d_cs)
+(a.mri_p_baserunning_raw*b.mri_preventing_runs_adj)/(c.d_sb+c.d_cs) AS mri_p_baserunning_avg
 FROM mri_preventing_baserunning_raw AS a
 INNER JOIN mri_calc_preventing_runs AS b
 ON a.season_id = b.season_id
@@ -150,15 +150,15 @@ GROUP BY a.player_id,a.team_id,a.season_id
 , mri_preventing_fielding_runs AS (
 
 SELECT 
-a.player_id,
-a.player_name,
-a.team_id,
-a.season_id,
-a.age,
-a.throw,
-a.d_pos,
-a.d_g,
-a.d_inn,
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+a.throw AS throw,
+a.d_pos AS d_pos,
+a.d_g AS d_g,
+a.d_inn AS d_inn,
 (((a.d_a)+(a.d_po)+(a.d_e))/(a.d_inn)) AS mri_fielding_range,
 (((a.d_e))*b.error_cost) AS mri_fielding_rc,
 1-(((a.d_e))/((a.d_a)+(a.d_po)+(a.d_e))) AS mri_fielding_avg
@@ -177,7 +177,7 @@ a.season_id
 , mri_calc_preventing_wins AS (
 
 SELECT 
-a.season_id,
+a.season_id AS season_id ,
 a.total_p_bf,
 b.total_mri_pitching_rc,
 c.total_p_baserunning_chances,
