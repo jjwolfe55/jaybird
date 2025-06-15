@@ -184,7 +184,7 @@ c.total_p_baserunning_chances AS total_p_baserunning_chances,
 d.total_mri_p_baserunning_rc AS total_mri_p_baserunning_rc,
 e.total_runs AS total_runs,
 f.total_wins AS total_wins,
-e.total_runs/f.total_wins AS runs_per_win AS runs_per_win
+e.total_runs/f.total_wins AS runs_per_win
 FROM (SELECT season_id, SUM(p_bf) AS total_p_bf FROM standard_pitching GROUP BY season_id) AS a
 INNER JOIN (SELECT season_id, SUM(mri_pitching_rc) AS total_mri_pitching_rc FROM mri_preventing_pitching_runs GROUP BY season_id) AS b
 ON a.season_id = b.season_id
