@@ -287,7 +287,7 @@ GROUP BY a.player_id,a.team_id,a.d_pos,a.season_id
 SELECT a.season_id AS season_id,
 AVG(a.mri_pitching_waa) AS mri_waa_adj
 FROM mri_preventing_pitching_wins AS a
-WHERE a.mri_preventing_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+WHERE a.mri_pitching_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
 GROUP BY a.season_id 
 ORDER BY a.season_id DESC
 )
@@ -312,7 +312,7 @@ ON a.season_id = b.season_id
 SELECT a.season_id AS season_id,
 AVG(a.mri_p_baserunning_waa) AS mri_waa_adj
 FROM mri_preventing_baserunning_wins AS a
-WHERE a.mri_preventing_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+WHERE a.mri_p_baserunning_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
 GROUP BY a.season_id 
 ORDER BY a.season_id DESC
 )
@@ -337,7 +337,7 @@ ON a.season_id = b.season_id
 SELECT a.season_id AS season_id,
 AVG(a.mri_fielding_waa) AS mri_waa_adj
 FROM mri_preventing_fielding_wins AS a
-WHERE a.mri_preventing_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+WHERE a.mri_fielding_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
 GROUP BY a.season_id 
 ORDER BY a.season_id DESC
 )
