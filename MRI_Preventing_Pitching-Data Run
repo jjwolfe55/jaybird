@@ -54,16 +54,6 @@ GROUP BY a.player_id,a.team_id,a.season_id
 
 , mri_preventing_baserunning_raw AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-d_pos,
-d_sb,
-d_cs,
-mri_p_baserunning_raw)
 SELECT 
 a.player_id,
 a.player_name,
@@ -87,15 +77,6 @@ GROUP BY a.player_id,a.team_id,a.season_id
 
 , mri_calc_preventing_runs AS (
 
-season_id,
-total_mri_pitching_raw,
-total_mri_p_baserunning_raw,
-total_mri_preventing_raw,
-total_earned_runs,
-mri_preventing_runs_adj,
-total_errors,
-total_unearned_runs,
-error_cost)
 SELECT 
 a.season_id,
 a.total_mri_pitching_raw,
@@ -127,14 +108,6 @@ ORDER BY a.season_id DESC
 
 , mri_preventing_pitching_runs AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-mri_pitching_rc,
-mri_pitching_avg)
 SELECT 
 a.player_id,
 a.player_name,
@@ -155,15 +128,6 @@ GROUP BY a.player_id,a.team_id,a.season_id
 
 , mri_preventing_baserunning_runs AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-d_pos,
-mri_p_baserunning_rc,
-mri_p_baserunning_avg)
 SELECT 
 a.player_id,
 a.player_name,
@@ -185,18 +149,6 @@ GROUP BY a.player_id,a.team_id,a.season_id
 
 , mri_preventing_fielding_runs AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-d_pos,
-d_g,
-d_inn,
-mri_fielding_range,
-mri_fielding_rc,
-mri_fielding_avg)
 SELECT 
 a.player_id,
 a.player_name,
@@ -224,14 +176,6 @@ a.season_id
 
 , mri_calc_preventing_wins AS (
 
-season_id,
-total_p_bf,
-total_mri_pitching_rc,
-total_p_baserunning_chances,
-total_mri_p_baserunning_rc,
-total_runs,
-total_wins,
-runs_per_win)
 SELECT 
 a.season_id,
 a.total_p_bf,
@@ -259,14 +203,6 @@ ORDER BY a.season_id DESC
 
 , mri_preventing_pitching_wins AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-mri_pitching_raa,
-mri_pitching_waa)
 SELECT 
 a.player_id,
 a.player_name,
@@ -289,15 +225,6 @@ a.season_id
 
 , mri_preventing_baserunning_wins AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-d_pos,
-mri_p_baserunning_raa,
-mri_p_baserunning_waa)
 SELECT 
 a.player_id,
 a.player_name,
@@ -320,10 +247,6 @@ a.season_id
 
 , mri_calc_f_preventing_wins AS (
 
-season_id,
-d_pos,
-total_mri_fielding_rc,
-total_fielding_chances)
 SELECT *
 FROM (
     SELECT a.season_id, a.d_pos, SUM(b.mri_fielding_rc) AS total_mri_fielding_rc, (SUM(a.d_a)+SUM(a.d_po)+SUM(a.d_e)) AS total_fielding_chances
@@ -337,17 +260,6 @@ GROUP BY a.season_id, a.d_pos
 
 , mri_preventing_fielding_wins  AS (
 
-player_id,
-player_name,
-team_id,
-season_id,
-age,
-throw,
-d_pos,
-d_g,
-d_inn,
-mri_fielding_raa,
-mri_fielding_waa)
 SELECT 
 a.player_id,
 a.player_name,
