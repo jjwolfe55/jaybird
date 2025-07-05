@@ -39,7 +39,7 @@ a.p_bf,
 ((a.p_bb*b.bb)*(c.run_adj))+
 ((a.p_ibb*b.ibb)*(c.run_adj))+
 ((a.p_hbp*b.hbp)*(c.run_adj))+
-(((d.d_sb*b.sb)*(c.run_adj))*1/2))
+(((d.d_sb*b.sb)*(c.run_adj))*1/2)) AS mri_pitching_raw
 FROM standard_pitching AS a
 INNER JOIN lookup_linear_weights AS b
 ON a.season_id = b.season_id
