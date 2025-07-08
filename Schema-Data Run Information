@@ -1,14 +1,15 @@
+*All tables are updated yearly. Periodically, Retrosheet provides updates to their datasets. The order of the data runs are as below:*
   1. Lines_Games
   2. Lines_Teams
   3. Lines_Rosters
   4. Lines_Batting
   5. Lines_Pitching
   6. Lines_Fielding
-  7. Lookup_Fielding_Positions (Ran Once)
-  8. Lookup_Age_Date (Updated Yearly)
-  9. Lookup_Linear_Weights (Updated Yearly)
-  10. Lookup_Player_Bio (Updated Yearly)
-  11. Lookup_Team_History (Updated Yearly)
+  7. Lookup_Fielding_Positions
+  8. Lookup_Age_Date
+  9. Lookup_Linear_Weights
+  10. Lookup_Player_Bio
+  11. Lookup_Team_History
   12. Standard_Standings
   13. Standard_World_Series
   14. Standard_Batting
