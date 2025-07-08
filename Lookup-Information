@@ -1,9 +1,7 @@
-*There are six lookup tables used for reference across Jaybird database
-  1. Lookup_Fielding_Positions
-  2. Lookup_Age_Date
-  3. Lookup_Linear_Weights
-  4. Lookup_Player_Bio
-  5. Lookup_Team_History
-  6. Lookup_Run_Environment
-
-*Lookup_Run_Environment cannot be created for a season/team without data for all standard tables to be populated.
+*There are six lookup tables used for reference across Jaybird database. Some are built in house and some come from Retrosheet.*
+  1. Lookup_Fielding_Positions - Updated data run in house.
+  2. Lookup_Age_Date - Updated csv manually in house
+  3. Lookup_Linear_Weights - Updated csv manually in house.
+  4. Lookup_Player_Bio - Retrosheet Upload
+  5. Lookup_Team_History - Retrosheet Upload
+  6. Lookup_Run_Environment - This in house data run cannot be created for a season/team without data for all standard tables to be populated.
