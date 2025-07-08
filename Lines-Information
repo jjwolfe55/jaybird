@@ -1,10 +1,7 @@
-*Lines includes six tables that pull data in from retrosheet.
+*Lines includes six master tables that pull data in from retrosheet.
   1. Lines_Games
   2. Lines_Teams
   3. Lines_Rosters
   4. Lines_Batting
   5. Lines_Pitching
   6. Lines_Fielding
-
-*Note: 1903-1911 does not have quality metrics on earned runs. 
-       -> Correction Lines_Pitching files are uploaded in place of Retrosheet files using an estimate of 0.80 earned run rate per 1 run scored.
