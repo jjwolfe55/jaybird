@@ -1,4 +1,4 @@
-*Lines includes six master tables that pull data in from retrosheet.
+*Lines includes six master tables that pull data in from retrosheet.*
   1. Lines_Games - gameinfo.csv - contains game-level information such as teams, attendance, umpires, etc.
   2. Lines_Teams - teamstats.csv - contains team-level statistics - line scores, lineups, and team statistics (batting, pitching, fielding)
   3. Lines_Rosters - allplayers.csv - contains basic information about all players divided by team-season
