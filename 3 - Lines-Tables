@@ -149,10 +149,14 @@ start_f10 VARCHAR(9),
 game_date INT,
 game_count TINYINT,
 ballpark VARCHAR(7),
+vis_or_home CHAR(1),
 opponent VARCHAR(3),
-win_loss CHAR(2),
+win TINYINT,
+loss TINYINT,
+tie TINYINT,
 game_type VARCHAR(15),
 box_score CHAR(2),
+play_by_play CHAR(1),
 PRIMARY KEY (game_id,team_id)
 );
 
