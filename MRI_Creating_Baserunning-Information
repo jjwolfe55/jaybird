@@ -1,1 +1,0 @@
-*Utilizes CTE tables to run the data. Same CTE tables as MRI_Creating_Batting except the insert/Select statement changes.
