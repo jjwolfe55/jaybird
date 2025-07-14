@@ -3,5 +3,5 @@
   2. Lines_Teams - teamstats.csv - contains team-level statistics - line scores, lineups, and team statistics (batting, pitching, fielding)
   3. Lines_Rosters - allplayers.csv - contains basic information about all players divided by team-season
   4. Lines_Batting - batting.csv - batting statistics by player by game
-  5. Lines_Pitching - pitching.csv - pitching statistics by player by game
+  5. Lines_Pitching - pitching.csv - pitching statistics by player by game. NOTE THAT 1903-1911 season Earned Runs are Estimated Values (0.80 * RA)
   6. Lines_Fielding - fielding.csv - fielding statistics by player by position by game
