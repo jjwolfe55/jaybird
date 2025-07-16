@@ -28,6 +28,14 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
+DELETE FROM lines_pitching WHERE game_date BETWEEN '19030000' AND '19119999';
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/pitching_correction.csv"
+INTO TABLE lines_pitching
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/pitching_correction.csv"
 INTO TABLE lines_pitching
 FIELDS TERMINATED BY ','
