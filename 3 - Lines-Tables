@@ -157,7 +157,7 @@ tie TINYINT,
 game_type VARCHAR(15),
 box_score CHAR(2),
 play_by_play CHAR(1),
-PRIMARY KEY (game_id,team_id)
+PRIMARY KEY (game_id,team_id,integrity)
 );
 
 CREATE TABLE lines_rosters (
@@ -228,7 +228,7 @@ tie TINYINT,
 game_type VARCHAR(15),
 box_score CHAR(2),
 play_by_play CHAR(1),
-PRIMARY KEY (game_id,player_id,team_id)
+PRIMARY KEY (game_id,player_id,team_id,integrity)
 );
 
 CREATE TABLE lines_pitching (
@@ -274,7 +274,7 @@ tie TINYINT,
 game_type VARCHAR(15),
 box_score CHAR(2),
 play_by_play CHAR(1),
-PRIMARY KEY (game_id,player_id,team_id)
+PRIMARY KEY (game_id,player_id,team_id,integrity)
 );
 
 CREATE TABLE lines_fielding (
@@ -306,5 +306,5 @@ tie TINYINT,
 game_type VARCHAR(15),
 box_score CHAR(2),
 play_by_play CHAR(1),
-PRIMARY KEY (game_id,player_id,team_id)
+PRIMARY KEY (game_id,player_id,team_id,integrity)
 );
