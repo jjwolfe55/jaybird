@@ -31,7 +31,7 @@ a.p_bf AS p_bf,
 ((a.p_bb*b.bb)*(c.run_adj)) AS p_bb,
 ((a.p_ibb*b.ibb)*(c.run_adj)) AS p_ibb,
 ((a.p_hbp*b.hbp)*(c.run_adj)) AS p_hbp,
-(((d.d_sb*b.sb)*(c.run_adj))*1/2) AS p_sb,
+(((a.p_sb*b.sb)*(c.run_adj))*1/2) AS p_sb,
 (((a.p_s*b.1b)*(c.run_adj))+
 ((a.p_d*b.2b)*(c.run_adj))+
 ((a.p_t*b.3b)*(c.run_adj))+
@@ -39,15 +39,13 @@ a.p_bf AS p_bf,
 ((a.p_bb*b.bb)*(c.run_adj))+
 ((a.p_ibb*b.ibb)*(c.run_adj))+
 ((a.p_hbp*b.hbp)*(c.run_adj))+
-(((d.d_sb*b.sb)*(c.run_adj))*1/2)) AS mri_pitching_raw
+(((a.p_sb*b.sb)*(c.run_adj))*1/2)) AS mri_pitching_raw
 FROM standard_pitching AS a
 INNER JOIN lookup_linear_weights AS b
 ON a.season_id = b.season_id
 INNER JOIN lookup_run_environment AS c
 ON a.team_id = c.team_id AND a.season_id = c.season_id
-INNER JOIN standard_fielding AS d
-ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id
-WHERE d.d_pos = 'p' AND a.season_id BETWEEN <xx> AND <yy> 
+WHERE a.season_id BETWEEN <xx> AND <yy> 
 GROUP BY a.player_id,a.team_id,a.season_id
 )
 
@@ -367,9 +365,9 @@ c.mri_pitching_raa AS mri_pitching_raa,
 c.mri_pitching_waa AS mri_pitching_waa,
 d.mri_pitching_war AS mri_pitching_war
 FROM standard_pitching AS a
-LEFT JOIN mri_preventing_pitching_runs AS b
+INNER JOIN mri_preventing_pitching_runs AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
-LEFT JOIN mri_preventing_pitching_wins AS c
+INNER JOIN mri_preventing_pitching_wins AS c
 ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
-LEFT JOIN mri_preventing_pitching_war AS d
+INNER JOIN mri_preventing_pitching_war AS d
 ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id;
