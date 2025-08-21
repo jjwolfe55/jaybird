@@ -222,7 +222,7 @@ GROUP BY a.player_id,a.team_id,a.season_id
 SELECT a.season_id AS season_id,
 AVG(a.mri_c_baserunning_waa) AS mri_waa_adj
 FROM mri_creating_baserunning_wins AS a
-WHERE a.mri_baserunning_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
+WHERE a.mri_c_baserunning_waa < 0 AND a.season_id BETWEEN 1912 AND 2024
 GROUP BY a.season_id 
 ORDER BY a.season_id DESC
 )
@@ -236,14 +236,15 @@ a.team_id AS team_id,
 a.season_id AS season_id,
 a.age AS age,
 a.bat AS bat,
-b.mri_c_baserunning_waa - c.mri_waa_adj AS mri_batting_war
-FROM standard_baserunning AS a
+b.mri_c_baserunning_waa - c.mri_waa_adj AS mri_c_baserunning_war
+FROM standard_batting AS a
 INNER JOIN mri_creating_baserunning_wins AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
 INNER JOIN mri_calc_baserunning_creating_war AS c
 ON a.season_id = c.season_id
 GROUP BY a.player_id,a.team_id,a.season_id
 )
+
 SELECT 
 a.player_id AS player_id,
 a.player_name AS player_name,
