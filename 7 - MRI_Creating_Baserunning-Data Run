@@ -244,6 +244,7 @@ INNER JOIN mri_calc_baserunning_creating_war AS c
 ON a.season_id = c.season_id
 GROUP BY a.player_id,a.team_id,a.season_id
 )
+
 SELECT 
 a.player_id AS player_id,
 a.player_name AS player_name,
