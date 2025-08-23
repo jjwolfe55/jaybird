@@ -349,7 +349,7 @@ SELECT a.season_id AS season_id,
 AVG(a.mri_fielding_waa) AS mri_waa_adj
 FROM mri_preventing_fielding_wins AS a
 WHERE a.mri_fielding_waa < 0 AND a.season_id BETWEEN <xx> AND <yy>
-GROUP BY a.season_id 
+GROUP BY a.season_id
 ORDER BY a.season_id DESC
 )
 
@@ -368,14 +368,13 @@ FROM standard_fielding AS a
 INNER JOIN mri_preventing_fielding_wins AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
 INNER JOIN mri_calc_preventing_fielding_war AS c
-ON a.season_id = b.season_id
+ON a.season_id = c.season_id 
 WHERE a.season_id BETWEEN <xx> AND <yy>
 GROUP BY a.player_id,
 a.team_id,
 a.d_pos,
 a.season_id
 )
-
 
 SELECT 
 a.player_id AS player_id,
@@ -385,14 +384,14 @@ a.season_id AS season_id,
 a.age,
 a.throw,
 a.d_pos,
-b.mri_fielding_rc
+b.mri_fielding_rc,
 c.mri_fielding_raa,
 c.mri_fielding_waa,
 d.mri_fielding_war
 FROM standard_fielding AS a
 INNER JOIN mri_preventing_fielding_runs AS b
-ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
 INNER JOIN mri_preventing_fielding_wins AS c
-ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id AND a.d_pos = c.d_pos
 INNER JOIN mri_preventing_fielding_war AS d
-ON a.player_id = d.player_id AND a.team_id = d.team_id AND d.season_id = d.season_id
+ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id AND a.d_pos = d.d_pos; 
