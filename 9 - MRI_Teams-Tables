@@ -1,0 +1,24 @@
+CREATE TABLE mri_team_runs(
+team_id CHAR(3) NOT NULL,
+season_id SMALLINT UNSIGNED NOT NULL,
+g SMALLINT UNSIGNED,
+mri_batting_rc DECIMAL(6,1) SIGNED,
+mri_c_baserunning_rc DECIMAL(6,1) SIGNED,
+mri_pitching_rc DECIMAL(6,1) SIGNED,
+mri_p_baserunning_rc DECIMAL(6,1) SIGNED,
+mri_fielding_rc DECIMAL(6,1) SIGNED,
+mri_created_runs DECIMAL(6,1) SIGNED,
+mri_prevented_runs DECIMAL(6,1) SIGNED,
+mri_run_diff DECIMAL(6,1) SIGNED,
+PRIMARY KEY (team_id,season_id)
+);
+
+CREATE TABLE mri_team_standings(
+team_id CHAR(3) NOT NULL,
+season_id SMALLINT UNSIGNED NOT NULL,
+g SMALLINT UNSIGNED,
+mri_w DECIMAL(4,1) UNSIGNED,
+mri_l DECIMAL(4,1) UNSIGNED,
+mri_w_pct DECIMAL(4,3) UNSIGNED,
+PRIMARY KEY (team_id,season_id)
+);
