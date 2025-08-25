@@ -1,0 +1,25 @@
+CREATE VIEW season_standings AS 
+SELECT 
+a.team_id,
+a.season_id,
+a.g,
+a.w,
+a.l,
+a.t,
+a.win_pct AS w_pct,
+b.mri_w,
+b.mri_l,
+b.mri_w_pct,
+a.h_g,
+a.h_w,
+a.h_l,
+a.h_t,
+a.h_win_pct AS h_w_pct,
+a.v_g,
+a.v_w,
+a.v_l,
+a.v_t,
+a.v_win_pct AS v_w_pct
+FROM standard_standings AS a
+LEFT JOIN mri_team_standings AS b
+ON a.team_id = b.team_id AND a.season_id = b.season_id;
