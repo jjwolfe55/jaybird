@@ -44,3 +44,23 @@ d_f_pct DECIMAL(4,3),
 d_plays_pct DECIMAL(3,2),            
 PRIMARY KEY (player_id,team_id,season_id,d_pos)
 );
+
+CREATE TABLE rate_c_baserunning (
+player_id VARCHAR(9),
+player_name VARCHAR(45),
+team_id VARCHAR(3),
+season_id SMALLINT,
+age SMALLINT,
+b_sb_pct DECIMAL (3,2),
+PRIMARY KEY (player_id,team_id,season_id)
+);
+
+CREATE TABLE rate_p_baserunning (
+player_id VARCHAR(9),
+player_name VARCHAR(45),
+team_id VARCHAR(3),
+season_id SMALLINT,
+age SMALLINT,
+d_sb_pct DECIMAL (3,2),
+PRIMARY KEY (player_id,team_id,season_id)
+);
