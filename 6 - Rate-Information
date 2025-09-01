@@ -1,4 +1,6 @@
 *There are three rate tables that use standard tables to provide rate statistics.*
      1. Rate_Batting
-     2. Rate_Pitching
-     3. Rate_Fielding
+     2. Rate_c_Baserunning
+     3. Rate_Pitching
+     4. Rate_Fielding
+     5. Rate_p_Baserunning
