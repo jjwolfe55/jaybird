@@ -151,25 +151,25 @@ ORDER BY total_war DESC;
 
 CREATE VIEW season_total_war_x_team AS 
 WITH batters AS (
-SELECT player_id, player_name, team_id, season_id
+SELECT player_id, player_name, team_id, season_id, age
 FROM season_batting_x_team
 )
 , pitchers AS (
-SELECT player_id, player_name, team_id, season_id
+SELECT player_id, player_name, team_id, season_id, age
 FROM season_pitching_x_team
 )
 , fielders AS (
-SELECT player_id, player_name, team_id, season_id
+SELECT player_id, player_name, team_id, season_id, age
 FROM season_fielding_x_team
 )
 , player_pool AS (
-SELECT player_id, player_name, team_id, season_id
+SELECT player_id, player_name, team_id, season_id, age
 FROM batters
 UNION 
-SELECT player_id, player_name, team_id, season_id
+SELECT player_id, player_name, team_id, season_id, age
 FROM pitchers
 UNION 
-SELECT player_id, player_name, team_id, season_id
+SELECT player_id, player_name, team_id, season_id, age
 FROM fielders
 )
 , batting_war AS (
@@ -198,6 +198,7 @@ a.player_id,
 a.player_name,
 a.team_id,
 a.season_id,
+a.age,
 b.mri_war AS batting_war,
 c.mri_c_baserunning_war AS c_baserunning_war,
 d.mri_war AS pitching_war,
