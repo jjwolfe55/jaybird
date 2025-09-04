@@ -156,79 +156,80 @@ SELECT a.player_id,
   SELECT * 
   FROM rpt 
   ORDER BY total_war DESC;
--------------------
-CREATE VIEW career_total_war AS 
-WITH batters AS (
-SELECT DISTINCT(player_id), player_name
-FROM standard_batting
-)
-, pitchers AS (
-SELECT DISTINCT(player_id), player_name
-FROM standard_pitching
-)
-, fielders AS (
-SELECT DISTINCT(player_id),player_name
-FROM standard_fielding
-)
+
+CREATE VIEW career_total_war AS
+WITH batters AS ( 
+SELECT player_id, player_name  
+FROM standard_batting )
+ 
+, pitchers AS ( 
+SELECT player_id, player_name 
+FROM standard_pitching ) 
+
+, fielders AS ( 
+SELECT player_id, player_name 
+FROM standard_fielding ) 
+
 , player_pool AS (
 SELECT player_id, player_name
-FROM batters
-UNION 
+FROM batters 
+UNION  
 SELECT player_id, player_name
-FROM pitchers
-UNION 
+FROM pitchers 
+UNION  
 SELECT player_id, player_name
-FROM fielders
-)
-, batting_war AS (
-SELECT player_id, mri_war
-FROM career_batting
-)
-, c_baserunning_war AS (
-SELECT player_id, mri_c_baserunning_war
-FROM career_c_baserunning
-)
-, pitching_war AS (
-SELECT player_id, mri_war
-FROM career_pitching
-)
-, fielding_war AS (
-SELECT player_id, mri_war
-FROM career_fielding
-)
-, p_baserunning_war AS (
-SELECT player_id, mri_p_baserunning_war
-FROM career_p_baserunning
-)
-, rpt AS (
-SELECT
-a.player_id,
-a.player_name,
-b.mri_war AS batting_war,
-c.mri_c_baserunning_war AS c_baserunning_war,
-d.mri_war AS pitching_war,
-e.mri_war AS fielding_war,
-f.mri_p_baserunning_war AS p_baserunning_war,
-IfNULL(b.mri_war,0) +
-IfNULL(c.mri_c_baserunning_war,0) +
-IfNULL(d.mri_war,0) +
-IfNULL(e.mri_war,0) +
-ifnull(f.mri_p_baserunning_war,0) AS total_war,
-pb.HOF AS HOF
-FROM player_pool AS a
-LEFT JOIN batting_war AS b
-ON a.player_id = b.player_id
-LEFT JOIN c_baserunning_war AS c
-ON a.player_id = c.player_id
-LEFT JOIN pitching_war AS d
-ON a.player_id = d.player_id
-LEFT JOIN fielding_war AS e
-ON a.player_id = e.player_id
-LEFT JOIN p_baserunning_war AS f
-ON a.player_id = f.player_id
-LEFT JOIN lookup_player_bio AS pb
-ON a.player_id = pb.player_id
-)
-SELECT *
-FROM rpt
-ORDER BY total_war DESC;
+FROM fielders ) 
+
+, batting_war AS ( 
+SELECT player_id, SUM(mri_batting_war) AS mri_war 
+FROM mri_creating_batting 
+GROUP BY player_id) 
+
+, c_baserunning_war AS ( 
+SELECT player_id, SUM(mri_c_baserunning_war) AS mri_c_baserunning_war 
+FROM mri_creating_baserunning 
+GROUP BY player_id) 
+
+, pitching_war AS ( 
+SELECT player_id, SUM(mri_pitching_war) AS mri_war 
+FROM mri_preventing_pitching 
+GROUP BY player_id) 
+
+, fielding_war AS ( 
+SELECT player_id, SUM(mri_fielding_war) AS mri_war 
+FROM mri_preventing_fielding 
+GROUP BY player_id) 
+
+, p_baserunning_war AS ( 
+SELECT player_id, SUM(mri_p_baserunning_war) AS mri_p_baserunning_war 
+FROM mri_preventing_baserunning 
+GROUP BY player_id)
+ 
+, rpt AS ( 
+SELECT a.player_id, 
+ a.player_name,
+ b.mri_war AS batting_war,
+ c.mri_c_baserunning_war AS c_baserunning_war,
+ d.mri_war AS pitching_war,
+ e.mri_war AS fielding_war,
+ f.mri_p_baserunning_war AS p_baserunning_war,
+ IfNULL(b.mri_war,0) +
+ IfNULL(c.mri_c_baserunning_war,0) +
+ IfNULL(d.mri_war,0) +
+ IfNULL(e.mri_war,0) +
+ ifnull(f.mri_p_baserunning_war,0) AS total_war 
+ FROM player_pool AS a 
+ LEFT JOIN batting_war AS b 
+ ON a.player_id = b.player_id  
+ LEFT JOIN c_baserunning_war AS c 
+ ON a.player_id = c.player_id 
+ LEFT JOIN pitching_war AS d 
+ ON a.player_id = d.player_id
+ LEFT JOIN fielding_war AS e 
+ ON a.player_id = e.player_id 
+ LEFT JOIN p_baserunning_war AS f 
+ ON a.player_id = f.player_id)
+ 
+  SELECT * 
+  FROM rpt 
+  ORDER BY total_war DESC;
