@@ -1,0 +1,77 @@
+CREATE VIEW season_total_war_x_team AS ;
+WITH batters AS (
+SELECT player_id, player_name, team_id, season_id, age
+FROM standard_batting 
+WHERE season_id BETWEEN 1912 AND 2024
+)
+, pitchers AS (
+SELECT player_id, player_name, team_id, season_id, age
+FROM standard_pitching
+WHERE season_id BETWEEN 1912 AND 2024
+)
+, fielders AS (
+SELECT player_id, player_name, team_id, season_id, age
+FROM standard_fielding
+WHERE season_id BETWEEN 1912 AND 2024
+)
+, player_pool AS (
+SELECT player_id, player_name, team_id, season_id, age
+FROM batters
+UNION 
+SELECT player_id, player_name, team_id, season_id, age
+FROM pitchers
+UNION 
+SELECT player_id, player_name, team_id, season_id, age
+FROM fielders
+)
+, batting_war AS (
+SELECT player_id, team_id, season_id, mri_batting_war
+FROM mri_creating_batting
+)
+, c_baserunning_war AS (
+SELECT player_id, team_id, season_id, mri_c_baserunning_war
+FROM mri_creating_baserunning
+)
+, pitching_war AS (
+SELECT player_id, team_id, season_id, mri_pitching_war
+FROM mri_preventing_pitching
+)
+, fielding_war AS (
+SELECT player_id, team_id, season_id, mri_fielding_war
+FROM mri_preventing_fielding
+)
+, p_baserunning_war AS (
+SELECT player_id, team_id, season_id, mri_p_baserunning_war
+FROM mri_preventing_baserunning
+)
+, rpt AS (
+SELECT
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+b.mri_batting_war AS batting_war,
+c.mri_c_baserunning_war AS c_baserunning_war,
+d.mri_pitching_war AS pitching_war,
+e.mri_fielding_war AS fielding_war,
+f.mri_p_baserunning_war AS p_baserunning_war,
+IfNULL(b.mri_batting_war,0) +
+IfNULL(c.mri_c_baserunning_war,0) +
+IfNULL(d.mri_pitching_war,0) +
+IfNULL(e.mri_fielding_war,0) +
+ifnull(f.mri_p_baserunning_war,0) AS total_war
+FROM player_pool AS a
+LEFT JOIN batting_war AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+LEFT JOIN c_baserunning_war AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+LEFT JOIN pitching_war AS d
+ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id
+LEFT JOIN fielding_war AS e
+ON a.player_id = e.player_id AND a.team_id = e.team_id AND a.season_id = e.season_id
+LEFT JOIN p_baserunning_war AS f
+ON a.player_id = f.player_id AND a.team_id = f.team_id AND a.season_id = f.season_id
+)
+SELECT *
+FROM rpt
