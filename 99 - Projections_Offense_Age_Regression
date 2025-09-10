@@ -18,7 +18,7 @@ SELECT player_id, age, <xx>
 FROM season_batting
 WHERE pa > 300 AND age = 22 AND player_id IN (SELECT player_id FROM player_pool)
 )
-,s_t<xx>ee AS (
+,s_three AS (
 SELECT player_id, age, <xx>
 FROM season_batting
 WHERE pa > 300 AND age = 23 AND player_id IN (SELECT player_id FROM player_pool)
@@ -122,16 +122,16 @@ INNER JOIN s_two AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
 )
-, rpt_t<xx>ee AS (
+, rpt_three AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS <xx>_delta
 FROM s_two AS a
-INNER JOIN s_t<xx>ee AS b
+INNER JOIN s_three AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
 )
 , rpt_four AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS <xx>_delta
-FROM s_t<xx>ee AS a
+FROM s_three AS a
 INNER JOIN s_four AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
@@ -255,7 +255,7 @@ SELECT *
 FROM rpt_two
 UNION ALL
 SELECT *
-FROM rpt_t<xx>ee
+FROM rpt_three
 UNION ALL
 SELECT *
 FROM rpt_four
@@ -340,7 +340,7 @@ INNER JOIN player_pool AS c
 ON a.player_id = c.player_id
 WHERE b.pa > 300 AND  a.age = 22
 )
-,s_t<xx>ee AS (
+,s_three AS (
 SELECT a.player_id, a.age, a.<xx>
 FROM season_c_baserunning AS a
 INNER JOIN season_batting AS b
@@ -516,16 +516,16 @@ INNER JOIN s_two AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
 )
-, rpt_t<xx>ee AS (
+, rpt_three AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS <xx>_delta
 FROM s_two AS a
-INNER JOIN s_t<xx>ee AS b
+INNER JOIN s_three AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
 )
 , rpt_four AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS <xx>_delta
-FROM s_t<xx>ee AS a
+FROM s_three AS a
 INNER JOIN s_four AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
