@@ -18,7 +18,7 @@ SELECT player_id, age, <xx>
 FROM season_pitching
 WHERE bf > 300 AND age = 22 AND player_id IN (SELECT player_id FROM player_pool)
 )
-,s_tbfee AS (
+,s_three AS (
 SELECT player_id, age, <xx>
 FROM season_pitching
 WHERE bf > 300 AND age = 23 AND player_id IN (SELECT player_id FROM player_pool)
@@ -122,16 +122,16 @@ INNER JOIN s_two AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
 )
-, rpt_tbfee AS (
+, rpt_three AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
 FROM s_two AS a
-INNER JOIN s_tbfee AS b
+INNER JOIN s_three AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
 )
 , rpt_four AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
-FROM s_tbfee AS a
+FROM s_three AS a
 INNER JOIN s_four AS b
 ON b.player_id = a.player_id
 GROUP BY a.age
@@ -257,7 +257,7 @@ SELECT *
 FROM rpt_two
 UNION ALL
 SELECT *
-FROM rpt_tbfee
+FROM rpt_three
 UNION ALL
 SELECT *
 FROM rpt_four
