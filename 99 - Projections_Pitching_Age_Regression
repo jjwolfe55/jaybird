@@ -1,0 +1,311 @@
+WITH player_pool AS (
+SELECT player_id 
+FROM career_pitching
+WHERE seasons > 9 AND bf > 2999
+)
+,s_zero AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 20 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_one AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 21 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_two AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 22 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_tbfee AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 23 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_four AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 24 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_five AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 25 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_six AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 26 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_seven AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 27 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_eight AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 28 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_nine AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 29 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_ten AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 30 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_eleven AS (
+SELECT player_id, age, s<xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 31 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_twelve AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 32 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_thirteen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 33 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_fourteen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 34 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_fifteen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 35 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_sixteen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 36 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_seventeen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 37 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_eighteen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 38 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_nineteen AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 39 AND player_id IN (SELECT player_id FROM player_pool)
+)
+,s_twenty AS (
+SELECT player_id, age, <xx>
+FROM season_pitching
+WHERE bf > 300 AND age = 40 AND player_id IN (SELECT player_id FROM player_pool)
+)
+, rpt_one AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_zero AS a
+INNER JOIN s_one AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_two AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_one AS a
+INNER JOIN s_two AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_tbfee AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_two AS a
+INNER JOIN s_tbfee AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_four AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_tbfee AS a
+INNER JOIN s_four AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_five AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_four AS a
+INNER JOIN s_five AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_six AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_five AS a
+INNER JOIN s_six AS b
+ON b.player_id = a.player_id
+GROUP BY b.age
+)
+, rpt_seven AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_six AS a
+INNER JOIN s_seven AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_eight AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_seven AS a
+INNER JOIN s_eight AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_nine AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_eight AS a
+INNER JOIN s_nine AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_ten AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_nine AS a
+INNER JOIN s_ten AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_eleven AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_ten AS a
+INNER JOIN s_eleven AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_twelve AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_eleven AS a
+INNER JOIN s_twelve AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_thirteen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_twelve AS a
+INNER JOIN s_thirteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_fourteen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_thirteen AS a
+INNER JOIN s_fourteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_fifteen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_fourteen AS a
+INNER JOIN s_fifteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_sixteen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_fifteen AS a
+INNER JOIN s_sixteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_seventeen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_sixteen AS a
+INNER JOIN s_seventeen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_eighteen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_seventeen AS a
+INNER JOIN s_eighteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_nineteen AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_eighteen AS a
+INNER JOIN s_nineteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+, rpt_twenty AS (
+SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS so_delta
+FROM s_nineteen AS a
+INNER JOIN s_twenty AS b
+ON b.player_id = a.player_id
+GROUP BY a.age
+)
+SELECT *
+FROM rpt_eleven;
+SELECT *
+FROM rpt_one
+UNION ALL 
+SELECT *
+FROM rpt_two
+UNION ALL
+SELECT *
+FROM rpt_tbfee
+UNION ALL
+SELECT *
+FROM rpt_four
+UNION ALL 
+SELECT *
+FROM rpt_five
+UNION ALL
+SELECT *
+FROM rpt_six
+UNION ALL
+SELECT *
+FROM rpt_seven
+UNION ALL 
+SELECT *
+FROM rpt_eight
+UNION ALL
+SELECT *
+FROM rpt_nine
+UNION ALL
+SELECT *
+FROM rpt_ten
+UNION ALL 
+SELECT *
+FROM rpt_eleven
+UNION ALL
+SELECT *
+FROM rpt_twelve
+UNION ALL
+SELECT *
+FROM rpt_thirteen
+UNION ALL 
+SELECT *
+FROM rpt_fourteen
+UNION ALL
+SELECT *
+FROM rpt_fifteen
+UNION ALL
+SELECT *
+FROM rpt_sixteen
+UNION ALL 
+SELECT *
+FROM rpt_seventeen
+UNION ALL
+SELECT *
+FROM rpt_eighteen
+UNION ALL
+SELECT *
+FROM rpt_nineteen
+UNION ALL
+SELECT *
+FROM rpt_twenty;
