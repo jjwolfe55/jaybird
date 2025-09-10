@@ -6,107 +6,107 @@ WHERE seasons > 9 AND pa > 2999
 ,s_zero AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 20 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 20 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_one AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 21 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 21 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_two AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 22 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 22 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_t<xx>ee AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 23 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 23 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_four AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 24 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 24 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_five AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 25 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 25 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_six AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 26 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 26 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_seven AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 27 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 27 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_eight AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 28 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 28 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_nine AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 29 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 29 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_ten AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 30 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 30 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_eleven AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 31 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 31 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_twelve AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 32 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 32 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_thirteen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 33 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 33 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_fourteen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 34 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 34 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_fifteen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 35 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 35 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_sixteen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 36 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 36 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_seventeen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 37 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 37 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_eighteen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 38 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 38 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_nineteen AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 39 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 39 AND player_id IN (SELECT player_id FROM player_pool)
 )
 ,s_twenty AS (
 SELECT player_id, age, <xx>
 FROM season_batting
-WHERE <xx> > 300 AND age = 40 AND player_id IN (SELECT player_id FROM player_pool)
+WHERE pa > 300 AND age = 40 AND player_id IN (SELECT player_id FROM player_pool)
 )
 , rpt_one AS (
 SELECT b.age, COUNT(b.player_id), (SUM(b.<xx>) - SUM(a.<xx>))/ (SUM(a.<xx>)) AS <xx>_delta
