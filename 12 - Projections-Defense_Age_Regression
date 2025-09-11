@@ -308,3 +308,356 @@ FROM rpt_nineteen
 UNION ALL
 SELECT *
 FROM rpt_twenty;
+
+WITH player_pool AS (
+SELECT player_id
+FROM career_fielding_x_pos
+WHERE inn  > 1999
+AND seasons > 9
+)
+,s_zero AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 20 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_one AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 21 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_two AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 22 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_three AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 23 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_four AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 24 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_five AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 25 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_six AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 26 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_seven AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 27 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_eight AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 28 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_nine AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 29 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_ten AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 30 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_eleven AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 31 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_twelve AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 32 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_thirteen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 33 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_fourteen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 34 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_fifteen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 35 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_sixteen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 36 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_seventeen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 37 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_eighteen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 38 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_nineteen AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 39 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+,s_twenty AS (
+SELECT a.player_id, a.age, b.pos, a.<xx>
+FROM season_p_baserunning AS a
+INNER JOIN season_fielding_x_pos AS b
+ON a.player_id = b.player_id AND a.season_id = b.season_id
+WHERE b.inn > 100 AND b.pos = 'c' AND a.age = 40 AND a.player_id IN (SELECT player_id FROM player_pool)
+)
+, rpt_one AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_zero AS a
+INNER JOIN s_one AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_two AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_one AS a
+INNER JOIN s_two AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_three AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_two AS a
+INNER JOIN s_three AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_four AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_three AS a
+INNER JOIN s_four AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_five AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_four AS a
+INNER JOIN s_five AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_six AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_five AS a
+INNER JOIN s_six AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_seven AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_six AS a
+INNER JOIN s_seven AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_eight AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_seven AS a
+INNER JOIN s_eight AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_nine AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_eight AS a
+INNER JOIN s_nine AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_ten AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_nine AS a
+INNER JOIN s_ten AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_eleven AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_ten AS a
+INNER JOIN s_eleven AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_twelve AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_eleven AS a
+INNER JOIN s_twelve AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_thirteen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_twelve AS a
+INNER JOIN s_thirteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_fourteen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_thirteen AS a
+INNER JOIN s_fourteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_fifteen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_fourteen AS a
+INNER JOIN s_fifteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_sixteen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_fifteen AS a
+INNER JOIN s_sixteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_seventeen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_sixteen AS a
+INNER JOIN s_seventeen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_eighteen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_seventeen AS a
+INNER JOIN s_eighteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_nineteen AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_eighteen AS a
+INNER JOIN s_nineteen AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+, rpt_twenty AS (
+SELECT a.age, a.pos, COUNT(b.player_id), (SUM(b.<xx> ) - SUM(a.<xx> ))/ (SUM(a.<xx> )) AS <xx>_delta
+FROM s_nineteen AS a
+INNER JOIN s_twenty AS b
+ON b.player_id = a.player_id
+GROUP BY a.age, a.pos
+)
+SELECT *
+FROM rpt_one
+UNION ALL 
+SELECT *
+FROM rpt_two
+UNION ALL
+SELECT *
+FROM rpt_three
+UNION ALL
+SELECT *
+FROM rpt_four
+UNION ALL 
+SELECT *
+FROM rpt_five
+UNION ALL
+SELECT *
+FROM rpt_six
+UNION ALL
+SELECT *
+FROM rpt_seven
+UNION ALL 
+SELECT *
+FROM rpt_eight
+UNION ALL
+SELECT *
+FROM rpt_nine
+UNION ALL
+SELECT *
+FROM rpt_ten
+UNION ALL 
+SELECT *
+FROM rpt_eleven
+UNION ALL
+SELECT *
+FROM rpt_twelve
+UNION ALL
+SELECT *
+FROM rpt_thirteen
+UNION ALL 
+SELECT *
+FROM rpt_fourteen
+UNION ALL
+SELECT *
+FROM rpt_fifteen
+UNION ALL
+SELECT *
+FROM rpt_sixteen
+UNION ALL 
+SELECT *
+FROM rpt_seventeen
+UNION ALL
+SELECT *
+FROM rpt_eighteen
+UNION ALL
+SELECT *
+FROM rpt_nineteen
+UNION ALL
+SELECT *
+FROM rpt_twenty;
