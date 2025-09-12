@@ -1,0 +1,20 @@
+CREATE TABLE projection_age_regression_offense (
+age SMALLINT,
+player_count INT,
+pa DECIMAL(3,2) SIGNED,
+1b DECIMAL(3,2) SIGNED,
+2b DECIMAL(3,2) SIGNED,
+3b DECIMAL(3,2) SIGNED,
+hr DECIMAL(3,2) SIGNED,
+bb DECIMAL(3,2) SIGNED,
+so DECIMAL(3,2) SIGNED,
+sb DECIMAL(3,2) SIGNED,
+cs DECIMAL(3,2) SIGNED,
+PRIMARY KEY (age)
+);
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Research/Projections/Age_Regression/Offense/Delta_Offense_Age_Regression.csv"
+INTO TABLE projection_age_regression_offense
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '/n' 
+IGNORE 1 ROWS;
