@@ -1,0 +1,12 @@
+CREATE TABLE projection_age_regression_pitching (
+age SMALLINT,
+player_count INT,
+bf DECIMAL(3,2) SIGNED,
+1b DECIMAL(3,2) SIGNED,
+2b DECIMAL(3,2) SIGNED,
+3b DECIMAL(3,2) SIGNED,
+hr DECIMAL(3,2) SIGNED,
+bb DECIMAL(3,2) SIGNED,
+so DECIMAL(3,2) SIGNED,
+PRIMARY KEY (age)
+);
