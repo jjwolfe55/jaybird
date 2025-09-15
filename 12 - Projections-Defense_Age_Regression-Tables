@@ -1,0 +1,12 @@
+CREATE TABLE projection_age_regression_defense (
+age SMALLINT,
+pos VARCHAR (2),
+player_count INT,
+inn DECIMAL(3,2) SIGNED,
+a DECIMAL(3,2) SIGNED,
+po DECIMAL(3,2) SIGNED,
+e DECIMAL(3,2) SIGNED,
+sb DECIMAL(3,2) SIGNED,
+cs DECIMAL(3,2) SIGNED,
+PRIMARY KEY (age, pos)
+);
