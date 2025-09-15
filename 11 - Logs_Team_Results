@@ -1,0 +1,30 @@
+SELECT 
+'<xx>' AS team,
+rank() OVER (PARTITION BY season_id ORDER BY game_date ASC) AS game_num,
+game_type AS game_type,
+game_date AS game_date,
+start_time AS game_start,
+(CASE WHEN v_team_id = '<xx>' THEN 'Home' 
+WHEN h_team_id = '<xx>' THEN 'Away' 
+ELSE '' END) AS location,
+ballpark,
+precipitation,
+sky_condition,
+temp,
+wind_direction,
+wind_speed,
+attendance AS attendance,
+game_time AS game_duration,
+(CASE WHEN winning_team = '<xx>' THEN 'W' 
+WHEN winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
+(CASE WHEN h_team_id = '<xx>' THEN h_team_runs 
+WHEN v_team_id = '<xx>' THEN v_team_runs
+WHEN h_team_id = '' THEN h_team_runs
+ELSE '' END) AS runs,
+(CASE WHEN h_team_id != '<xx>' THEN h_team_runs 
+WHEN v_team_id != '<xx>' THEN v_team_runs
+WHEN h_team_id != '' THEN h_team_runs
+ELSE '' END) AS runs_against
+FROM lines_games
+WHERE (v_team_id = '<xx>' OR h_team_id LIKE '<xx>')
+ORDER BY game_date DESC
