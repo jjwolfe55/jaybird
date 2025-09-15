@@ -661,3 +661,9 @@ FROM rpt_nineteen
 UNION ALL
 SELECT *
 FROM rpt_twenty;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Research/Projections/Age_Regression/Defense/Delta_Defense_Age_Regression.csv"
+INTO TABLE projection_age_regression_defense
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
