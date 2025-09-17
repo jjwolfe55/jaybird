@@ -1,30 +1,48 @@
+WITH game_log AS (
 SELECT 
-'<xx>' AS team,
-rank() OVER (PARTITION BY season_id ORDER BY game_date ASC) AS game_num,
-game_type AS game_type,
-game_date AS game_date,
-start_time AS game_start,
-(CASE WHEN v_team_id = '<xx>' THEN 'Home' 
-WHEN h_team_id = '<xx>' THEN 'Away' 
-ELSE '' END) AS location,
+game_id,
+h_team_id AS team,
+season_id,
+game_type,
+game_date,
+start_time,
+"Home" AS location,
 ballpark,
 precipitation,
 sky_condition,
 temp,
 wind_direction,
 wind_speed,
-attendance AS attendance,
+attendance,
 game_time AS game_duration,
-(CASE WHEN winning_team = '<xx>' THEN 'W' 
+(CASE WHEN winning_team = h_team_id THEN 'W' 
 WHEN winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
-(CASE WHEN h_team_id = '<xx>' THEN h_team_runs 
-WHEN v_team_id = '<xx>' THEN v_team_runs
-WHEN h_team_id = '' THEN h_team_runs
-ELSE '' END) AS runs,
-(CASE WHEN h_team_id != '<xx>' THEN h_team_runs 
-WHEN v_team_id != '<xx>' THEN v_team_runs
-WHEN h_team_id != '' THEN h_team_runs
-ELSE '' END) AS runs_against
+h_team_runs AS runs,
+v_team_runs AS runs_against
 FROM lines_games
-WHERE (v_team_id = '<xx>' OR h_team_id LIKE '<xx>')
-ORDER BY game_date DESC
+UNION ALL
+SELECT 
+game_id,
+v_team_id AS team,
+season_id,
+game_type,
+game_date,
+start_time,
+"Away" AS location,
+ballpark,
+precipitation,
+sky_condition,
+temp,
+wind_direction,
+wind_speed,
+attendance,
+game_time AS game_duration,
+(CASE WHEN winning_team = v_team_id THEN 'W' 
+WHEN winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
+v_team_runs AS runs,
+h_team_runs AS runs_against
+FROM lines_games
+)
+SELECT *, rank() OVER (PARTITION BY team, season_id ORDER BY game_date ASC) AS game_num
+FROM game_log
+ORDER BY  team ASC, season_id DESC, game_date ASC;
