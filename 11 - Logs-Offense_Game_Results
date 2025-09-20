@@ -5,6 +5,7 @@ CONCAT(b.first_name,' ',b.last_name) AS player_name,
 a.team_id,
 substr(a.game_date,1,4) AS season_id,
 a.game_id,
+a.game_type,
 a.game_date,
 (CASE WHEN a.vis_or_home = 'h' THEN 'Home'
 ELSE 'Away' END) AS location,
@@ -36,4 +37,4 @@ AND a.b_pa > 0
 )
 SELECT *, rank() OVER (PARTITION BY player_id, team_id, season_id ORDER BY game_date ASC) AS game_num
 FROM offense_log
-ORDER BY player_id ASC, team_id ASC, season_id DESC, game_date ASC;
+ORDER BY season_id ASC, game_date ASC;
