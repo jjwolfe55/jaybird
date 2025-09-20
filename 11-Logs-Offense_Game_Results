@@ -1,0 +1,39 @@
+WITH offense_log AS (
+SELECT
+a.player_id,
+CONCAT(b.first_name,' ',b.last_name) AS player_name,
+a.team_id,
+substr(a.game_date,1,4) AS season_id,
+a.game_id,
+a.game_date,
+(CASE WHEN a.vis_or_home = 'h' THEN 'Home'
+ELSE 'Away' END) AS location,
+a.ballpark,
+(CASE WHEN a.win = 1 THEN 'W'
+WHEN a.tie = 1 THEN 'T'
+ELSE 'L'
+END) AS result,
+a.b_pa AS pa,
+a.b_ab AS ab,
+a.b_r AS r,
+a.b_h AS h,
+(a.b_h - (a.b_d+a.b_t+a.b_hr)) AS 1b,
+a.b_d AS 2b,
+a.b_t AS 3b,
+a.b_hr AS hr,
+a.b_bb AS bb,
+a.b_ibb AS ibb,
+a.b_so AS so,
+a.b_hbp AS hbp,
+a.b_rbi AS rbi,
+a.b_sh AS sh,
+a.b_sb AS sb
+FROM lines_batting AS a
+LEFT JOIN lines_rosters AS b
+ON a.player_id = b.player_id  AND a.team_id = b.team_id
+WHERE a.integrity = 'value'
+AND a.b_pa > 0
+)
+SELECT *, rank() OVER (PARTITION BY player_id, team_id, season_id ORDER BY game_date ASC) AS game_num
+FROM offense_log
+ORDER BY player_id ASC, team_id ASC, season_id DESC, game_date ASC;
