@@ -1,47 +1,53 @@
 WITH game_log AS (
 SELECT 
-game_id,
-h_team_id AS team,
-season_id,
-game_type,
-game_date,
-start_time,
+a.game_id,
+a.h_team_id AS team,
+b.nickname,
+a.season_id,
+a.game_type,
+a.game_date,
+a.start_time,
 "Home" AS location,
-ballpark,
-precipitation,
-sky_condition,
-temp,
-wind_direction,
-wind_speed,
-attendance,
-game_time AS game_duration,
-(CASE WHEN winning_team = h_team_id THEN 'W' 
-WHEN winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
-h_team_runs AS runs,
-v_team_runs AS runs_against
-FROM lines_games
+a.ballpark,
+a.precipitation,
+a.sky_condition,
+a.temp,
+a.wind_direction,
+a.wind_speed,
+a.attendance,
+a.game_time AS game_duration,
+(CASE WHEN a.winning_team = a.h_team_id THEN 'W' 
+WHEN a.winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
+a.h_team_runs AS runs,
+a.v_team_runs AS runs_against
+FROM lines_games AS a
+INNER JOIN lookup_team_history AS b
+ON a.h_team_id = b.team_id
 UNION ALL
 SELECT 
-game_id,
-v_team_id AS team,
-season_id,
-game_type,
-game_date,
-start_time,
+a.game_id,
+a.v_team_id AS team,
+b.nickname,
+a.season_id,
+a.game_type,
+a.game_date,
+a.start_time,
 "Away" AS location,
-ballpark,
-precipitation,
-sky_condition,
-temp,
-wind_direction,
-wind_speed,
-attendance,
-game_time AS game_duration,
-(CASE WHEN winning_team = v_team_id THEN 'W' 
-WHEN winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
-v_team_runs AS runs,
-h_team_runs AS runs_against
-FROM lines_games
+a.ballpark,
+a.precipitation,
+a.sky_condition,
+a.temp,
+a.wind_direction,
+a.wind_speed,
+a.attendance,
+a.game_time AS game_duration,
+(CASE WHEN a.winning_team = a.v_team_id THEN 'W' 
+WHEN a.winning_team  = '' THEN 'T' ELSE 'L' END) AS  result,
+a.v_team_runs AS runs,
+a.h_team_runs AS runs_against
+FROM lines_games AS a
+INNER JOIN lookup_team_history AS b
+ON a.v_team_id = b.team_id
 )
 SELECT *, rank() OVER (PARTITION BY team, season_id ORDER BY game_date ASC) AS game_num
 FROM game_log
