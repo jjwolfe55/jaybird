@@ -1,6 +1,6 @@
 *There are five standard tables that translate lines and lookup data into useable statistics.*
-     1. Standard_Standings
-     2. Standard_World_Series
-     3. Standard_Batting
-     4. Standard_Pitching
-     5. Standard_Fielding
+     1. Standard_Standings - Using Lines tables from retrosheet, parsed information of team win and loss record by season.
+     2. Standard_World_Series - Using lines tables from retrosheet, parsed infromation of world series teams and winners by season.
+     3. Standard_Batting - Using lines tables from retrosheet, parsed information of batter/baserunner (offense) statistics by season.
+     4. Standard_Pitching - Using lines tables from retrosheet, parsed information of pitcher statistics by season.
+     5. Standard_Fielding - Using lines tables from restrosheet, parsed infromation of fielder statistics by season.
