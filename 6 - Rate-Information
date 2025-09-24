@@ -1,6 +1,6 @@
 *There are three rate tables that use standard tables to provide rate statistics.*
-     1. Rate_Batting
-     2. Rate_c_Baserunning
-     3. Rate_Pitching
-     4. Rate_Fielding
-     5. Rate_p_Baserunning
+     1. Rate_Batting - Using Standard Batting, this table creates rates of various batting statistics by season.
+     2. Rate_c_Baserunning - Using Standard Batting, this table creates rates of various offensive baserunning statistics by season.
+     3. Rate_Pitching - Using Standard Pitching, this table creates rates of various pitching statistics by season.
+     4. Rate_Fielding - Using Standard Fielding, this table creates rates of various fielding statistics by season.
+     5. Rate_p_Baserunning - Using Standard Fielding, this table creates rates of various defensive baserunning statistics by season.
