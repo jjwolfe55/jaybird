@@ -5,4 +5,4 @@
   4. Lookup_Player_Bio - Retrosheet Upload of data for players, managers, and umpires.
   5. Lookup_Team_History - Retrosheet Upload of information regarding teams/franchises.
   6. Lookup_Ballparks - Retrosheet Upload of information regarding professional baseball playing fields.
-  6. Lookup_Run_Environment - An algorithmic data run using all the standard tables to create a weighted value for team adjustments based on playing condition outcomes. Similar to park factors.
+  7. Lookup_Run_Environment - An algorithmic data run using all the standard tables to create a weighted value for team adjustments based on playing condition outcomes. Similar to park factors.
