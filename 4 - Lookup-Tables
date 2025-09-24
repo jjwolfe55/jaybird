@@ -71,6 +71,19 @@ last_season SMALLINT,
 PRIMARY KEY (team_id)
 );
 
+CREATE TABLE lookup_ballparks (
+ballpark VARCHAR(7),
+ballpark_name VARCHAR(45),
+ballpark_aka_name VARCHAR(100),
+city CHAR(30),
+state CHAR(15),
+start_date VARCHAR(10),
+end_date VARCHAR(10),
+league CHAR(3),
+notes VARCHAR(100),
+PRIMARY KEY(ballpark)
+);
+
 CREATE TABLE lookup_run_environment (
 team_id CHAR(3),
 season_id SMALLINT,
