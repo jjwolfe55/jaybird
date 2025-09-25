@@ -17,16 +17,18 @@
   16. Standard_Pitching
   17. Standard_Fielding
   18. Rate_Batting
-  19. Rate_Pitching
-  20. Rate_Fielding
-  21. Lookup_Run_Environment (Updated Yearly)
-  22. mri_creating_batting
-  23. mri_creating_baserunning
-  24. mri_preventing_pitching
-  25. mri_preventing_baserunning
-  26. mri_preventing_fielding
-  27. mri_team_runs
-  28. mri_team_standings
-  29. projections_age_regression_offense
-  30. projections_age_regression_pitching
-  31. projections_age_regression_defense
+  19. Rate_C_Baserunning
+  20. Rate_Pitching
+  21. Rate_Fielding
+  22. Rate_P_Baserunning
+  23. Lookup_Run_Environment (Updated Yearly)
+  24. mri_creating_batting
+  25. mri_creating_baserunning
+  26. mri_preventing_pitching
+  27. mri_preventing_baserunning
+  28. mri_preventing_fielding
+  29. mri_team_runs
+  30. mri_team_standings
+  31. projections_age_regression_offense
+  32. projections_age_regression_pitching
+  33. projections_age_regression_defense
