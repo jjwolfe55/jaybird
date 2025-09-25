@@ -1,4 +1,4 @@
 *Utilizes CTE tables to run the data.*
 
-1. MRI_Creating_Batting
-2. MRI_Creating_Baserunning
+1. MRI_Creating_Batting - A diagnostic algorthim ecompassing season statistics, using linear weights and environment factors to account for player batting in the format of total runs (rc), runs above average (rra), wins above average (waa), and wins above a replacement level player (war).
+2. MRI_Creating_Baserunning - A diagnostic algorthim ecompassing season statistics, using linear weights and environment factors to account for player creating baserunning in the format of total runs (rc), runs above average (rra), wins above average (waa), and wins above a replacement level player (war).
