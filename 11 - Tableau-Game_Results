@@ -2,13 +2,15 @@ WITH game_log AS (
 SELECT 
 a.game_id,
 a.h_team_id AS team,
-b.nickname,
+b.nickname team_name,
+c.v_team_id AS opponent,
+e.nickname AS opponent_name,
 a.season_id,
 a.game_type,
 a.game_date,
 a.start_time,
 "Home" AS location,
-a.ballpark,
+d.ballpark_name AS ballpark,
 a.precipitation,
 a.sky_condition,
 a.temp,
@@ -22,18 +24,26 @@ a.h_team_runs AS runs,
 a.v_team_runs AS runs_against
 FROM lines_games AS a
 INNER JOIN lookup_team_history AS b
-ON a.h_team_id = b.team_id
+ON a.h_team_id = b.team_id 
+INNER JOIN lines_games AS c
+ON a.game_id = c.game_id
+LEFT JOIN lookup_ballparks AS d
+ON a.ballpark = d.ballpark
+INNER JOIN lookup_team_history AS e
+ON a.v_team_id = e.team_id
 UNION ALL
 SELECT 
 a.game_id,
 a.v_team_id AS team,
-b.nickname,
+b.nickname team_name,
+c.h_team_id AS opponent,
+e.nickname AS opponent_name,
 a.season_id,
 a.game_type,
 a.game_date,
 a.start_time,
 "Away" AS location,
-a.ballpark,
+d.ballpark_name AS ballpark,
 a.precipitation,
 a.sky_condition,
 a.temp,
@@ -47,7 +57,13 @@ a.v_team_runs AS runs,
 a.h_team_runs AS runs_against
 FROM lines_games AS a
 INNER JOIN lookup_team_history AS b
-ON a.v_team_id = b.team_id
+ON a.v_team_id = b.team_id 
+INNER JOIN lines_games AS c
+ON a.game_id = c.game_id
+LEFT JOIN lookup_ballparks AS d
+ON a.ballpark = d.ballpark
+INNER JOIN lookup_team_history AS e
+ON a.h_team_id = e.team_id
 )
 SELECT *, rank() OVER (PARTITION BY team, season_id ORDER BY game_date ASC) AS game_num
 FROM game_log
