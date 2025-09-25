@@ -32,6 +32,9 @@ DELETE
 FROM lookup_team_history;
 
 DELETE 
+FROM lookup_ballparks;
+
+DELETE 
 FROM standard_standings;
 
 DELETE 
@@ -53,10 +56,16 @@ DELETE
 FROM rate_batting;
 
 DELETE 
+FROM rate_c_batting;
+
+DELETE 
 FROM rate_pitching;
 
 DELETE 
 FROM rate_fielding;
+
+DELETE
+FROM rate_p_baserunning;
 
 DELETE 
 FROM mri_creating_batting;
@@ -72,3 +81,18 @@ FROM mri_preventing_baserunning;
 
 DELETE 
 FROM mri_preventing_fielding;
+
+DELETE 
+FROM mri_team_runs;
+
+DELETE
+FROM mri_team_standings;
+
+DELETE 
+FROM projections_age_regression_offense;
+
+DELETE 
+FROM projections_age_regression_pitching;
+
+DELETE
+FROM projections_age_regression_defense;
