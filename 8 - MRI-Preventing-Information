@@ -1,5 +1,5 @@
 *Utilizes CTE tables to run the data. Same CTE tables for all Oreventing Tables "Data Run" except the insert/Select statement changes.
 
-1. MRI_Preventing_Pitching
+1. MRI_Preventing_Pitching - A diagnostic algorthim ecompassing season statistics, using linear weights and environment factors to account for player pitching in the format of total runs (rc), runs above average (rra), wins above average (waa), and wins above a replacement level player (war).
 2. MRI_Preventing_Fielding - A diagnostic algorthim ecompassing season statistics, using linear weights and environment factors to account for player fielding in the format of total runs (rc), runs above average (rra), wins above average (waa), and wins above a replacement level player (war).
 3. MRI_Preventing_Baserunning - A diagnostic algorthim ecompassing season statistics, using linear weights and environment factors to account for player preventing baserunning in the format of total runs (rc), runs above average (rra), wins above average (waa), and wins above a replacement level player (war).
