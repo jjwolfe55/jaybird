@@ -1,4 +1,4 @@
 *Data is utlized from the MRI Creating and Preventing tables to information about the teams.
 
-1. MRI_Team_Runs
+1. MRI_Team_Runs - Using the diagnostic algorthim from players, all results for teams are bucketed into MRI Runs for and MRI Runs against.
 2. MRI_Team_Standings - Using the diagnostic algorthim calculation of team runs from MRI_Team_Runs, results are adjusted into wins and standings are created based on MRI run differentials.
