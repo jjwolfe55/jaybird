@@ -63,7 +63,6 @@ PRIMARY KEY (player_id)
 
 CREATE TABLE lookup_team_history (
 team_id VARCHAR(3),
-league_id VARCHAR(15),
 city VARCHAR(30),
 nickname VARCHAR(30),
 first_season SMALLINT,
