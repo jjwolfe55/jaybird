@@ -32,11 +32,36 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/teams.csv"
-INTO TABLE lookup_team_history
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 0 ROWS;
+INSERT INTO lookup_team_history (
+franchise_id,
+team_id,
+league_id,
+division_id,
+location,
+nickname,
+alt_nickname,
+first_season,
+last_season,
+city,
+state
+)
+SELECT 
+franchise_id,
+team_id,
+league_id,
+division_id,
+location,
+nickname,
+alt_nickname,
+SUBSTRING_INDEX(first_season,"/",-1) AS first_season,
+SUBSTRING_INDEX(last_season,"/",-1) AS last_season,
+city,
+state
+FROM lines_team_history;
+
+UPDATE lookup_team_history
+SET last_season = 2024
+WHERE last_season = 0;
 
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/ballparks0.csv"
 INTO TABLE lookup_ballparks
