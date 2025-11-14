@@ -33,3 +33,9 @@ INTO TABLE lines_fielding
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/teams.csv"
+INTO TABLE lines_team_history
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 0 ROWS;
