@@ -62,12 +62,18 @@ PRIMARY KEY (player_id)
 );
 
 CREATE TABLE lookup_team_history (
+franchise_id VARCHAR(3), 
 team_id VARCHAR(3),
+league_id VARCHAR(4),
+division_id VARCHAR(3),
+location VARCHAR(30),
+nickname VARCHAR(45),
+alt_nickname VARCHAR(45),
+first_season VARCHAR(10),
+last_season VARCHAR(10),
 city VARCHAR(30),
-nickname VARCHAR(30),
-first_season SMALLINT,
-last_season SMALLINT,
-PRIMARY KEY (team_id)
+state VARCHAR(3),
+PRIMARY KEY (franchise_id,team_id,league_id,division_id,location,nickname,alt_nickname,first_season,last_season)
 );
 
 CREATE TABLE lookup_ballparks (
