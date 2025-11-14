@@ -1,3 +1,4 @@
+CREATE VIEW season_standings AS 
 SELECT 
 c.franchise_id,
 a.team_id,
@@ -28,4 +29,4 @@ LEFT JOIN mri_team_standings AS b
 ON a.team_id = b.team_id AND a.season_id = b.season_id
 LEFT JOIN lookup_team_history AS c
 ON a.team_id = c.team_id AND 
-a.season_id BETWEEN first_season AND c.last_season;
+a.season_id BETWEEN c.first_season AND c.last_season;
