@@ -308,3 +308,18 @@ box_score CHAR(2),
 play_by_play CHAR(1),
 PRIMARY KEY (game_id,player_id,team_id,integrity)
 );
+
+CREATE TABLE lines_team_history (
+franchise_id VARCHAR(3), 
+team_id VARCHAR(3),
+league_id VARCHAR(4),
+division_id VARCHAR(3),
+location VARCHAR(30),
+nickname VARCHAR(45),
+alt_nickname VARCHAR(45),
+first_season VARCHAR(10),
+last_season VARCHAR(10),
+city VARCHAR(30),
+state VARCHAR(3),
+PRIMARY KEY (franchise_id,team_id,league_id,division_id,location,nickname,alt_nickname,first_season,last_season)
+);
