@@ -32,11 +32,11 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/teams0.csv"
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/teams.csv"
 INTO TABLE lookup_team_history
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
+IGNORE 0 ROWS;
 
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/ballparks0.csv"
 INTO TABLE lookup_ballparks
