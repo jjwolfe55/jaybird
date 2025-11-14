@@ -5,3 +5,4 @@
   4. Lines_Batting - batting.csv - batting statistics by player by game
   5. Lines_Pitching - pitching.csv - pitching statistics by player by game. NOTE THAT 1903-1911 season Earned Runs are Estimated Values (0.80 * RA)
   6. Lines_Fielding - fielding.csv - fielding statistics by player by position by game
+  7. Lines_Team_History - teams.csv - contains franchise, team, league and division association historically
