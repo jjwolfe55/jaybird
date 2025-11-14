@@ -3,6 +3,6 @@
   2. Lookup_Age_Date - manually updated information regarding age cutoff dates by season as a determinate for player seasonal age.
   3. Lookup_Linear_Weights - manually updated information regarding calculation of linear weighted values used for MRI.
   4. Lookup_Player_Bio - Retrosheet Upload of data for players, managers, and umpires.
-  5. Lookup_Team_History - Retrosheet Upload of information regarding teams/franchises.
+  5. Lookup_Team_History - Updated information from the lines_team_history file that is processed in from Retrosheet.
   6. Lookup_Ballparks - Retrosheet Upload of information regarding professional baseball playing fields.
   7. Lookup_Run_Environment - An algorithmic data run using all the standard tables to create a weighted value for team adjustments based on playing condition outcomes. Similar to park factors.
