@@ -361,7 +361,12 @@ FROM mri_preventing_baserunning
 GROUP BY team_id, season_id )
  
 , rpt AS ( 
-SELECT a.team_id,
+SELECT 
+ g.franchise_id,
+ a.team_id,
+ g.nickname,
+ g.league_id,
+ g.division_id,
  a.season_id,
  b.mri_war AS batting_war,
  c.mri_c_baserunning_war AS c_baserunning_war,
@@ -383,7 +388,10 @@ SELECT a.team_id,
  LEFT JOIN fielding_war AS e 
  ON a.team_id = e.team_id AND a.season_id = e.season_id 
  LEFT JOIN p_baserunning_war AS f 
- ON a.team_id = f.team_id AND a.season_id = f.season_id) 
+ ON a.team_id = f.team_id AND a.season_id = f.season_id
+ LEFT JOIN lookup_team_history AS g
+ ON a.team_id = g.team_id AND 
+ a.season_id BETWEEN g.first_season AND g.last_season)
  
   SELECT * 
   FROM rpt 
