@@ -255,7 +255,12 @@ ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.seaso
 GROUP BY a.player_id,a.team_id,a.d_pos;
 
 CREATE VIEW season_team_fielding AS 
-SELECT a.team_id,
+SELECT 
+ d.franchise_id,
+ a.team_id,
+ d.nickname,
+ d.league_id,
+ d.division_id,
  a.season_id,
  COUNT(a.player_id) AS fielders,
  ROUND(AVG(a.age),1) AS age,
@@ -281,6 +286,9 @@ INNER JOIN rate_fielding AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
 LEFT JOIN mri_preventing_fielding AS c
 ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id AND a.d_pos = c.d_pos
+LEFT JOIN lookup_team_history AS d
+ON a.team_id = d.team_id AND 
+a.season_id BETWEEN d.first_season AND d.last_season
 GROUP BY a.team_id,a.season_id;
 
 CREATE VIEW season_team_fielding_x_pos AS 
