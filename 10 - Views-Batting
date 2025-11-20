@@ -196,7 +196,7 @@ AND a.opponent IN ("ANA",
 "WSN")
 )
 
-CREATE VIEW game_batting_active AS (
+CREATE VIEW game_batting_x_active AS (
 WITH player_list AS (
 SELECT 
 a.player_id 
