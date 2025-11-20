@@ -1,4 +1,4 @@
-CREATE VIEW game_batting AS (
+CREATE VIEW game_batting AS 
 SELECT 
 a.player_id AS player_id,
 CONCAT(b.first_name,' ',b.last_name) AS player_name,
@@ -194,9 +194,9 @@ AND a.opponent IN ("ANA",
 "WS2",
 "WS8",
 "WSN")
-)
 
-CREATE VIEW game_batting_x_active AS (
+
+CREATE VIEW game_batting_x_active AS 
 WITH player_list AS (
 SELECT 
 a.player_id 
@@ -400,7 +400,7 @@ AND a.opponent IN ("ANA",
 "WS2",
 "WS8",
 "WSN")
-)
+
 
 CREATE VIEW season_batting AS
 SELECT a.player_id, 
