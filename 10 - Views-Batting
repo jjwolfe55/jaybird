@@ -33,8 +33,6 @@ a.b_hbp AS hbp,
 a.b_bb AS bb,
 a.b_ibb AS ibb,
 a.b_so AS so,
-a.b_sb AS sb,
-a.b_cs AS cs,
 a.b_ci AS ci,
 a.b_roe AS roe
 FROM lines_batting AS a
@@ -193,7 +191,7 @@ AND a.opponent IN ("ANA",
 "WS1",
 "WS2",
 "WS8",
-"WSN")
+"WSN");
 
 
 CREATE VIEW game_batting_x_active AS 
@@ -237,8 +235,6 @@ a.b_hbp AS hbp,
 a.b_bb AS bb,
 a.b_ibb AS ibb,
 a.b_so AS so,
-a.b_sb AS sb,
-a.b_cs AS cs,
 a.b_ci AS ci,
 a.b_roe AS roe
 FROM lines_batting AS a
