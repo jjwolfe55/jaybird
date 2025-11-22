@@ -248,7 +248,7 @@ opponent IN (
 "WSN")
 ORDER BY  team ASC, season_id DESC, game_date ASC;
 
-CREATE VIEW team_standings_x_season AS 
+CREATE VIEW team_standings AS 
 SELECT 
 c.franchise_id,
 a.team_id,
