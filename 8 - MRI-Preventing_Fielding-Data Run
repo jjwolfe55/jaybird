@@ -394,4 +394,5 @@ ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.seaso
 INNER JOIN mri_preventing_fielding_wins AS c
 ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id AND a.d_pos = c.d_pos
 INNER JOIN mri_preventing_fielding_war AS d
-ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id AND a.d_pos = d.d_pos; 
+ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id AND a.d_pos = d.d_pos
+WHERE a.season_id BETWEEN <xx> AND <yy>;
