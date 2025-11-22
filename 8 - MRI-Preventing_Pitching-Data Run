@@ -393,4 +393,4 @@ INNER JOIN mri_preventing_pitching_wins AS c
 ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
 INNER JOIN mri_preventing_pitching_war AS d
 ON a.player_id = d.player_id AND a.team_id = d.team_id AND a.season_id = d.season_id
-;
+WHERE a.season_id BETWEEN <xx> AND <yy>;
