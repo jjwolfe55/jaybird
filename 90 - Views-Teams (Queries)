@@ -280,3 +280,53 @@ ON a.team_id = b.team_id AND a.season_id = b.season_id
 LEFT JOIN lookup_team_history AS c
 ON a.team_id = c.team_id AND 
 a.season_id BETWEEN c.first_season AND c.last_season;
+
+CREATE VIEW team_batting_x_season AS
+SELECT 
+d.franchise_id,
+a.team_id,
+d.nickname,
+d.league_id,
+d.division_id,
+a.season_id,
+COUNT(a.player_id) AS batters,
+ROUND(AVG(a.age),1) AS age,
+SUM(a.b_g) AS g,
+SUM(a.b_pa) AS pa,
+SUM(a.b_ab) AS ab,
+SUM(a.b_r) AS r,
+SUM(a.b_h) AS h,
+SUM(a.b_s) AS 1b,
+SUM(a.b_d) AS 2b,
+SUM(a.b_t) AS 3b,
+SUM(a.b_hr) AS hr,
+SUM(a.b_rbi) AS rbi,
+SUM(a.b_sh) AS sh,
+SUM(a.b_sf) AS sf,
+SUM(a.b_hbp) AS hbp,
+SUM(a.b_bb) AS bb,
+SUM(a.b_ibb) AS ibb,
+SUM(a.b_so) AS so,
+SUM(a.b_gdp) AS gdp,
+SUM(a.b_ci) AS ci,
+SUM(a.b_roe) AS roe,
+ROUND((CASE WHEN SUM(a.b_ab) = 0 THEN NULL ELSE COALESCE((SUM(a.b_h))/(NULLIF(SUM(a.b_ab),0)),0) END),3) AS avg,
+ROUND(((SUM(a.b_h)+SUM(a.b_bb)+SUM(a.b_hbp))/((SUM(a.b_ab)+SUM(a.b_bb)+SUM(a.b_hbp)+SUM(a.b_sf)))),3) AS obp,
+ROUND(((SUM(a.b_s)+SUM(a.b_d)+SUM(a.b_d)+SUM(a.b_t)+SUM(a.b_t)+SUM(a.b_t)+SUM(a.b_hr)+SUM(a.b_hr)+SUM(a.b_hr)+SUM(a.b_hr))/SUM(a.b_ab)),3) AS slg,
+ROUND(((SUM(a.b_h)+SUM(a.b_bb)+SUM(a.b_hbp))/((SUM(a.b_ab)+SUM(a.b_bb)+SUM(a.b_hbp)+SUM(a.b_sf)))) + ((SUM(a.b_s)+SUM(a.b_d)+SUM(a.b_d)+SUM(a.b_t)+SUM(a.b_t)+SUM(a.b_t)+SUM(a.b_hr)+SUM(a.b_hr)+SUM(a.b_hr)+SUM(a.b_hr))/SUM(a.b_ab)),3) AS ops,
+ROUND(((SUM(a.b_s)+SUM(a.b_d)+SUM(a.b_d)+SUM(a.b_t)+SUM(a.b_t)+SUM(a.b_t)+SUM(a.b_hr)+SUM(a.b_hr)+SUM(a.b_hr)+SUM(a.b_hr))/SUM(a.b_ab)) - (CASE WHEN SUM(a.b_ab) = 0 THEN NULL ELSE COALESCE((SUM(a.b_h))/(NULLIF(SUM(a.b_ab),0)),0) END),3)  AS iso,
+ROUND(((SUM(a.b_bb)+SUM(a.b_ibb))/SUM(a.b_pa)),2) AS bb_rate,
+ROUND((SUM(a.b_so)/SUM(a.b_pa)),2) AS so_rate,
+SUM(c.mri_batting_rc) AS mri_rc,
+SUM(c.mri_batting_raa) AS mri_raa,
+SUM(c.mri_batting_waa) AS mri_waa,
+SUM(c.mri_batting_war) AS mri_war
+FROM standard_batting AS a
+INNER JOIN rate_batting AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+LEFT JOIN mri_creating_batting AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+LEFT JOIN lookup_team_history AS d
+ON a.team_id = d.team_id AND 
+a.season_id BETWEEN d.first_season AND d.last_season
+GROUP BY a.team_id,a.season_id;
