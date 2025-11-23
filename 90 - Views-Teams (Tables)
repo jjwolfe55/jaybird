@@ -6,3 +6,4 @@
 6. Team_Defense_Fielding - This is fielding stats for each team broken down by season.
 7. Team_Defense_Fielding_x_Pos - This is fielding stats for each team broken down by position and season.
 8. Team_Defense_Baserunning - This is preventing baserunning stats for each team broken down by season.
+9. Team_Results_Total_WAA - This is the breakdown of WAA (wins above average) for each game part by season.
