@@ -1,4 +1,5 @@
 1. Team_Results_Games - This is game by game data of every Major League game played from 1901-Present.
 2. Team_Results_Standings - This is win/loss records for each team broken down by season.
 3. Team_Offense_Batting - This is batting stats for each team broken down by season.
-4. Team_Offense_Baserunning- This is baserunning stats for each team broken down by season.
+4. Team_Offense_Baserunning - This is baserunning stats for each team broken down by season.
+5. Team_Defense_Pitching - This is pitching stats for each team broken down by season.
