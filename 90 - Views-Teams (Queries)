@@ -246,7 +246,7 @@ opponent IN (
 "WS2",
 "WS8",
 "WSN")
-ORDER BY  team ASC, season DESC, game_date ASC;
+ORDER BY  franchise ASC, season DESC, game_date ASC;
 
 CREATE VIEW team_results_standings AS 
 SELECT 
