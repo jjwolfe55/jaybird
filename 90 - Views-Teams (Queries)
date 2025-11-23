@@ -279,7 +279,8 @@ LEFT JOIN mri_team_standings AS b
 ON a.team_id = b.team_id AND a.season_id = b.season_id
 LEFT JOIN lookup_team_history AS c
 ON a.team_id = c.team_id AND 
-a.season_id BETWEEN c.first_season AND c.last_season;
+a.season_id BETWEEN c.first_season AND c.last_season
+ORDER BY season DESC, w_pct DESC;
 
 CREATE VIEW team_offense_batting AS
 SELECT 
