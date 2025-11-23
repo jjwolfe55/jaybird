@@ -447,8 +447,7 @@ SELECT
  ROUND((((SUM(a.d_a))+(SUM(a.d_po))+(SUM(a.d_e)))/(SUM(a.d_inn))),3) AS mri_range,
  SUM(c.mri_fielding_rc) AS mri_rc,
  SUM(c.mri_fielding_raa) AS mri_raa,
- SUM(c.mri_fielding_waa) AS mri_waa,
- SUM(c.mri_fielding_war) AS mri_war
+ SUM(c.mri_fielding_waa) AS mri_waa
 FROM standard_fielding AS a
 INNER JOIN rate_fielding AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
@@ -460,3 +459,41 @@ a.season_id BETWEEN d.first_season AND d.last_season
 INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id;
+
+CREATE VIEW team_defense_fielding_x_pos AS 
+SELECT 
+ d.franchise_id AS franchise,
+ a.team_id AS team,
+ d.nickname AS team_nickname,
+ d.league_id AS league,
+ d.division_id AS division,
+ a.season_id AS season,
+ COUNT(a.player_id) AS fielders,
+ ROUND(AVG(a.age),1) AS age,
+ a.d_pos AS pos,
+ e.g AS g,
+ SUM(a.d_inn) AS inn,
+ SUM(a.d_po) AS po,
+ SUM(a.d_a) AS a,
+ SUM(a.d_e) AS e,
+ SUM(a.d_dp) AS dp,
+ SUM(a.d_tp) AS tp,
+ SUM(a.d_pb) AS pb,
+ SUM(a.d_wp) AS wp,
+ ROUND(((SUM(a.d_po)+SUM(a.d_a))/(SUM(a.d_po)+SUM(a.d_a)+SUM(a.d_e))),3) AS f_pct,
+ ROUND(((SUM(a.d_po)+SUM(a.d_a))/SUM(a.d_inn)),2) AS play_pct,
+ ROUND((((SUM(a.d_a))+(SUM(a.d_po))+(SUM(a.d_e)))/(SUM(a.d_inn))),3) AS mri_range,
+ SUM(c.mri_fielding_rc) AS mri_rc,
+ SUM(c.mri_fielding_raa) AS mri_raa,
+ SUM(c.mri_fielding_waa) AS mri_waa
+FROM standard_fielding AS a
+INNER JOIN rate_fielding AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id AND a.d_pos = b.d_pos
+LEFT JOIN mri_preventing_fielding AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id AND a.d_pos = c.d_pos
+LEFT JOIN lookup_team_history AS d
+ON a.team_id = d.team_id AND 
+a.season_id BETWEEN d.first_season AND d.last_season
+INNER JOIN standard_standings AS e
+ON a.team_id = e.team_id AND a.season_id = e.season_id
+GROUP BY a.team_id,a.season_id,a.d_pos;
