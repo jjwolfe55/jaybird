@@ -319,8 +319,7 @@ ROUND(((SUM(a.b_bb)+SUM(a.b_ibb))/SUM(a.b_pa)),2) AS bb_rate,
 ROUND((SUM(a.b_so)/SUM(a.b_pa)),2) AS so_rate,
 SUM(c.mri_batting_rc) AS mri_rc,
 SUM(c.mri_batting_raa) AS mri_raa,
-SUM(c.mri_batting_waa) AS mri_waa,
-SUM(c.mri_batting_war) AS mri_war
+SUM(c.mri_batting_waa) AS mri_waa
 FROM standard_batting AS a
 INNER JOIN rate_batting AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
@@ -349,8 +348,7 @@ SUM(a.b_cs) AS cs,
 ROUND(SUM(a.b_sb)/(SUM(b_sb)+SUM(b_cs)),2) AS sb_pct,
 SUM(c.mri_c_baserunning_rc) AS mri_c_baserunning_rc,
 SUM(c.mri_c_baserunning_raa) AS mri_c_baserunning_raa,
-SUM(c.mri_c_baserunning_waa) AS mri_c_baserunning_waa,
-SUM(c.mri_c_baserunning_war) AS mri_c_baserunning_war
+SUM(c.mri_c_baserunning_waa) AS mri_c_baserunning_waa
 FROM standard_batting AS a
 INNER JOIN rate_c_baserunning AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
@@ -409,8 +407,7 @@ ROUND(((SUM(a.p_bb)+SUM(a.p_ibb))/SUM(a.p_bf)),2) AS bb_rate,
 ROUND((SUM(a.p_so)/SUM(a.p_bf)),2) AS so_rate,
 SUM(c.mri_pitching_rc) AS mri_rc,
 SUM(c.mri_pitching_raa) AS mri_raa,
-SUM(c.mri_pitching_waa) AS mri_waa,
-SUM(c.mri_pitching_war) AS mri_war
+SUM(c.mri_pitching_waa) AS mri_waa
 FROM standard_pitching AS a
 INNER JOIN rate_pitching AS b
 ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
