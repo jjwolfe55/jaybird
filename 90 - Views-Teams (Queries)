@@ -331,7 +331,8 @@ ON a.team_id = d.team_id AND
 a.season_id BETWEEN d.first_season AND d.last_season
 INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
-GROUP BY a.team_id,a.season_id;
+GROUP BY a.team_id,a.season_id
+ORDER BY mri_waa DESC;
 
 CREATE VIEW team_offense_baserunning AS
 SELECT 
@@ -362,7 +363,8 @@ INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY 
 a.team_id,
-a.season_id;
+a.season_id
+ORDER BY mri_c_baserunning_waa DESC;
 
 CREATE VIEW team_defense_pitching AS
 SELECT 
@@ -419,7 +421,8 @@ ON a.team_id = d.team_id AND
 a.season_id BETWEEN d.first_season AND d.last_season
 INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
-GROUP BY a.team_id,a.season_id;
+GROUP BY a.team_id,a.season_id
+ORDER BY mri_waa DESC;
 
 CREATE VIEW team_defense_fielding AS
 SELECT 
@@ -456,7 +459,8 @@ ON a.team_id = d.team_id AND
 a.season_id BETWEEN d.first_season AND d.last_season
 INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
-GROUP BY a.team_id,a.season_id;
+GROUP BY a.team_id,a.season_id
+ORDER BY mri_waa DESC;
 
 CREATE VIEW team_defense_fielding_x_pos AS 
 SELECT 
@@ -494,7 +498,8 @@ ON a.team_id = d.team_id AND
 a.season_id BETWEEN d.first_season AND d.last_season
 INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
-GROUP BY a.team_id,a.season_id,a.d_pos;
+GROUP BY a.team_id,a.season_id,a.d_pos
+ORDER BY mri_waa DESC;
 
 CREATE VIEW team_defense_baserunning AS 
 SELECT 
@@ -525,7 +530,8 @@ INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY 
 a.team_id,
-a.season_id;
+a.season_id
+ORDER BY mri_p_baserunning_waa DESC;
 
 CREATE VIEW team_results_total_waa AS
 WITH batters AS ( 
