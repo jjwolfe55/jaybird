@@ -16,6 +16,9 @@ FROM lines_pitching;
 DELETE 
 FROM lines_fielding;
 
+DELETE 
+FROM lines_team_history;
+
 DELETE
 FROM lookup_fielding_positions;
 
