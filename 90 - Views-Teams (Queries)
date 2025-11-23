@@ -1,4 +1,4 @@
-CREATE VIEW team_game_results AS 
+CREATE VIEW team_results_games AS 
 WITH per_game_mri AS (
 SELECT 
 a.team_id AS team_id,
@@ -13,15 +13,15 @@ SELECT
 a.game_id,
 b.franchise_id AS franchise,
 a.h_team_id AS team,
-b.nickname  AS team_name,
+b.nickname  AS team_nickname,
 b.league_id AS league,
 b.division_id AS division,
 e.franchise_id AS opponent_franchise,
 c.v_team_id AS opponent,
-e.nickname AS opponent_name,
+e.nickname AS opponent_nickname,
 e.league_id AS opponent_league,
 e.division_id AS opponent_division,
-a.season_id,
+a.season_id AS season,
 a.game_type,
 a.game_date,
 a.start_time,
@@ -59,15 +59,15 @@ SELECT
 a.game_id,
 b.franchise_id AS franchise,
 a.v_team_id AS team,
-b.nickname  AS team_name,
+b.nickname  AS team_nickname,
 b.league_id AS league,
 b.division_id AS division,
 e.franchise_id AS opponent_franchise,
 c.h_team_id AS opponent,
-e.nickname AS opponent_name,
+e.nickname AS opponent_nickname,
 e.league_id AS opponent_league,
 e.division_id AS opponent_division,
-a.season_id,
+a.season_id AS season,
 a.game_type,
 a.game_date,
 a.start_time,
@@ -101,7 +101,7 @@ AND a.season_id BETWEEN e.first_season AND e.last_season
 LEFT JOIN per_game_mri AS m
 ON a.v_team_id = m.team_id AND a.season_id = m.season_id
 )
-SELECT *, rank() OVER (PARTITION BY team, season_id ORDER BY game_date ASC) AS game_num
+SELECT *, rank() OVER (PARTITION BY team, season ORDER BY game_date ASC) AS game_num
 FROM game_log
 WHERE  team IN (
 "ANA",
@@ -246,16 +246,16 @@ opponent IN (
 "WS2",
 "WS8",
 "WSN")
-ORDER BY  team ASC, season_id DESC, game_date ASC;
+ORDER BY  team ASC, season DESC, game_date ASC;
 
-CREATE VIEW team_standings AS 
+CREATE VIEW team_results_standings AS 
 SELECT 
-c.franchise_id,
-a.team_id,
-c.nickname,
-c.league_id,
-c.division_id,
-a.season_id,
+c.franchise_id AS franchise,
+a.team_id AS team,
+c.nickname AS team_nickname,
+c.league_id AS league,
+c.division_id AS division, 
+a.season_id AS season,
 a.g,
 a.w,
 a.l,
@@ -283,15 +283,15 @@ a.season_id BETWEEN c.first_season AND c.last_season;
 
 CREATE VIEW team_offense_batting AS
 SELECT 
-d.franchise_id,
-a.team_id,
-d.nickname,
-d.league_id,
-d.division_id,
-a.season_id,
+d.franchise_id AS franchise,
+a.team_id AS team,
+d.nickname AS team_nickname,
+d.league_id AS league,
+d.division_id AS division,
+a.season_id AS season,
 COUNT(a.player_id) AS batters,
 ROUND(AVG(a.age),1) AS age,
-SUM(a.b_g) AS g,
+e.g AS g,
 SUM(a.b_pa) AS pa,
 SUM(a.b_ab) AS ab,
 SUM(a.b_r) AS r,
@@ -329,18 +329,21 @@ ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.seaso
 LEFT JOIN lookup_team_history AS d
 ON a.team_id = d.team_id AND 
 a.season_id BETWEEN d.first_season AND d.last_season
+INNER JOIN standard_standings AS e
+ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id;
 
 CREATE VIEW team_offense_baserunning AS
 SELECT 
-d.franchise_id,
-a.team_id,
-d.nickname,
-d.league_id,
-d.division_id,
-a.season_id,
+d.franchise_id AS franchise,
+a.team_id AS team,
+d.nickname AS team_nickname,
+d.league_id AS league,
+d.division_id AS division,
+a.season_id AS season,
 COUNT(a.player_id) AS baserunners,
 ROUND(AVG(a.age),1) AS age,
+e.g AS g,
 SUM(a.b_sb) AS sb,
 SUM(a.b_cs) AS cs,
 ROUND(SUM(a.b_sb)/(SUM(b_sb)+SUM(b_cs)),2) AS sb_pct,
@@ -356,6 +359,8 @@ ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.seaso
 LEFT JOIN lookup_team_history AS d
 ON a.team_id = d.team_id AND 
 a.season_id BETWEEN d.first_season AND d.last_season
+INNER JOIN standard_standings AS e
+ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY 
 a.team_id,
 a.season_id;
