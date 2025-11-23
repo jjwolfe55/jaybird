@@ -494,3 +494,34 @@ a.season_id BETWEEN d.first_season AND d.last_season
 INNER JOIN standard_standings AS e
 ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id,a.d_pos;
+
+CREATE VIEW team_defense_baserunning AS 
+SELECT 
+d.franchise_id AS franchise,
+a.team_id AS team,
+d.nickname AS team_nickname,
+d.league_id AS league,
+d.division_id AS division,
+a.season_id AS season,
+COUNT(a.player_id) AS fielders,
+ROUND(AVG(a.age),1) AS age,
+e.g AS g,
+SUM(a.d_sb) AS sb,
+SUM(a.d_cs) AS cs,
+ROUND(SUM(a.d_sb)/(SUM(d_sb)+SUM(d_cs)),2) AS sb_pct,
+SUM(c.mri_p_baserunning_rc) AS mri_p_baserunning_rc,
+SUM(c.mri_p_baserunning_raa) AS mri_p_baserunning_raa,
+SUM(c.mri_p_baserunning_waa) AS mri_p_baserunning_waa
+FROM standard_fielding AS a
+INNER JOIN rate_p_baserunning AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+LEFT JOIN mri_preventing_baserunning AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+LEFT JOIN lookup_team_history AS d
+ON a.team_id = d.team_id AND 
+a.season_id BETWEEN d.first_season AND d.last_season
+INNER JOIN standard_standings AS e
+ON a.team_id = e.team_id AND a.season_id = e.season_id
+GROUP BY 
+a.team_id,
+a.season_id;
