@@ -90,12 +90,3 @@ FROM mri_team_runs;
 
 DELETE
 FROM mri_team_standings;
-
-DELETE 
-FROM projections_age_regression_offense;
-
-DELETE 
-FROM projections_age_regression_pitching;
-
-DELETE
-FROM projections_age_regression_defense;
