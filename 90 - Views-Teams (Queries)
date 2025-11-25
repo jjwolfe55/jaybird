@@ -1,4 +1,4 @@
-CREATE VIEW team_results_games AS 
+CREATE VIEW team_game_logs AS 
 WITH per_game_mri AS (
 SELECT 
 a.team_id AS team_id,
@@ -248,7 +248,7 @@ opponent IN (
 "WSN")
 ORDER BY  franchise ASC, season DESC, game_date ASC;
 
-CREATE VIEW team_results_standings AS 
+CREATE VIEW team_season_standings AS 
 SELECT 
 c.franchise_id AS franchise,
 a.team_id AS team,
@@ -282,7 +282,7 @@ ON a.team_id = c.team_id AND
 a.season_id BETWEEN c.first_season AND c.last_season
 ORDER BY w_pct DESC;
 
-CREATE VIEW team_offense_batting AS
+CREATE VIEW team_offense_season_batting AS
 SELECT 
 d.franchise_id AS franchise,
 a.team_id AS team,
@@ -334,7 +334,7 @@ ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id
 ORDER BY mri_waa DESC;
 
-CREATE VIEW team_offense_baserunning AS
+CREATE VIEW team_offense_season_baserunning AS
 SELECT 
 d.franchise_id AS franchise,
 a.team_id AS team,
@@ -366,7 +366,7 @@ a.team_id,
 a.season_id
 ORDER BY mri_c_baserunning_waa DESC;
 
-CREATE VIEW team_defense_pitching AS
+CREATE VIEW team_defense_season_pitching AS
 SELECT 
  d.franchise_id AS franchise,
  a.team_id AS team,
@@ -424,7 +424,7 @@ ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id
 ORDER BY mri_waa DESC;
 
-CREATE VIEW team_defense_fielding AS
+CREATE VIEW team_defense_season_fielding AS
 SELECT 
  d.franchise_id AS franchise,
  a.team_id AS team,
@@ -462,7 +462,7 @@ ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id
 ORDER BY mri_waa DESC;
 
-CREATE VIEW team_defense_fielding_x_pos AS 
+CREATE VIEW team_defense_season_fielding_x_pos AS 
 SELECT 
  d.franchise_id AS franchise,
  a.team_id AS team,
@@ -501,7 +501,7 @@ ON a.team_id = e.team_id AND a.season_id = e.season_id
 GROUP BY a.team_id,a.season_id,a.d_pos
 ORDER BY mri_waa DESC;
 
-CREATE VIEW team_defense_baserunning AS 
+CREATE VIEW team_defense_season_baserunning AS 
 SELECT 
 d.franchise_id AS franchise,
 a.team_id AS team,
@@ -533,7 +533,7 @@ a.team_id,
 a.season_id
 ORDER BY mri_p_baserunning_waa DESC;
 
-CREATE VIEW team_results_total_waa AS
+CREATE VIEW team_season_total_waa AS
 WITH batters AS ( 
 SELECT team_id, season_id
 FROM standard_batting )
