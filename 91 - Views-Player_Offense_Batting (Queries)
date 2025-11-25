@@ -1,7 +1,7 @@
 CREATE VIEW player_offense_season_batting AS
 SELECT a.player_id, 
 a.player_name,
-a.season_id,
+a.season_id AS season,
 a.age,
 a.bat,
 SUM(a.b_g) AS g,
