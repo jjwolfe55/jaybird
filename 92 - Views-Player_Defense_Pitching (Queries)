@@ -50,3 +50,60 @@ INNER JOIN lookup_team_history AS d
 ON a.team_id = d.team_id 
 AND a.season_id BETWEEN d.first_season AND d.last_season
 GROUP BY a.player_id,a.season_id;
+
+CREATE VIEW player_defense_season_pitching_x_team AS
+SELECT a.player_id,
+ a.player_name,
+ d.franchise_id AS franchise,
+ a.team_id AS team,
+ d.nickname AS team_nickname,
+ d.league_id AS league,
+ d.division_id AS division,
+ a.season_id AS season,
+ a.age,
+ a.throw,
+ a.p_g AS g, 
+ a.p_gs AS gs,
+ a.p_cg AS cg,
+ a.p_ip AS ip,
+ a.p_bf AS bf,
+ a.p_h AS h,
+ a.p_s AS 1b,
+ a.p_d AS 2b,
+ a.p_t AS 3b,
+ a.p_hr AS hr,
+ a.p_r AS r,
+ a.p_er AS er,
+ a.p_bb AS bb,
+ a.p_ibb AS ibb,
+ a.p_so AS so,
+ a.p_hbp AS hbp,
+ a.p_sh AS sh,
+ a.p_sf AS sf, 
+ a.p_sb AS sb,
+ a.p_cs AS cs,
+ a.p_bk AS bk,
+ a.p_wp AS wp,
+ a.p_pb AS pb,
+ a.p_wins AS wins,
+ a.p_losses AS losses,
+ a.p_saves AS saves,
+b.p_avg AS avg,
+b.p_obp AS obp,
+b.p_slg AS slg,
+b.p_ops AS ops,
+b.p_era AS era,
+b.p_bb_pct AS bb_rate,
+b.p_so_pct AS so_rate,
+c.mri_pitching_rc AS mri_rc,
+c.mri_pitching_raa AS mri_raa,
+c.mri_pitching_waa AS mri_waa,
+c.mri_pitching_war AS mri_war
+FROM standard_pitching AS a
+INNER JOIN rate_pitching AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+LEFT JOIN mri_preventing_pitching AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+INNER JOIN lookup_team_history AS d
+ON a.team_id = d.team_id 
+AND a.season_id BETWEEN d.first_season AND d.last_season;
