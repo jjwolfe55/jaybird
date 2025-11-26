@@ -23,4 +23,29 @@ GROUP BY
 a.player_id,
 a.season_id;
 
-
+CREATE VIEW player_offense_season_baserunning_x_team AS 
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+d.franchise_id AS franchise,
+a.team_id AS team,
+d.nickname AS team_nickname,
+d.league_id AS league,
+d.division_id AS division,
+a.season_id AS season,
+a.age AS age,
+a.b_sb AS sb,
+a.b_cs AS cs,
+b.b_sb_pct AS sb_pct,
+c.mri_c_baserunning_rc AS mri_c_baserunning_rc,
+c.mri_c_baserunning_raa AS mri_c_baserunning_raa,
+c.mri_c_baserunning_waa AS mri_c_baserunning_waa,
+c.mri_c_baserunning_war AS mri_c_baserunning_war
+FROM standard_batting AS a
+INNER JOIN rate_c_baserunning AS b
+ON a.player_id = b.player_id AND a.team_id = b.team_id AND a.season_id = b.season_id
+LEFT JOIN mri_creating_baserunning AS c
+ON a.player_id = c.player_id AND a.team_id = c.team_id AND a.season_id = c.season_id
+INNER JOIN lookup_team_history AS d
+ON a.team_id = d.team_id 
+AND a.season_id BETWEEN d.first_season AND d.last_season;
