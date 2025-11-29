@@ -46,6 +46,8 @@ a.p_wp AS wp,
 a.p_sb AS sb,
 a.p_cs AS cs,
 a.p_cg AS cg,
+a.p_wins AS w,
+a.p_losses AS l,
 a.p_saves AS save
 FROM lines_pitching AS a
 INNER JOIN lines_rosters AS b
