@@ -105,4 +105,4 @@ ON a.team_id = d.team_id
 AND a.season_id BETWEEN d.first_season AND d.last_season
 GROUP BY 
 a.player_id,
-d.franchise_id;
+a.team_id;
