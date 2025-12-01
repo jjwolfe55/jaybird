@@ -1,3 +1,4 @@
+*These are by team and not by franchise. Will have to sum and use group by statement to get franchise totals*
 1. Team_Game_Logs_Results - This is game by game data of every Major League game played from 1901-Present.
 2. Team_Season_Standings - This is win/loss records for each team broken down by season.
 3. Team_Offense_Season_Batting - This is batting stats for each team broken down by season.
