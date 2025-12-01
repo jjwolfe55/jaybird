@@ -315,7 +315,7 @@ GROUP BY a.player_id;
 
 CREATE VIEW player_defense_career_pitching_x_team AS
 WITH ip AS (
-SELECT a.player_id, d.franchise_id, SUM(a.p_ipouts) AS outs
+SELECT a.player_id, d.franchise_id, a.team_id, SUM(a.p_ipouts) AS outs
 FROM lines_pitching AS a
 INNER JOIN lookup_team_history AS d
 ON a.team_id = d.team_id 
@@ -463,7 +463,7 @@ AND a.opponent IN ("ANA",
 "WS2",
 "WS8",
 "WSN")
-GROUP BY a.player_id, d.franchise_id
+GROUP BY a.player_id, d.franchise_id, a.team_id
 )
 SELECT a.player_id,
  a.player_name,
@@ -521,5 +521,5 @@ INNER JOIN lookup_team_history AS d
 ON a.team_id = d.team_id 
 AND (a.season_id BETWEEN d.first_season AND d.last_season)
 INNER JOIN ip AS e
-ON a.player_id = e.player_id AND d.franchise_id = e.franchise_id
-GROUP BY a.player_id, d.franchise_id;
+ON a.player_id = e.player_id AND d.franchise_id = e.franchise_id AND a.team_id = e.team_id
+GROUP BY a.player_id, d.franchise_id, a.team_id;
