@@ -1,4 +1,4 @@
-CREATE VIEW season_total_war AS
+CREATE VIEW player_season_total_war AS
 WITH batters AS ( 
 SELECT player_id, player_name, season_id, age 
 FROM standard_batting )
@@ -77,7 +77,7 @@ a.player_name,
   FROM rpt 
   ORDER BY total_war DESC;
 
-CREATE VIEW season_total_war_x_team AS
+CREATE VIEW player_season_total_war_x_team AS
 WITH batters AS ( 
 SELECT player_id, player_name, team_id, season_id, age 
 FROM standard_batting )
@@ -157,7 +157,7 @@ SELECT a.player_id,
   FROM rpt 
   ORDER BY total_war DESC;
 
-CREATE VIEW career_total_war AS
+CREATE VIEW player_career_total_war AS
 WITH batters AS ( 
 SELECT player_id, player_name  
 FROM standard_batting )
@@ -234,7 +234,7 @@ SELECT a.player_id,
   FROM rpt 
   ORDER BY total_war DESC;
 
-CREATE VIEW career_total_war_x_team AS
+CREATE VIEW player_career_total_war_x_team AS
 WITH batters AS ( 
 SELECT player_id, player_name, team_id
 FROM standard_batting )
