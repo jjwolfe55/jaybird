@@ -1,4 +1,4 @@
-CREATE VIEW player_offense_game_logs
+CREATE VIEW player_offense_game_logs AS
 SELECT 
 a.player_id AS player_id,
 CONCAT(b.first_name,' ',b.last_name) AS player_name,
