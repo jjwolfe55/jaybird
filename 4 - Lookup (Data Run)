@@ -60,7 +60,7 @@ state
 FROM lines_team_history;
 
 UPDATE lookup_team_history
-SET last_season = 2024
+SET last_season = 2025
 WHERE last_season = 0;
 
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lookup/ballparks0.csv"
