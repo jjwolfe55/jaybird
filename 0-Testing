@@ -141,3 +141,82 @@ f_d,
 f_t,
 f_bb
 FROM fangraphs_lines_games_intake_v2;
+
+CREATE TABLE fangraphs_lines_games_intake_v3 (
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_player_count SMALLINT,
+f_pa SMALLINT,
+f_ab SMALLINT,
+f_h SMALLINT,
+f_s SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_hr SMALLINT,
+f_r SMALLINT,
+f_rbi SMALLINT,
+f_bb SMALLINT,
+f_ibb SMALLINT,
+f_so SMALLINT,
+f_hbp SMALLINT,
+f_sf SMALLINT,
+f_sh SMALLINT,
+f_gdp SMALLINT,
+f_sb SMALLINT,
+f_cs SMALLINT,
+f_avg DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
+);
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_v3_20260131_UAT.csv"
+INTO TABLE fangraphs_lines_games_intake_v3
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+
+CREATE TABLE fangraphs_lines_games_processed_v3 (
+j_game_id VARCHAR(30),
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_pa SMALLINT,
+f_r SMALLINT,
+f_so SMALLINT,
+f_hr SMALLINT,
+f_h SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_bb SMALLINT,
+f_home CHAR(1),
+PRIMARY KEY (j_game_id)
+);
+
+
+INSERT INTO fangraphs_lines_games_processed_v3 (
+j_game_id,
+f_game_date,
+f_team_id, 
+f_pa,
+f_r, 
+f_so,
+f_hr, 
+f_h, 
+f_d,
+f_t,
+f_bb,
+f_home
+)
+SELECT
+CONCAT(f_game_date,f_pa,f_r,f_so,f_hr,f_h,f_d,f_t,f_bb),
+f_game_date,
+f_team_id, 
+f_pa,
+f_r, 
+f_so,
+f_hr, 
+f_h, 
+f_d,
+f_t,
+f_bb,
+"Y"
+FROM fangraphs_lines_games_intake_v3;
