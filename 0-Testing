@@ -220,3 +220,11 @@ f_t,
 f_bb,
 "Y"
 FROM fangraphs_lines_games_intake_v3;
+
+SELECT a.f_team_id AS primary_team, b.f_team_id AS opponent, a.f_game_date AS game_date, a.f_r AS runs_scored, CASE WHEN c.f_home = 'Y' THEN 'Home' ELSE 'Away' END AS home
+FROM fangraphs_lines_games_processed_v2 AS a
+INNER JOIN fangraphs_lines_games_processed_v1 AS b
+ON a.j_game_id = b.j_game_id
+LEFT JOIN fangraphs_lines_games_processed_v3 AS c
+ON a.j_game_id = c.j_game_id 
+AND c.j_game_id = b.j_game_id
