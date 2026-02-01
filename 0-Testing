@@ -1,0 +1,42 @@
+CREATE TABLE fangraphs_lines_games_intake_v1 (
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_player_count SMALLINT,
+f_tbf SMALLINT,
+f_era DECIMAL(4,2),
+f_h SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_r SMALLINT,
+f_er SMALLINT,
+f_hr SMALLINT,
+f_bb SMALLINT,
+f_ibb SMALLINT,
+f_hbp SMALLINT,
+f_so SMALLINT,
+f_avg DECIMAL(4,3),
+f_obp DECIMAL(4,3),
+f_slg DECIMAL(4,3),
+f_w_oba DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
+);
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_v1_20260131_UAT.csv"
+INTO TABLE fangraphs_lines_games_intake_v1
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+CREATE TABLE fangraphs_lines_games_processed_v1 (
+j_game_id VARCHAR(30),
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_r SMALLINT,
+f_so SMALLINT,
+f_hr SMALLINT,
+f_h SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_bb SMALLINT,
+PRIMARY KEY (j_game_id)
+);
