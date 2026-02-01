@@ -40,3 +40,30 @@ f_t SMALLINT,
 f_bb SMALLINT,
 PRIMARY KEY (j_game_id)
 );
+
+INSERT INTO fangraphs_lines_games_processed_v1 (
+j_game_id,
+f_game_date,
+f_team_id, 
+f_tbf,
+f_r, 
+f_so,
+f_hr, 
+f_h, 
+f_d,
+f_t,
+f_bb
+)
+SELECT
+CONCAT(f_game_date,f_tbf,f_r,f_so,f_hr,f_h,f_d,f_t,f_bb),
+f_game_date,
+f_team_id, 
+f_tbf,
+f_r, 
+f_so,
+f_hr, 
+f_h, 
+f_d,
+f_t,
+f_bb
+FROM fangraphs_lines_games_intake_v1;
