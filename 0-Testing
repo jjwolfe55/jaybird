@@ -1,4 +1,4 @@
-CREATE TABLE fangraphs_lines_games_intake_v1 (
+CREATE TABLE fangraphs_lines_games_intake_pitching_home (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -21,54 +21,31 @@ f_w_oba DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
 );
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_v1_20260131_UAT.csv"
-INTO TABLE fangraphs_lines_games_intake_v1
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
 
-CREATE TABLE fangraphs_lines_games_processed_v1 (
-j_game_id VARCHAR(30),
+CREATE TABLE fangraphs_lines_games_intake_pitching_away (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
-f_r SMALLINT,
-f_so SMALLINT,
-f_hr SMALLINT,
+f_player_count SMALLINT,
+f_tbf SMALLINT,
+f_era DECIMAL(4,2),
 f_h SMALLINT,
 f_d SMALLINT,
 f_t SMALLINT,
+f_r SMALLINT,
+f_er SMALLINT,
+f_hr SMALLINT,
 f_bb SMALLINT,
-PRIMARY KEY (j_game_id)
+f_ibb SMALLINT,
+f_hbp SMALLINT,
+f_so SMALLINT,
+f_avg DECIMAL(4,3),
+f_obp DECIMAL(4,3),
+f_slg DECIMAL(4,3),
+f_w_oba DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
 );
 
-INSERT INTO fangraphs_lines_games_processed_v1 (
-j_game_id,
-f_game_date,
-f_team_id, 
-f_tbf,
-f_r, 
-f_so,
-f_hr, 
-f_h, 
-f_d,
-f_t,
-f_bb
-)
-SELECT
-CONCAT(f_game_date,f_tbf,f_r,f_so,f_hr,f_h,f_d,f_t,f_bb),
-f_game_date,
-f_team_id, 
-f_tbf,
-f_r, 
-f_so,
-f_hr, 
-f_h, 
-f_d,
-f_t,
-f_bb
-FROM fangraphs_lines_games_intake_v1;
-
-CREATE TABLE fangraphs_lines_games_intake_v2 (
+CREATE TABLE fangraphs_lines_games_intake_batting_home (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -94,55 +71,7 @@ f_avg DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
 );
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_v2_20260131_UAT.csv"
-INTO TABLE fangraphs_lines_games_intake_v2
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-CREATE TABLE fangraphs_lines_games_processed_v2 (
-j_game_id VARCHAR(30),
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_pa SMALLINT,
-f_r SMALLINT,
-f_so SMALLINT,
-f_hr SMALLINT,
-f_h SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_bb SMALLINT,
-PRIMARY KEY (j_game_id)
-);
-
-INSERT INTO fangraphs_lines_games_processed_v2 (
-j_game_id,
-f_game_date,
-f_team_id, 
-f_pa,
-f_r, 
-f_so,
-f_hr, 
-f_h, 
-f_d,
-f_t,
-f_bb
-)
-SELECT
-CONCAT(f_game_date,f_pa,f_r,f_so,f_hr,f_h,f_d,f_t,f_bb),
-f_game_date,
-f_team_id, 
-f_pa,
-f_r, 
-f_so,
-f_hr, 
-f_h, 
-f_d,
-f_t,
-f_bb
-FROM fangraphs_lines_games_intake_v2;
-
-CREATE TABLE fangraphs_lines_games_intake_v3 (
+CREATE TABLE fangraphs_lines_games_intake_batting_away (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -168,63 +97,73 @@ f_avg DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
 );
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_v3_20260131_UAT.csv"
-INTO TABLE fangraphs_lines_games_intake_v3
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_batting_home_20250202.csv"
+INTO TABLE fangraphs_lines_games_intake_batting_home
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_batting_away_20250202.csv"
+INTO TABLE fangraphs_lines_games_intake_batting_away
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
 
-CREATE TABLE fangraphs_lines_games_processed_v3 (
-j_game_id VARCHAR(30),
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_pa SMALLINT,
-f_r SMALLINT,
-f_so SMALLINT,
-f_hr SMALLINT,
-f_h SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_bb SMALLINT,
-f_home CHAR(1),
-PRIMARY KEY (j_game_id)
-);
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_pitching_home_20250202.csv"
+INTO TABLE fangraphs_lines_games_intake_pitching_home
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
 
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_pitching_away_20250202.csv"
+INTO TABLE fangraphs_lines_games_intake_pitching_away
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
 
-INSERT INTO fangraphs_lines_games_processed_v3 (
-j_game_id,
-f_game_date,
-f_team_id, 
-f_pa,
-f_r, 
-f_so,
-f_hr, 
-f_h, 
-f_d,
-f_t,
-f_bb,
-f_home
+WITH home_team_runs AS (
+SELECT a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id) AS game_id
+FROM fangraphs_lines_games_intake_batting_home AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
 )
-SELECT
-CONCAT(f_game_date,f_pa,f_r,f_so,f_hr,f_h,f_d,f_t,f_bb),
-f_game_date,
-f_team_id, 
-f_pa,
-f_r, 
-f_so,
-f_hr, 
-f_h, 
-f_d,
-f_t,
-f_bb,
-"Y"
-FROM fangraphs_lines_games_intake_v3;
-
-SELECT a.f_team_id AS primary_team, b.f_team_id AS opponent, a.f_game_date AS game_date, a.f_r AS runs_scored, CASE WHEN c.f_home = 'Y' THEN 'Home' ELSE 'Away' END AS home
-FROM fangraphs_lines_games_processed_v2 AS a
-INNER JOIN fangraphs_lines_games_processed_v1 AS b
-ON a.j_game_id = b.j_game_id
-LEFT JOIN fangraphs_lines_games_processed_v3 AS c
-ON a.j_game_id = c.j_game_id 
-AND c.j_game_id = b.j_game_id
+, away_team_runs AS (
+SELECT a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id) AS game_id
+FROM fangraphs_lines_games_intake_batting_away AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+)
+SELECT a.game_id, 
+a.h_team_id, 
+b.v_team_id, 
+a.game_date,
+b.h_team_bf,
+"regular" AS game_type,
+a.h_team_runs,
+b.v_team_runs,
+CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
+CASE WHEN a.h_team_runs > b.v_team_runs THEN a.v_team_id ELSE b.h_team_id END AS losing_team,
+SUBSTRING(a.game_date,-4) AS season_id
+FROM home_team_runs AS a
+INNER JOIN away_team_runs AS b
+ON a.game_id = b.game_id
