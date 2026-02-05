@@ -1,4 +1,4 @@
-CREATE TABLE fangraphs_lines_games_intake_pitching_home (
+CREATE TABLE fangraphs_lines_games_intake_pitching_home_day (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -21,8 +21,7 @@ f_w_oba DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
 );
 
-
-CREATE TABLE fangraphs_lines_games_intake_pitching_away (
+CREATE TABLE fangraphs_lines_games_intake_pitching_home_night (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -45,7 +44,53 @@ f_w_oba DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
 );
 
-CREATE TABLE fangraphs_lines_games_intake_batting_home (
+CREATE TABLE fangraphs_lines_games_intake_pitching_away_day (
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_player_count SMALLINT,
+f_tbf SMALLINT,
+f_era DECIMAL(4,2),
+f_h SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_r SMALLINT,
+f_er SMALLINT,
+f_hr SMALLINT,
+f_bb SMALLINT,
+f_ibb SMALLINT,
+f_hbp SMALLINT,
+f_so SMALLINT,
+f_avg DECIMAL(4,3),
+f_obp DECIMAL(4,3),
+f_slg DECIMAL(4,3),
+f_w_oba DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
+);
+
+CREATE TABLE fangraphs_lines_games_intake_pitching_away_night (
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_player_count SMALLINT,
+f_tbf SMALLINT,
+f_era DECIMAL(4,2),
+f_h SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_r SMALLINT,
+f_er SMALLINT,
+f_hr SMALLINT,
+f_bb SMALLINT,
+f_ibb SMALLINT,
+f_hbp SMALLINT,
+f_so SMALLINT,
+f_avg DECIMAL(4,3),
+f_obp DECIMAL(4,3),
+f_slg DECIMAL(4,3),
+f_w_oba DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
+);
+
+CREATE TABLE fangraphs_lines_games_intake_batting_home_day (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -71,7 +116,7 @@ f_avg DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
 );
 
-CREATE TABLE fangraphs_lines_games_intake_batting_away (
+CREATE TABLE fangraphs_lines_games_intake_batting_home_night (
 f_game_date VARCHAR(12),
 f_team_id CHAR(3),
 f_player_count SMALLINT,
@@ -97,26 +142,102 @@ f_avg DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
 );
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_batting_home_20250202.csv"
-INTO TABLE fangraphs_lines_games_intake_batting_home
+CREATE TABLE fangraphs_lines_games_intake_batting_away_day (
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_player_count SMALLINT,
+f_pa SMALLINT,
+f_ab SMALLINT,
+f_h SMALLINT,
+f_s SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_hr SMALLINT,
+f_r SMALLINT,
+f_rbi SMALLINT,
+f_bb SMALLINT,
+f_ibb SMALLINT,
+f_so SMALLINT,
+f_hbp SMALLINT,
+f_sf SMALLINT,
+f_sh SMALLINT,
+f_gdp SMALLINT,
+f_sb SMALLINT,
+f_cs SMALLINT,
+f_avg DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
+);
+
+CREATE TABLE fangraphs_lines_games_intake_batting_away_night (
+f_game_date VARCHAR(12),
+f_team_id CHAR(3),
+f_player_count SMALLINT,
+f_pa SMALLINT,
+f_ab SMALLINT,
+f_h SMALLINT,
+f_s SMALLINT,
+f_d SMALLINT,
+f_t SMALLINT,
+f_hr SMALLINT,
+f_r SMALLINT,
+f_rbi SMALLINT,
+f_bb SMALLINT,
+f_ibb SMALLINT,
+f_so SMALLINT,
+f_hbp SMALLINT,
+f_sf SMALLINT,
+f_sh SMALLINT,
+f_gdp SMALLINT,
+f_sb SMALLINT,
+f_cs SMALLINT,
+f_avg DECIMAL(4,3),
+PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
+);
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Day_Batting.csv"
+INTO TABLE fangraphs_lines_games_intake_batting_home_day
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_batting_away_20250202.csv"
-INTO TABLE fangraphs_lines_games_intake_batting_away
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Day_Batting.csv"
+INTO TABLE fangraphs_lines_games_intake_batting_away_day
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_pitching_home_20250202.csv"
-INTO TABLE fangraphs_lines_games_intake_pitching_home
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Day_Pitching.csv"
+INTO TABLE fangraphs_lines_games_intake_pitching_home_day
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/fangraphs_lines_games_intake_pitching_away_20250202.csv"
-INTO TABLE fangraphs_lines_games_intake_pitching_away
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Day_Pitching.csv"
+INTO TABLE fangraphs_lines_games_intake_pitching_away_day
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Night_Batting.csv"
+INTO TABLE fangraphs_lines_games_intake_batting_home_night
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Night_Batting.csv"
+INTO TABLE fangraphs_lines_games_intake_batting_away_night
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Night_Pitching.csv"
+INTO TABLE fangraphs_lines_games_intake_pitching_home_night
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Night_Pitching.csv"
+INTO TABLE fangraphs_lines_games_intake_pitching_away_night
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
