@@ -194,6 +194,15 @@ f_avg DECIMAL(4,3),
 PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
 );
 
+DELETE FROM fangraphs_lines_games_intake_batting_away_day;
+DELETE FROM fangraphs_lines_games_intake_batting_home_day;
+DELETE FROM fangraphs_lines_games_intake_batting_away_night;
+DELETE FROM fangraphs_lines_games_intake_batting_home_night;
+DELETE FROM fangraphs_lines_games_intake_pitching_away_day;
+DELETE FROM fangraphs_lines_games_intake_pitching_home_day;
+DELETE FROM fangraphs_lines_games_intake_pitching_away_night;
+DELETE FROM fangraphs_lines_games_intake_pitching_home_night;
+
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Day_Batting.csv"
 INTO TABLE fangraphs_lines_games_intake_batting_home_day
 FIELDS TERMINATED BY ','
@@ -242,10 +251,10 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
-WITH home_team_runs AS (
-SELECT a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id) AS game_id
-FROM fangraphs_lines_games_intake_batting_home AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away AS b
+WITH home_day_team_runs AS (
+SELECT 'day' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day") AS game_id
+FROM fangraphs_lines_games_intake_batting_home_day AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
 ON a.f_game_date = b.f_game_date 
 AND a.f_r = b.f_r
 AND a.f_h = b.f_h 
@@ -257,11 +266,12 @@ AND a.f_ibb = b.f_ibb
 AND a.f_hbp = b.f_hbp
 AND a.f_so = b.f_so
 AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
 )
-, away_team_runs AS (
-SELECT a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id) AS game_id
-FROM fangraphs_lines_games_intake_batting_away AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home AS b
+, away_day_team_runs AS (
+SELECT 'day' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day") AS game_id
+FROM fangraphs_lines_games_intake_batting_away_day AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
 ON a.f_game_date = b.f_game_date 
 AND a.f_r = b.f_r
 AND a.f_h = b.f_h 
@@ -273,18 +283,75 @@ AND a.f_ibb = b.f_ibb
 AND a.f_hbp = b.f_hbp
 AND a.f_so = b.f_so
 AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
 )
+, day_games AS (
 SELECT a.game_id, 
 a.h_team_id, 
 b.v_team_id, 
 a.game_date,
+a.day_time,
 b.h_team_bf,
-"regular" AS game_type,
+'regular' AS game_type,
 a.h_team_runs,
 b.v_team_runs,
 CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
 CASE WHEN a.h_team_runs > b.v_team_runs THEN a.v_team_id ELSE b.h_team_id END AS losing_team,
 SUBSTRING(a.game_date,-4) AS season_id
-FROM home_team_runs AS a
-INNER JOIN away_team_runs AS b
+FROM home_day_team_runs AS a
+INNER JOIN away_day_team_runs AS b
 ON a.game_id = b.game_id
+ORDER BY a.game_date ASC
+)
+, home_night_team_runs AS (
+SELECT 'night' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night') AS game_id
+FROM fangraphs_lines_games_intake_batting_home_night AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, away_night_team_runs AS (
+SELECT 'night' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night') AS game_id
+FROM fangraphs_lines_games_intake_batting_away_night AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, night_games AS (
+SELECT a.game_id, 
+a.h_team_id, 
+b.v_team_id, 
+a.game_date,
+a.day_time,
+b.h_team_bf,
+'regular' AS game_type,
+a.h_team_runs,
+b.v_team_runs,
+CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
+CASE WHEN a.h_team_runs > b.v_team_runs THEN a.v_team_id ELSE b.h_team_id END AS losing_team,
+SUBSTRING(a.game_date,-4) AS season_id
+FROM home_night_team_runs AS a
+INNER JOIN away_night_team_runs AS b
+ON a.game_id = b.game_id
+ORDER BY a.game_date ASC
+)
