@@ -462,6 +462,76 @@ AND a.f_so = b.f_so
 AND a.f_pa = b.f_tbf
 ORDER BY a.f_game_date ASC
 )
+, home_day_pitching AS (
+SELECT b.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day",1) AS game_id
+FROM fangraphs_lines_games_intake_batting_home_day AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, away_day_pitching  AS (
+SELECT b.*, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day",1) AS game_id
+FROM fangraphs_lines_games_intake_batting_away_day AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, home_night_pitching  AS (
+SELECT b.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night',1) AS game_id
+FROM fangraphs_lines_games_intake_batting_home_night AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, away_night_pitching  AS (
+SELECT b.*, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night',1) AS game_id
+FROM fangraphs_lines_games_intake_batting_away_night AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+SELECT *
+FROM home_night_pitching;
 
 --------------------
 SELECT
