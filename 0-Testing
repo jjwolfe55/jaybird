@@ -251,8 +251,38 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
+CREATE TABLE fangraphs_lines_games_processed (
+game_id VARCHAR(30),
+h_team_id CHAR(3),
+v_team_id CHAR(3),
+game_date VARCHAR(12),
+day_time CHAR(8),
+game_type VARCHAR(15),
+h_team_bf SMALLINT,
+h_team_runs SMALLINT,
+v_team_runs SMALLINT,
+winning_team CHAR(3),
+losing_team CHAR(3),
+season_id SMALLINT,
+PRIMARY KEY (game_id)
+);
+
+INSERT INTO fangraphs_lines_games_processed (
+game_id,
+h_team_id,
+v_team_id,
+game_date,
+day_time,
+game_type,
+h_team_bf,
+h_team_runs,
+v_team_runs,
+winning_team,
+losing_team,
+season_id
+)
 WITH home_day_team_runs AS (
-SELECT 'day' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day") AS game_id
+SELECT 'day' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day",1) AS game_id
 FROM fangraphs_lines_games_intake_batting_home_day AS a
 INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
 ON a.f_game_date = b.f_game_date 
@@ -269,7 +299,7 @@ AND a.f_pa = b.f_tbf
 ORDER BY a.f_game_date ASC
 )
 , away_day_team_runs AS (
-SELECT 'day' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day") AS game_id
+SELECT 'day' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day",1) AS game_id
 FROM fangraphs_lines_games_intake_batting_away_day AS a
 INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
 ON a.f_game_date = b.f_game_date 
@@ -291,8 +321,8 @@ a.h_team_id,
 b.v_team_id, 
 a.game_date,
 a.day_time,
-b.h_team_bf,
 'regular' AS game_type,
+b.h_team_bf,
 a.h_team_runs,
 b.v_team_runs,
 CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
@@ -304,7 +334,7 @@ ON a.game_id = b.game_id
 ORDER BY a.game_date ASC
 )
 , home_night_team_runs AS (
-SELECT 'night' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night') AS game_id
+SELECT 'night' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night',1) AS game_id
 FROM fangraphs_lines_games_intake_batting_home_night AS a
 INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
 ON a.f_game_date = b.f_game_date 
@@ -321,7 +351,7 @@ AND a.f_pa = b.f_tbf
 ORDER BY a.f_game_date ASC
 )
 , away_night_team_runs AS (
-SELECT 'night' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night') AS game_id
+SELECT 'night' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night',1) AS game_id
 FROM fangraphs_lines_games_intake_batting_away_night AS a
 INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
 ON a.f_game_date = b.f_game_date 
@@ -343,8 +373,8 @@ a.h_team_id,
 b.v_team_id, 
 a.game_date,
 a.day_time,
-b.h_team_bf,
 'regular' AS game_type,
+b.h_team_bf,
 a.h_team_runs,
 b.v_team_runs,
 CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
@@ -355,3 +385,8 @@ INNER JOIN away_night_team_runs AS b
 ON a.game_id = b.game_id
 ORDER BY a.game_date ASC
 )
+SELECT *
+FROM day_games
+UNION 
+SELECT *
+FROM night_games
