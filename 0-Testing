@@ -263,8 +263,7 @@ h_team_runs SMALLINT,
 v_team_runs SMALLINT,
 winning_team CHAR(3),
 losing_team CHAR(3),
-season_id SMALLINT,
-PRIMARY KEY (game_id)
+season_id SMALLINT
 );
 
 INSERT INTO fangraphs_lines_games_processed (
@@ -389,4 +388,4 @@ SELECT *
 FROM day_games
 UNION 
 SELECT *
-FROM night_games
+FROM night_games --check game count total to match fangraphs. No duplicate check.
