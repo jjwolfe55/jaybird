@@ -389,3 +389,117 @@ FROM day_games
 UNION 
 SELECT *
 FROM night_games --check game count total to match fangraphs. No duplicate check.
+
+--Add move to lines_games--
+
+--------------------------------
+
+WITH home_day_batting AS (
+SELECT a.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day",1) AS game_id
+FROM fangraphs_lines_games_intake_batting_home_day AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, away_day_team_runs AS (
+SELECT 'day' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day",1) AS game_id
+FROM fangraphs_lines_games_intake_batting_away_day AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, home_night_team_runs AS (
+SELECT 'night' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night',1) AS game_id
+FROM fangraphs_lines_games_intake_batting_home_night AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+, away_night_team_runs AS (
+SELECT 'night' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night',1) AS game_id
+FROM fangraphs_lines_games_intake_batting_away_night AS a
+INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
+ON a.f_game_date = b.f_game_date 
+AND a.f_r = b.f_r
+AND a.f_h = b.f_h 
+AND a.f_d = b.f_d
+AND a.f_t = b.f_t
+AND a.f_hr = b.f_hr
+AND a.f_bb = b.f_bb
+AND a.f_ibb = b.f_ibb
+AND a.f_hbp = b.f_hbp
+AND a.f_so = b.f_so
+AND a.f_pa = b.f_tbf
+ORDER BY a.f_game_date ASC
+)
+SELECT *
+FROM home_day_batting;
+SELECT
+game_id,
+team_id,
+integrity
+b_pa
+b_ab
+b_r
+b_h
+b_d
+b_t
+b_hr
+b_rbi
+b_sh
+b_sf
+b_hbp
+b_bb
+b_ibb
+b_so
+b_sb
+b_cs
+b_gdp,
+P_bf
+p_h
+p_d
+p_t
+p_hr
+p_r
+p_er
+P_bb
+p_ibb
+p_so
+p_hbp
+game_date
+vis_or_home
+opponent
+win
+loss
+tie
+game_type
