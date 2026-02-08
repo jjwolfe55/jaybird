@@ -1,5 +1,5 @@
 CREATE TABLE lines_games(
-game_id VARCHAR(15), 
+game_id VARCHAR(30), 
 v_team_id VARCHAR(3),
 h_team_id VARCHAR(3),
 ballpark VARCHAR(7),
@@ -46,7 +46,7 @@ PRIMARY KEY (game_id)
 );
 
 CREATE TABLE lines_teams (
-game_id VARCHAR(15),
+game_id VARCHAR(30), 
 team_id VARCHAR(3),
 inn1 TINYINT,
 inn2 TINYINT,
@@ -189,7 +189,7 @@ PRIMARY KEY (player_id,team_id)
 );
 
 CREATE TABLE lines_batting (
-game_id VARCHAR(15),
+game_id VARCHAR(30), 
 player_id VARCHAR(9),
 team_id VARCHAR(3),
 b_lineup TINYINT,
@@ -232,7 +232,7 @@ PRIMARY KEY (game_id,player_id,team_id,integrity)
 );
 
 CREATE TABLE lines_pitching (
-game_id VARCHAR(15),
+game_id VARCHAR(30), 
 player_id VARCHAR(9),
 team_id VARCHAR(3),
 p_sequence TINYINT,
@@ -278,7 +278,7 @@ PRIMARY KEY (game_id,player_id,team_id,integrity)
 );
 
 CREATE TABLE lines_fielding (
-game_id VARCHAR(15), 
+game_id VARCHAR(30), 
 player_id VARCHAR(9),
 team_id VARCHAR(3),
 d_sequence TINYINT,
