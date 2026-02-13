@@ -10,6 +10,14 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
 
+UPDATE fangraphs_lines_pitching_v1
+SET fan_p_ip = FLOOR(fan_p_ip) + 0.7
+WHERE ROUND(fan_p_ip - FLOOR(fan_p_ip), 1) = 0.2;
+
+UPDATE fangraphs_lines_pitching_v1
+SET fan_p_ip = FLOOR(fan_p_ip) + 0.3
+WHERE ROUND(fan_p_ip - FLOOR(fan_p_ip), 1) = 0.1;
+
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_pitching_v2.csv"
 INTO TABLE fangraphs_lines_pitching_v2
 FIELDS TERMINATED BY ','
