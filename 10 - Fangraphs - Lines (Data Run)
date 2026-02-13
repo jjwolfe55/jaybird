@@ -1,3 +1,9 @@
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_player_crosswalk.csv"
+INTO TABLE fangraphs_lines_player_crosswalk
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_batting.csv"
 INTO TABLE fangraphs_lines_batting
 FIELDS TERMINATED BY ','
