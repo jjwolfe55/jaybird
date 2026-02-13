@@ -1,0 +1,23 @@
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_batting.csv"
+INTO TABLE fangraphs_lines_batting
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_pitching_v1.csv"
+INTO TABLE fangraphs_lines_pitching_v1
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_pitching_v2.csv"
+INTO TABLE fangraphs_lines_pitching_v2
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_fielding.csv"
+INTO TABLE fangraphs_lines_fielding
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS;
