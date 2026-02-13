@@ -1,1 +1,7 @@
+*Lines includes four firect downloads from fangraphs, one jaybird manipulated on batting and pitcher keys to crosswalk player id's*
 
+1. fangraphs_lines_player_crosswalk (fangraphs batting and pitching download with 3 year lookback. batting key:PA/H/R/SO/HR/BB/RBI  pitching key: BF/H/R/SO/HR/BB)
+2. fangraphs_lines_batting (fangraphs download. main data)
+3. fangraphs_lines_pitching_v1 (fangraphs download. main data)
+4. fangraphs_lines_pitching_v2 (fangraphs download. utilizes the batting against stats)
+5. fangraphs_lines_fielding (fangraphs download. main data)
