@@ -1,3 +1,12 @@
+CREATE TABLE fangraphs_lines_player_crosswalk (
+player_id VARCHAR(45),
+player_name VARCHAR(45),
+fan_player_id VARCHAR(9),
+fan_player_name_v1 VARCHAR(45),
+combo_player_id VARCHAR(20),
+PRIMARY KEY (player_id)
+);
+
 CREATE TABLE fangraphs_lines_batting (
 fan_player_name_v1 VARCHAR(45),
 fan_team_id VARCHAR(3),
