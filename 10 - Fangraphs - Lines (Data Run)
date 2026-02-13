@@ -29,3 +29,11 @@ INTO TABLE fangraphs_lines_fielding
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' 
 IGNORE 1 ROWS;
+
+UPDATE fangraphs_lines_fielding
+SET fan_d_inn = FLOOR(fan_d_inn) + 0.7
+WHERE ROUND(fan_d_inn - FLOOR(fan_d_inn), 1) = 0.2;
+
+UPDATE fangraphs_lines_fielding
+SET fan_d_inn = FLOOR(fan_d_inn) + 0.3
+WHERE ROUND(fan_d_inn - FLOOR(fan_d_inn), 1) = 0.1;
