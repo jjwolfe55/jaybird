@@ -7,6 +7,12 @@ combo_player_id VARCHAR(20),
 PRIMARY KEY (player_id)
 );
 
+CREATE TABLE fangraphs_lines_team_crosswalk (
+team_id VARCHAR(3),
+fan_team_id VARCHAR(3),
+PRIMARY KEY (team_id)
+);
+
 CREATE TABLE fangraphs_lines_batting (
 fan_player_name_v1 VARCHAR(45),
 fan_team_id VARCHAR(3),
