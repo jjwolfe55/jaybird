@@ -111,3 +111,77 @@ INNER JOIN fangraphs_lines_player_crosswalk AS b
 ON a.fan_player_id = b.fan_player_id
 INNER JOIN fangraphs_lines_team_crosswalk AS c
 ON a.fan_team_id = c.fan_team_id;
+
+INSERT INTO standard_pitching (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+p_g,
+p_gs,
+p_cg,
+p_ip,
+p_bf,
+p_h,
+p_s,
+p_d,
+p_t,
+p_hr,
+p_r,
+p_er,
+p_bb,
+p_ibb,
+p_so,
+p_hbp,
+p_sh,
+p_sf,
+p_sb,
+p_cs,
+p_bk,
+p_wp,
+p_pb,
+p_wins,
+p_losses,
+p_saves)
+SELECT 
+b.player_id,
+a.fan_player_name_v2,
+c.team_id,
+a.fan_season_id,
+a.fan_age,
+NULL,
+a.fan_p_g,
+a.fan_p_gs,
+a.fan_p_cg,
+a.fan_p_ip,
+a.fan_p_bf,
+a.fan_p_h,
+a.fan_p_h-(d.fan_p_d+d.fan_p_t+d.fan_p_hr),
+d.fan_p_d,
+d.fan_p_t,
+d.fan_p_hr,
+a.fan_p_r,
+a.fan_p_er,
+a.fan_p_bb,
+a.fan_p_ibb,
+a.fan_p_so,
+a.fan_p_hbp,
+NULL,
+NULL,
+NULL,
+NULL,
+a.fan_p_bk,
+a.fan_p_wp,
+NULL,
+a.fan_p_wins,
+a.fan_p_losses,
+a.fan_p_saves
+FROM fangraphs_lines_pitching_v1 AS a
+INNER JOIN fangraphs_lines_pitching_v2 AS d
+ON CAST(a.fan_player_id AS UNSIGNED) = CAST(d.fan_player_id AS UNSIGNED) AND a.fan_team_id = d.fan_team_id AND a.fan_season_id = d.fan_season_id
+INNER JOIN fangraphs_lines_player_crosswalk AS b
+ON CAST(a.fan_player_id AS UNSIGNED) = CAST(b.fan_player_id AS UNSIGNED) AND CAST(d.fan_player_id AS UNSIGNED) = CAST(b.fan_player_id AS UNSIGNED)
+INNER JOIN fangraphs_lines_team_crosswalk AS c
+ON a.fan_team_id = c.fan_team_id AND d.fan_team_id = c.fan_team_id;
