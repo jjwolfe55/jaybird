@@ -40,7 +40,7 @@ fan_b_gdp SMALLINT,
 fan_player_name_v2 VARCHAR(45),
 fan_player_id VARCHAR(9),
 mlbamid VARCHAR(9),
-PRIMARY KEY (fan_player_name_v2,fan_team_id,fan_season_id)
+PRIMARY KEY (fan_player_id,fan_team_id,fan_season_id)
 );
 
 CREATE TABLE fangraphs_lines_pitching_v1 (
@@ -68,7 +68,7 @@ fan_p_saves SMALLINT,
 fan_player_name_v2 VARCHAR(45),
 fan_player_id VARCHAR(9),
 mlbamid VARCHAR(9),
-PRIMARY KEY (fan_player_name_v2,fan_team_id,fan_season_id)
+PRIMARY KEY (fan_player_id,fan_team_id,fan_season_id)
 );
 
 CREATE TABLE fangraphs_lines_pitching_v2 (
@@ -116,5 +116,5 @@ fan_d_cs SMALLINT,
 fan_player_name_v2 VARCHAR(45),
 fan_player_id VARCHAR(9),
 mlbamid VARCHAR(9),            
-PRIMARY KEY (fan_player_name_v2,fan_team_id,fan_season_id,fan_d_pos)
+PRIMARY KEY (fan_player_id,fan_team_id,fan_season_id,fan_d_pos)
 );
