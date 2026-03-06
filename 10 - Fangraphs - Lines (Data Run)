@@ -49,3 +49,65 @@ WHERE ROUND(fan_d_inn - FLOOR(fan_d_inn), 1) = 0.2;
 UPDATE fangraphs_lines_fielding
 SET fan_d_inn = FLOOR(fan_d_inn) + 0.3
 WHERE ROUND(fan_d_inn - FLOOR(fan_d_inn), 1) = 0.1;
+
+INSERT INTO standard_batting (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+bat, 
+b_g,
+b_pa,
+b_ab,
+b_r,
+b_h,
+b_s,
+b_d,
+b_t,
+b_hr,
+b_rbi,
+b_sh,
+b_sf,
+b_hbp,
+b_bb,
+b_ibb,
+b_so,
+b_sb,
+b_cs,
+b_gdp,
+b_ci,
+b_roe)
+SELECT 
+b.player_id,
+a.fan_player_name_v2,
+c.team_id,
+a.fan_season_id,
+a.fan_age,
+NULL,
+a.fan_b_g,
+a.fan_b_pa,
+a.fan_b_ab,
+a.fan_b_r,
+a.fan_b_h,
+a.fan_b_s,
+a.fan_b_d,
+a.fan_b_t,
+a.fan_b_hr,
+a.fan_b_rbi,
+a.fan_b_sh,
+a.fan_b_sf,
+a.fan_b_hbp,
+a.fan_b_bb,
+a.fan_b_ibb,
+a.fan_b_so,
+a.fan_b_sb,
+a.fan_b_cs,
+a.fan_b_gdp,
+NULL,
+NULL
+FROM fangraphs_lines_batting AS a
+INNER JOIN fangraphs_lines_player_crosswalk AS b
+ON a.fan_player_id = b.fan_player_id
+INNER JOIN fangraphs_lines_team_crosswalk AS c
+ON a.fan_team_id = c.fan_team_id;
