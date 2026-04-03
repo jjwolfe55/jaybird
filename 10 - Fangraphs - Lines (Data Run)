@@ -185,3 +185,63 @@ INNER JOIN fangraphs_lines_player_crosswalk AS b
 ON CAST(a.fan_player_id AS UNSIGNED) = CAST(b.fan_player_id AS UNSIGNED) AND CAST(d.fan_player_id AS UNSIGNED) = CAST(b.fan_player_id AS UNSIGNED)
 INNER JOIN fangraphs_lines_team_crosswalk AS c
 ON a.fan_team_id = c.fan_team_id AND d.fan_team_id = c.fan_team_id;
+
+INSERT INTO standard_fielding (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+d_pos,
+d_g,
+d_gs,
+d_inn,
+d_po,
+d_a,
+d_e,
+d_dp,
+d_tp,
+d_pb,
+d_wp,
+d_sb,
+d_cs
+)
+SELECT 
+b.player_id,
+a.fan_player_name_v2,
+c.team_id,
+a.fan_season_id,
+COALESCE(d.fan_age,e.fan_age),
+a.fan_d_pos,
+a.fan_d_g,
+a.fan_d_gs,
+a.fan_d_inn,
+a.fan_d_po,
+a.fan_d_a,
+a.fan_d_e,
+a.fan_d_dp,
+NULL,
+a.fan_d_pb,
+a.fan_d_wp,
+a.fan_d_sb,
+a.fan_d_cs
+FROM fangraphs_lines_fielding AS a
+INNER JOIN fangraphs_lines_player_crosswalk AS b
+ON a.fan_player_id = b.fan_player_id
+INNER JOIN fangraphs_lines_team_crosswalk AS c
+ON a.fan_team_id = c.fan_team_id
+LEFT JOIN (
+    SELECT fan_player_id, fan_season_id, MAX(fan_age) AS fan_age
+    FROM fangraphs_lines_batting
+    GROUP BY fan_player_id, fan_season_id
+) d
+    ON a.fan_player_id = d.fan_player_id
+   AND a.fan_season_id = d.fan_season_id
+LEFT JOIN (
+    SELECT fan_player_id, fan_season_id, MAX(fan_age) AS fan_age
+    FROM fangraphs_lines_pitching_v1
+    GROUP BY fan_player_id, fan_season_id
+) e
+    ON a.fan_player_id = e.fan_player_id
+   AND a.fan_season_id = e.fan_season_id;
+;
