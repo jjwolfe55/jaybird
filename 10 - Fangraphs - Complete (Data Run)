@@ -61,10 +61,12 @@ w,
 l,
 t,
 win_pct)
-SELECT fan_team_id, fan_season_id, SUM(fan_p_gs), SUM(fan_p_wins),SUM(fan_p_losses), SUM(fan_p_gs) - (SUM(fan_p_wins)+SUM(fan_p_losses)), SUM(fan_p_wins)/SUM(fan_p_gs)
-FROM fangraphs_lines_pitching_v1
-WHERE fan_season_id = 2026
-GROUP BY fan_team_id, fan_season_id;
+SELECT b.team_id, a.fan_season_id, SUM(a.fan_p_gs), SUM(a.fan_p_wins),SUM(a.fan_p_losses), SUM(a.fan_p_gs) - (SUM(a.fan_p_wins)+SUM(a.fan_p_losses)), SUM(a.fan_p_wins)/SUM(a.fan_p_gs)
+FROM fangraphs_lines_pitching_v1 AS a
+INNER JOIN fangraphs_lines_team_crosswalk AS b
+ON a.fan_team_id = b.fan_team_id
+WHERE a.fan_season_id = 2026
+GROUP BY b.team_id, a.fan_season_id;
 
 INSERT INTO standard_batting (
 player_id,
