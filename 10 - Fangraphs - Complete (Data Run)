@@ -1,3 +1,8 @@
+--Updated Lookup Tables--
+UPDATE lookup_team_history
+SET last_season = 2026
+WHERE last_season = 2025;
+
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_player_crosswalk.csv"
 INTO TABLE fangraphs_lines_player_crosswalk
 FIELDS TERMINATED BY ','
