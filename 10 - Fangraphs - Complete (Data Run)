@@ -53,6 +53,19 @@ UPDATE fangraphs_lines_fielding
 SET fan_d_inn = FLOOR(fan_d_inn) + 0.3
 WHERE ROUND(fan_d_inn - FLOOR(fan_d_inn), 1) = 0.1;
 
+INSERT INTO standard_standings (
+team_id,
+season_id,
+g,
+w,
+l,
+t,
+win_pct)
+SELECT fan_team_id, fan_season_id, SUM(fan_p_gs), SUM(fan_p_wins),SUM(fan_p_losses), SUM(fan_p_gs) - (SUM(fan_p_wins)+SUM(fan_p_losses)), SUM(fan_p_wins)/SUM(fan_p_gs)
+FROM fangraphs_lines_pitching_v1
+WHERE fan_season_id = 2026
+GROUP BY fan_team_id, fan_season_id;
+
 INSERT INTO standard_batting (
 player_id,
 player_name,
@@ -248,8 +261,6 @@ LEFT JOIN (
     ON a.fan_player_id = e.fan_player_id
    AND a.fan_season_id = e.fan_season_id;
 ;
-
---INSERT STANDARD_STANDINGS
 
 
 INSERT INTO rate_batting (
