@@ -245,3 +245,205 @@ LEFT JOIN (
     ON a.fan_player_id = e.fan_player_id
    AND a.fan_season_id = e.fan_season_id;
 ;
+
+--INSERT STANDARD_STANDINGS
+
+
+INSERT INTO rate_batting (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+bat,
+b_avg,
+b_obp,
+b_slg,
+b_ops,
+b_iso,
+b_bb_pct,
+b_so_pct
+)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.bat,
+(CASE WHEN a.b_ab = 0 THEN NULL ELSE COALESCE((a.b_h)/(NULLIF(a.b_ab,0)),0) END),
+((a.b_h+a.b_bb+a.b_hbp)/((a.b_ab+a.b_bb+a.b_hbp+a.b_sf))),
+((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab),
+(((a.b_h+a.b_bb+a.b_hbp)/(a.b_ab+a.b_bb+a.b_hbp+a.b_sf)) + ((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab)),
+(((a.b_s+a.b_d+a.b_d+a.b_t+a.b_t+a.b_t+a.b_hr+a.b_hr+a.b_hr+a.b_hr)/a.b_ab) - ((a.b_h)/a.b_ab)),
+((b_bb+b_ibb)/b_pa),
+(b_so/b_pa)
+FROM standard_batting AS a
+WHERE a.season_id = 2026;
+
+INSERT INTO rate_pitching (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+p_avg,
+p_obp,
+p_slg,
+p_ops,
+p_era,
+p_bb_pct,
+p_so_pct
+)
+SELECT 
+    a.player_id,
+    a.player_name,
+    a.team_id,
+    a.season_id,
+    a.age,
+    a.throw,
+    COALESCE(a.p_h,0) /
+    NULLIF(
+        COALESCE(a.p_bf,0)
+      - COALESCE(a.p_sf,0)
+      - COALESCE(a.p_sh,0)
+      - COALESCE(a.p_bb,0)
+      - COALESCE(a.p_hbp,0)
+      - COALESCE(a.p_ibb,0),
+    0) AS p_avg,
+    (
+        COALESCE(a.p_h,0)
+      + COALESCE(a.p_bb,0)
+      + COALESCE(a.p_hbp,0)
+    ) /
+    NULLIF(
+        (
+            COALESCE(a.p_bf,0)
+          - COALESCE(a.p_sf,0)
+          - COALESCE(a.p_sh,0)
+          - COALESCE(a.p_bb,0)
+          - COALESCE(a.p_hbp,0)
+          - COALESCE(a.p_ibb,0)
+        )
+      + COALESCE(a.p_bb,0)
+      + COALESCE(a.p_hbp,0)
+      + COALESCE(a.p_sf,0),
+    0) AS p_obp,
+    (
+        COALESCE(a.p_s,0)
+      + 2*COALESCE(a.p_d,0)
+      + 3*COALESCE(a.p_t,0)
+      + 4*COALESCE(a.p_hr,0)
+    ) /
+    NULLIF(
+        COALESCE(a.p_bf,0)
+      - COALESCE(a.p_sf,0)
+      - COALESCE(a.p_sh,0)
+      - COALESCE(a.p_bb,0)
+      - COALESCE(a.p_hbp,0)
+      - COALESCE(a.p_ibb,0),
+    0) AS p_slg,
+    (
+        (
+            COALESCE(a.p_h,0)
+          + COALESCE(a.p_bb,0)
+          + COALESCE(a.p_hbp,0)
+        ) /
+        NULLIF(
+            (
+                COALESCE(a.p_bf,0)
+              - COALESCE(a.p_sf,0)
+              - COALESCE(a.p_sh,0)
+              - COALESCE(a.p_bb,0)
+              - COALESCE(a.p_hbp,0)
+              - COALESCE(a.p_ibb,0)
+            )
+          + COALESCE(a.p_bb,0)
+          + COALESCE(a.p_hbp,0)
+          + COALESCE(a.p_sf,0),
+        0)
+    )
+    +
+    (
+        COALESCE(a.p_s,0)
+      + 2*COALESCE(a.p_d,0)
+      + 3*COALESCE(a.p_t,0)
+      + 4*COALESCE(a.p_hr,0)
+    ) /
+    NULLIF(
+        COALESCE(a.p_bf,0)
+      - COALESCE(a.p_sf,0)
+      - COALESCE(a.p_sh,0)
+      - COALESCE(a.p_bb,0)
+      - COALESCE(a.p_hbp,0)
+      - COALESCE(a.p_ibb,0),
+    0) AS p_ops,
+    (COALESCE(a.p_er,0) * 9) / NULLIF(a.p_ip,0) AS p_era,
+    (COALESCE(a.p_bb,0) + COALESCE(a.p_ibb,0)) / NULLIF(a.p_bf,0) AS p_bb_pct,
+    COALESCE(a.p_so,0) / NULLIF(a.p_bf,0) AS p_so_pct
+FROM standard_pitching AS a
+WHERE a.season_id = 2026;
+
+INSERT INTO rate_fielding (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+throw,
+d_pos,
+d_f_pct,
+d_plays_pct
+)
+SELECT 
+a.player_id,
+a.player_name,
+a.team_id,
+a.season_id,
+a.age,
+a.throw,
+a.d_pos,
+((a.d_po+a.d_a)/(a.d_po+a.d_a+a.d_e)),
+((a.d_po+a.d_a)/a.d_inn)
+FROM standard_fielding AS a
+WHERE a.season_id = 2026;
+
+INSERT INTO rate_c_baserunning (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+b_sb_pct
+)
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+SUM(b_sb)/(SUM(b_sb)+SUM(b_cs)) AS b_sb_pct
+FROM standard_batting AS a
+WHERE a.season_id = 2026
+GROUP BY a.player_id,a.team_id,a.season_id;
+
+INSERT INTO rate_p_baserunning (
+player_id,
+player_name,
+team_id,
+season_id,
+age,
+d_sb_pct
+)
+SELECT 
+a.player_id AS player_id,
+a.player_name AS player_name,
+a.team_id AS team_id,
+a.season_id AS season_id,
+a.age AS age,
+SUM(d_sb)/(SUM(d_sb)+SUM(d_cs)) AS d_sb_pct
+FROM standard_fielding AS a
+WHERE a.d_pos = 'c'
+AND a.season_id = 2026
+GROUP BY a.player_id,a.team_id,a.season_id;
