@@ -1,5 +1,4 @@
 --Updated Lookup Tables Prior to Running--
---Delete Run for current season prior to running update--
 --Update Where clauses for correct season--
 DELETE 
 FROM fangraphs_lines_batting
