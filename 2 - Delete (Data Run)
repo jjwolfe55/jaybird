@@ -59,7 +59,7 @@ DELETE
 FROM rate_batting;
 
 DELETE 
-FROM rate_c_batting;
+FROM rate_c_baserunning;
 
 DELETE 
 FROM rate_pitching;
