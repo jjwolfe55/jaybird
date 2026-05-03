@@ -1,6 +1,89 @@
 --Updated Lookup Tables Prior to Running--
 --Delete Run for current season prior to running update--
 --Update Where clauses for correct season--
+DELETE 
+FROM fangraphs_lines_batting
+WHERE fan_season_id = 2026;
+
+DELETE 
+FROM fangraphs_lines_pitching_v1
+WHERE fan_season_id = 2026;
+
+DELETE 
+FROM fangraphs_lines_pitching_v2
+WHERE fan_season_id = 2026;
+
+DELETE 
+FROM fangraphs_lines_fielding
+WHERE fan_season_id = 2026;
+
+DELETE 
+FROM standard_standings
+WHERE season_id = 2026;
+
+DELETE
+FROM standard_batting
+WHERE season_id = 2026;
+
+DELETE 
+FROM standard_pitching
+WHERE season_id = 2026;
+
+DELETE
+FROM standard_fielding
+WHERE season_id = 2026;
+
+DELETE
+FROM lookup_run_environment
+WHERE season_id = 2026;
+
+DELETE 
+FROM rate_batting
+WHERE season_id = 2026;
+
+DELETE 
+FROM rate_c_baserunning
+WHERE season_id = 2026;
+
+DELETE 
+FROM rate_pitching
+WHERE season_id = 2026;
+
+DELETE 
+FROM rate_fielding
+WHERE season_id = 2026;
+
+DELETE
+FROM rate_p_baserunning
+WHERE season_id = 2026;
+
+DELETE 
+FROM mri_creating_batting
+WHERE season_id = 2026;
+
+DELETE 
+FROM mri_creating_baserunning
+WHERE season_id = 2026;
+
+DELETE 
+FROM mri_preventing_pitching
+WHERE season_id = 2026;
+
+DELETE 
+FROM mri_preventing_baserunning
+WHERE season_id = 2026;
+
+DELETE 
+FROM mri_preventing_fielding
+WHERE season_id = 2026;
+
+DELETE 
+FROM mri_team_runs
+WHERE season_id = 2026;
+
+DELETE
+FROM mri_team_standings
+WHERE season_id = 2026;
 
 LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/jaybird_lines_batting.csv"
 INTO TABLE fangraphs_lines_batting
