@@ -1,6 +1,3 @@
---Updated Lookup Tables Prior to Running--
---Update Where clauses for correct season--
---Run Crosswalk files--
 DELETE 
 FROM fangraphs_lines_batting
 WHERE fan_season_id = 2026;
