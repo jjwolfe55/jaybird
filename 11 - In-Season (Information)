@@ -1,5 +1,8 @@
+--Once per season--
+1. Update Lookup Files
+2. Process Crosswalk Files 
+
+--Per File Run--
 1. Download Fangraphs Files
 2. Open and resave to proper location and save as Comma Delimeted - UTF 8 file
-3. Update Lookup Files
-4. Process Crosswalk Files (once per new season)
-5. Process
+3. Run the entire data run.
