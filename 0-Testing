@@ -1,575 +1,79 @@
-CREATE TABLE fangraphs_lines_games_intake_pitching_home_day (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_tbf SMALLINT,
-f_era DECIMAL(4,2),
-f_h SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_r SMALLINT,
-f_er SMALLINT,
-f_hr SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_hbp SMALLINT,
-f_so SMALLINT,
-f_avg DECIMAL(4,3),
-f_obp DECIMAL(4,3),
-f_slg DECIMAL(4,3),
-f_w_oba DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
-);
+WITH player_pool AS (
+    SELECT player_id
+    FROM player_offense_career_batting
+    WHERE seasons > 9 AND pa > 2999
+),
 
-CREATE TABLE fangraphs_lines_games_intake_pitching_home_night (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_tbf SMALLINT,
-f_era DECIMAL(4,2),
-f_h SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_r SMALLINT,
-f_er SMALLINT,
-f_hr SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_hbp SMALLINT,
-f_so SMALLINT,
-f_avg DECIMAL(4,3),
-f_obp DECIMAL(4,3),
-f_slg DECIMAL(4,3),
-f_w_oba DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
-);
+age_stats AS (
+    SELECT 
+        b.player_id,
+        b.age,
 
-CREATE TABLE fangraphs_lines_games_intake_pitching_away_day (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_tbf SMALLINT,
-f_era DECIMAL(4,2),
-f_h SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_r SMALLINT,
-f_er SMALLINT,
-f_hr SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_hbp SMALLINT,
-f_so SMALLINT,
-f_avg DECIMAL(4,3),
-f_obp DECIMAL(4,3),
-f_slg DECIMAL(4,3),
-f_w_oba DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
-);
+        -- Batting
+        b.pa,
+        b.so,
+        b.bb,
+        b.1b,
+        b.2b,
+        b.3b,
+        b.hr,
 
-CREATE TABLE fangraphs_lines_games_intake_pitching_away_night (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_tbf SMALLINT,
-f_era DECIMAL(4,2),
-f_h SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_r SMALLINT,
-f_er SMALLINT,
-f_hr SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_hbp SMALLINT,
-f_so SMALLINT,
-f_avg DECIMAL(4,3),
-f_obp DECIMAL(4,3),
-f_slg DECIMAL(4,3),
-f_w_oba DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_tbf,f_r)
-);
+        -- Baserunning
+        r.sb,
+        r.cs
 
-CREATE TABLE fangraphs_lines_games_intake_batting_home_day (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_pa SMALLINT,
-f_ab SMALLINT,
-f_h SMALLINT,
-f_s SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_hr SMALLINT,
-f_r SMALLINT,
-f_rbi SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_so SMALLINT,
-f_hbp SMALLINT,
-f_sf SMALLINT,
-f_sh SMALLINT,
-f_gdp SMALLINT,
-f_sb SMALLINT,
-f_cs SMALLINT,
-f_avg DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
-);
+    FROM player_offense_season_batting AS b
+    INNER JOIN player_offense_season_baserunning AS r
+        ON b.player_id = r.player_id
+       AND b.season = r.season
+    WHERE b.pa > 300
+      AND b.age BETWEEN 20 AND 40
+      AND b.player_id IN (SELECT player_id FROM player_pool)
+),
 
-CREATE TABLE fangraphs_lines_games_intake_batting_home_night (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_pa SMALLINT,
-f_ab SMALLINT,
-f_h SMALLINT,
-f_s SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_hr SMALLINT,
-f_r SMALLINT,
-f_rbi SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_so SMALLINT,
-f_hbp SMALLINT,
-f_sf SMALLINT,
-f_sh SMALLINT,
-f_gdp SMALLINT,
-f_sb SMALLINT,
-f_cs SMALLINT,
-f_avg DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
-);
+age_pairs AS (
+    SELECT 
+        a.player_id,
+        a.age AS age_from,
+        b.age AS age_to,
 
-CREATE TABLE fangraphs_lines_games_intake_batting_away_day (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_pa SMALLINT,
-f_ab SMALLINT,
-f_h SMALLINT,
-f_s SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_hr SMALLINT,
-f_r SMALLINT,
-f_rbi SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_so SMALLINT,
-f_hbp SMALLINT,
-f_sf SMALLINT,
-f_sh SMALLINT,
-f_gdp SMALLINT,
-f_sb SMALLINT,
-f_cs SMALLINT,
-f_avg DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
-);
+        -- Batting
+        a.pa AS pa_a, b.pa AS pa_b,
+        a.so AS so_a, b.so AS so_b,
+        a.bb AS bb_a, b.bb AS bb_b,
+        a.1b AS 1b_a, b.1b AS 1b_b,
+        a.2b AS 2b_a, b.2b AS 2b_b,
+        a.3b AS 3b_a, b.3b AS 3b_b,
+        a.hr AS hr_a, b.hr AS hr_b,
 
-CREATE TABLE fangraphs_lines_games_intake_batting_away_night (
-f_game_date VARCHAR(12),
-f_team_id CHAR(3),
-f_player_count SMALLINT,
-f_pa SMALLINT,
-f_ab SMALLINT,
-f_h SMALLINT,
-f_s SMALLINT,
-f_d SMALLINT,
-f_t SMALLINT,
-f_hr SMALLINT,
-f_r SMALLINT,
-f_rbi SMALLINT,
-f_bb SMALLINT,
-f_ibb SMALLINT,
-f_so SMALLINT,
-f_hbp SMALLINT,
-f_sf SMALLINT,
-f_sh SMALLINT,
-f_gdp SMALLINT,
-f_sb SMALLINT,
-f_cs SMALLINT,
-f_avg DECIMAL(4,3),
-PRIMARY KEY (f_game_date,f_team_id,f_pa,f_r)
-);
+        -- Baserunning
+        a.sb AS sb_a, b.sb AS sb_b,
+        a.cs AS cs_a, b.cs AS cs_b
 
-DELETE FROM fangraphs_lines_games_intake_batting_away_day;
-DELETE FROM fangraphs_lines_games_intake_batting_home_day;
-DELETE FROM fangraphs_lines_games_intake_batting_away_night;
-DELETE FROM fangraphs_lines_games_intake_batting_home_night;
-DELETE FROM fangraphs_lines_games_intake_pitching_away_day;
-DELETE FROM fangraphs_lines_games_intake_pitching_home_day;
-DELETE FROM fangraphs_lines_games_intake_pitching_away_night;
-DELETE FROM fangraphs_lines_games_intake_pitching_home_night;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Day_Batting.csv"
-INTO TABLE fangraphs_lines_games_intake_batting_home_day
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Day_Batting.csv"
-INTO TABLE fangraphs_lines_games_intake_batting_away_day
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Day_Pitching.csv"
-INTO TABLE fangraphs_lines_games_intake_pitching_home_day
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Day_Pitching.csv"
-INTO TABLE fangraphs_lines_games_intake_pitching_away_day
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Night_Batting.csv"
-INTO TABLE fangraphs_lines_games_intake_batting_home_night
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Night_Batting.csv"
-INTO TABLE fangraphs_lines_games_intake_batting_away_night
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Home Night_Pitching.csv"
-INTO TABLE fangraphs_lines_games_intake_pitching_home_night
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-LOAD DATA LOCAL INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jaybird/Lines/Fangraphs/Splits Leaderboard Data Away Night_Pitching.csv"
-INTO TABLE fangraphs_lines_games_intake_pitching_away_night
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n' 
-IGNORE 1 ROWS;
-
-CREATE TABLE fangraphs_lines_games_processed (
-game_id VARCHAR(30),
-h_team_id CHAR(3),
-v_team_id CHAR(3),
-game_date VARCHAR(12),
-day_time CHAR(8),
-game_type VARCHAR(15),
-h_team_bf SMALLINT,
-h_team_runs SMALLINT,
-v_team_runs SMALLINT,
-winning_team CHAR(3),
-losing_team CHAR(3),
-season_id SMALLINT
-);
-
-INSERT INTO fangraphs_lines_games_processed (
-game_id,
-h_team_id,
-v_team_id,
-game_date,
-day_time,
-game_type,
-h_team_bf,
-h_team_runs,
-v_team_runs,
-winning_team,
-losing_team,
-season_id
+    FROM age_stats AS a
+    INNER JOIN age_stats AS b
+      ON a.player_id = b.player_id
+     AND b.age = a.age + 1
 )
-WITH home_day_team_runs AS (
-SELECT 'day' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day",1) AS game_id
-FROM fangraphs_lines_games_intake_batting_home_day AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, away_day_team_runs AS (
-SELECT 'day' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day",1) AS game_id
-FROM fangraphs_lines_games_intake_batting_away_day AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, day_games AS (
-SELECT a.game_id, 
-a.h_team_id, 
-b.v_team_id, 
-a.game_date,
-a.day_time,
-'regular' AS game_type,
-b.h_team_bf,
-a.h_team_runs,
-b.v_team_runs,
-CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
-CASE WHEN a.h_team_runs > b.v_team_runs THEN a.v_team_id ELSE b.h_team_id END AS losing_team,
-SUBSTRING(a.game_date,-4) AS season_id
-FROM home_day_team_runs AS a
-INNER JOIN away_day_team_runs AS b
-ON a.game_id = b.game_id
-ORDER BY a.game_date ASC
-)
-, home_night_team_runs AS (
-SELECT 'night' AS day_time,a.f_game_date AS game_date,a.f_team_id AS h_team_id, b.f_team_id AS v_team_id, a.f_r AS h_team_runs, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night',1) AS game_id
-FROM fangraphs_lines_games_intake_batting_home_night AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, away_night_team_runs AS (
-SELECT 'night' AS day_time, a.f_game_date AS game_date,a.f_team_id AS v_team_id, b.f_team_id AS h_team_id,b.f_tbf AS h_team_bf, a.f_r AS v_team_runs, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night',1) AS game_id
-FROM fangraphs_lines_games_intake_batting_away_night AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, night_games AS (
-SELECT a.game_id, 
-a.h_team_id, 
-b.v_team_id, 
-a.game_date,
-a.day_time,
-'regular' AS game_type,
-b.h_team_bf,
-a.h_team_runs,
-b.v_team_runs,
-CASE WHEN a.h_team_runs > b.v_team_runs THEN a.h_team_id ELSE b.v_team_id END AS winning_team,
-CASE WHEN a.h_team_runs > b.v_team_runs THEN a.v_team_id ELSE b.h_team_id END AS losing_team,
-SUBSTRING(a.game_date,-4) AS season_id
-FROM home_night_team_runs AS a
-INNER JOIN away_night_team_runs AS b
-ON a.game_id = b.game_id
-ORDER BY a.game_date ASC
-)
-SELECT *
-FROM day_games
-UNION 
-SELECT *
-FROM night_games --check game count total to match fangraphs. No duplicate check.
 
---Add move to lines_games--
+SELECT 
+    age_from,
+    age_to,
+    COUNT(*) AS sample_size,
 
---------------------------------
+    -- Batting deltas
+    (SUM(pa_b) - SUM(pa_a)) / NULLIF(SUM(pa_a),0) AS pa_delta,
+    (SUM(so_b) - SUM(so_a)) / NULLIF(SUM(so_a),0) AS so_delta,
+    (SUM(bb_b) - SUM(bb_a)) / NULLIF(SUM(bb_a),0) AS bb_delta,
+    (SUM(1b_b) - SUM(1b_a)) / NULLIF(SUM(1b_a),0) AS 1b_delta,
+    (SUM(2b_b) - SUM(2b_a)) / NULLIF(SUM(2b_a),0) AS 2b_delta,
+    (SUM(3b_b) - SUM(3b_a)) / NULLIF(SUM(3b_a),0) AS 3b_delta,
+    (SUM(hr_b) - SUM(hr_a)) / NULLIF(SUM(hr_a),0) AS hr_delta,
 
-WITH home_day_batting AS (
-SELECT a.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day",1) AS game_id
-FROM fangraphs_lines_games_intake_batting_home_day AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, away_day_batting AS (
-SELECT a.*, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day",1) AS game_id
-FROM fangraphs_lines_games_intake_batting_away_day AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, home_night_batting AS (
-SELECT a.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night',1) AS game_id
-FROM fangraphs_lines_games_intake_batting_home_night AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, away_night_batting AS (
-SELECT a.*, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night',1) AS game_id
-FROM fangraphs_lines_games_intake_batting_away_night AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, home_day_pitching AS (
-SELECT b.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,"day",1) AS game_id
-FROM fangraphs_lines_games_intake_batting_home_day AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away_day AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, away_day_pitching  AS (
-SELECT b.*, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,"day",1) AS game_id
-FROM fangraphs_lines_games_intake_batting_away_day AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home_day AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, home_night_pitching  AS (
-SELECT b.*, CONCAT(a.f_game_date,a.f_team_id,b.f_team_id,'night',1) AS game_id
-FROM fangraphs_lines_games_intake_batting_home_night AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_away_night AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-, away_night_pitching  AS (
-SELECT b.*, CONCAT(a.f_game_date,b.f_team_id,a.f_team_id,'night',1) AS game_id
-FROM fangraphs_lines_games_intake_batting_away_night AS a
-INNER JOIN fangraphs_lines_games_intake_pitching_home_night AS b
-ON a.f_game_date = b.f_game_date 
-AND a.f_r = b.f_r
-AND a.f_h = b.f_h 
-AND a.f_d = b.f_d
-AND a.f_t = b.f_t
-AND a.f_hr = b.f_hr
-AND a.f_bb = b.f_bb
-AND a.f_ibb = b.f_ibb
-AND a.f_hbp = b.f_hbp
-AND a.f_so = b.f_so
-AND a.f_pa = b.f_tbf
-ORDER BY a.f_game_date ASC
-)
-SELECT *
-FROM home_night_pitching;
+    -- Baserunning deltas
+    (SUM(sb_b) - SUM(sb_a)) / NULLIF(SUM(sb_a),0) AS sb_delta,
+    (SUM(cs_b) - SUM(cs_a)) / NULLIF(SUM(cs_a),0) AS cs_delta
 
---------------------
-SELECT
-game_id,
-team_id,
-integrity
-b_pa
-b_ab
-b_r
-b_h
-b_d
-b_t
-b_hr
-b_rbi
-b_sh
-b_sf
-b_hbp
-b_bb
-b_ibb
-b_so
-b_sb
-b_cs
-b_gdp,
-P_bf
-p_h
-p_d
-p_t
-p_hr
-p_r
-p_er
-P_bb
-p_ibb
-p_so
-p_hbp
-game_date
-vis_or_home
-opponent
-win
-loss
-tie
-game_type
+FROM age_pairs
+GROUP BY age_from, age_to
+ORDER BY age_from;
