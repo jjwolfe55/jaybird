@@ -1,3 +1,4 @@
+*Jaybird Baseball Descriptive Statistics*
 *All tables are updated yearly. Periodically, Retrosheet provides updates to their datasets. Fangraphs is utilized for in season data. The order of the data runs are as below: Please note since the lines tables are full refresh files all tables will be need to be re-ran yearly.*
   1. Lines_Games
   2. Lines_Teams
