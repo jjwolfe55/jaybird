@@ -1,4 +1,4 @@
-*All tables are updated yearly. Periodically, Retrosheet provides updates to their datasets. The order of the data runs are as below: Please note since the lines tables are full refresh files all tables will be need to be re-ran yearly.*
+*All tables are updated yearly. Periodically, Retrosheet provides updates to their datasets. Fangraphs is utilized for in season data. The order of the data runs are as below: Please note since the lines tables are full refresh files all tables will be need to be re-ran yearly.*
   1. Lines_Games
   2. Lines_Teams
   3. Lines_Rosters
@@ -30,3 +30,9 @@
   29. mri_preventing_fielding
   30. mri_team_runs
   31. mri_team_standings
+  32. fangraphs_lines_teams_crosswalk
+  33. fangraphs_lines_player_crosswalk
+  34. fangraphs_lines_batting
+  35. fangraphs_lines_pitching_v1
+  36. fangraphs_lines_pitching_v2
+  37. fangraphs_lines_fielding
